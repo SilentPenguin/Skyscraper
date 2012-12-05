@@ -1,0 +1,52 @@
+﻿<Window x:Class="Skyscraper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:Skyscraper"
+        xmlns:models="clr-namespace:Skyscraper.Models"
+        Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type models:Join}">
+            <TextBlock Foreground="DarkGreen">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="has joined the channel." />
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:Part}">
+            <TextBlock Foreground="DarkRed">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="has left the channel." />
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:Quit}">
+            <TextBlock Foreground="DarkRed">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="has left the network." />
+            </TextBlock>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type models:Message}">
+            <TextBlock Foreground="Black">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text=" " />
+                <Run Text="{Binding Path=MessageBody}" />
+            </TextBlock>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid>
+        <ListView Name="Chatlog" ItemsSource="{Binding Path=Chatlog}" VirtualizingStackPanel.IsVirtualizing="True" Margin="0,0,0,23" />
+        <TextBox Height="23" HorizontalAlignment="Stretch"
+                 Name="CommandEntry" VerticalAlignment="Bottom" />
+    </Grid>
+</Window>
