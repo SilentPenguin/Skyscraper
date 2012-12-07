@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Skyscraper.Utilities;
 
 namespace Skyscraper.Models
 {
@@ -9,21 +7,62 @@ namespace Skyscraper.Models
     {
         String Nickname { get; set; }
         String Hostname { get; set; }
-        String Server { get; }
-        UserStatus Status { get; set; }
+        String Modes { get; }
+        bool IsAway { get; set; }
     }
 
-    class User : IUser
+    public class User : NotifityPropertyChangedBase, IUser
     {
-        public String Nickname { get; set; }
-        public String Hostname { get; set; }
-        public String Server { get; set; }
-        public UserStatus Status { get; set; }
-    }
+        private string nickname;
+        public string Nickname
+        {
+            get
+            {
+                return this.nickname;
+            }
+            set
+            {
+                this.SetProperty(ref this.nickname, value);
+            }
+        }
 
-    public enum UserStatus
-    {
-        Active,
-        Away,
+        private string hostname;
+        public string Hostname
+        {
+            get
+            {
+                return this.hostname;
+            }
+            set
+            {
+                this.SetProperty(ref this.hostname, value);
+            }
+        }
+
+        private string modes;
+        public string Modes
+        {
+            get
+            {
+                return this.modes;
+            }
+            set
+            {
+                this.SetProperty(ref this.modes, value);
+            }
+        }
+
+        private bool isAway;
+        public bool IsAway
+        {
+            get
+            {
+                return this.isAway;
+            }
+            set
+            {
+                this.SetProperty(ref this.isAway, value);
+            }
+        }
     }
 }
