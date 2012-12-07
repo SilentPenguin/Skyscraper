@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using Skyscraper.ViewModels;
 
-namespace Skyscraper
+namespace Skyscraper.Views
 {
     public partial class MainWindow : Window
     {

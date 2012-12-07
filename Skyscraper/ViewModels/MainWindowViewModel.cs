@@ -1,4 +1,5 @@
-﻿using Skyscraper.Irc;
+﻿using System.Windows.Input;
+using Skyscraper.Irc;
 using Skyscraper.Models;
 using Skyscraper.Utilities;
 
@@ -31,15 +32,34 @@ namespace Skyscraper.ViewModels
             set
             {
                 this.SetProperty(ref this.chatInput, value);
+                this.SendCommand.RaiseCanExecuteChanged();
             }
         }
 
-        public MainWindowViewModel() { }
+        public RelayCommand ConnectCommand { get; private set; }
+        public RelayCommand SendCommand { get; private set; }
+
+        public MainWindowViewModel() 
+        {
+            this.InitCommands();
+        }
+
+        private void InitCommands() 
+        {
+            this.ConnectCommand = new RelayCommand((param) => { this.Connect(); });
+            this.SendCommand = new RelayCommand((param) => { this.Send(); }, (param) => { return !string.IsNullOrEmpty(this.ChatInput); });
+        }
 
         private void Connect()
         {
             this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
             this.connectionManager.Connect();
+        }
+
+        private void Send()
+        {
+            this.connectionManager.Send(this.Channel, this.ChatInput);
+            this.ChatInput = string.Empty;
         }
 
         void connectionManager_JoinedChannel(object sender, JoinedChannelEventArgs e)

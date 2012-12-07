@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using IrcDotNet;
-using Skyscraper.Models;
 using IrcDotNet.Collections;
-using System.Threading.Tasks;
+using Skyscraper.Models;
 
 namespace Skyscraper.Irc
 {
@@ -50,29 +49,37 @@ namespace Skyscraper.Irc
             registrationInfo.UserName = "Skyscraper";
 
             Connection connection = new Connection();
+
             IrcClient ircClient = new IrcClient();
 
             this.ircClients.Add(connection, ircClient);
             this.connections.Add(ircClient, connection);
 
-            ircClient.Connected += ircClient_Connected;
-            ircClient.LocalUser.JoinedChannel += LocalUser_JoinedChannel;
-            ircClient.LocalUser.LeftChannel += LocalUser_LeftChannel;
-
+            ircClient.Registered += ircClient_Registered;
+            //TODO: AJ: Disconnected
             ircClient.Connect("chat.freenode.net", 6667, false, registrationInfo);
 
             return connection;
         }
 
-        void ircClient_Connected(object sender, EventArgs e)
+        public void Send(Channel channel, string message)
+        {
+            IrcChannel ircChannel = this.ircChannels[channel];
+            ircChannel.Client.LocalUser.SendMessage(ircChannel, message);
+        }
+
+        void ircClient_Registered(object sender, EventArgs e)
         {
             IrcClient ircClient = (IrcClient)sender;
+            ircClient.LocalUser.JoinedChannel += LocalUser_JoinedChannel;
+            ircClient.LocalUser.LeftChannel += LocalUser_LeftChannel;
             ircClient.Channels.Join("#skyscraper");
         }
 
         void LocalUser_JoinedChannel(object sender, IrcChannelEventArgs e)
         {
-            IrcClient ircClient = (IrcClient)sender;
+            IrcLocalUser ircLocalUser = (IrcLocalUser)sender;
+            IrcClient ircClient = ircLocalUser.Client;
             IrcChannel ircChannel = e.Channel;
 
             Channel channel = new Channel()
@@ -94,12 +101,13 @@ namespace Skyscraper.Irc
             Connection connection = this.connections[ircClient];
             connection.Channels.Add(channel);
 
-            
+            this.OnJoinedChannel(channel);
         }
         
         void LocalUser_LeftChannel(object sender, IrcChannelEventArgs e)
         {
-            IrcClient ircClient = (IrcClient)sender;
+            IrcLocalUser ircLocalUser = (IrcLocalUser)sender;
+            IrcClient ircClient = ircLocalUser.Client;
             IrcChannel ircChannel = e.Channel;
 
             ircChannel.ModesChanged -= ircChannel_ModesChanged;
