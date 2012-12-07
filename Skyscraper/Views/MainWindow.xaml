@@ -17,20 +17,33 @@
     Title="MainWindow" Height="350" Width="525">
 
     <Grid>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="150" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="35" />
             <RowDefinition Height="35" />
         </Grid.RowDefinitions>
 
-        <controls:ChannelLogControl DataContext="{Binding Channel}" />
+        <controls:ChannelUserListControl Grid.Column="0" Grid.Row="0" DataContext="{Binding Channel}" />
+        <controls:ChannelLogControl Grid.Column="1" Grid.Row="0" DataContext="{Binding Channel}" />
 
-        <TextBox Grid.Row="1" HorizontalAlignment="Stretch" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Stretch" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Path=SendCommand}" Key="Enter" />
+            </TextBox.InputBindings>
+        </TextBox>
         
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="2" Orientation="Horizontal">
             <Button Content="Connect" Margin="5,5,0,5" Command="{Binding Path=ConnectCommand}" />
+            <Button Content="Disconnect" Margin="5,5,0,5" Command="{Binding Path=DisconnectCommand}" />
             <Button Content="Send" Margin="5,5,0,5" Command="{Binding Path=SendCommand}" />
         </StackPanel>
+        
     </Grid>
     
 </Window>

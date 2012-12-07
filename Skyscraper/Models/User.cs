@@ -7,7 +7,7 @@ namespace Skyscraper.Models
     {
         String Nickname { get; set; }
         String Hostname { get; set; }
-        String Modes { get; }
+        String Modes { get; set; }
         bool IsAway { get; set; }
     }
 

@@ -66,6 +66,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Controls\ChannelUserListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -77,6 +81,9 @@
     <Compile Include="Irc\ConnectionManager.cs" />
     <Compile Include="Views\Controls\ChannelLogControl.xaml.cs">
       <DependentUpon>ChannelLogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Controls\ChannelUserListControl.xaml.cs">
+      <DependentUpon>ChannelUserListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

@@ -18,9 +18,23 @@ namespace Skyscraper.Models
             }
         }
 
+        private bool isConnected;
+        public bool IsConnected
+        {
+            get
+            {
+                return this.isConnected;
+            }
+            set
+            {
+                this.SetProperty(ref this.isConnected, value);
+            }
+        }
+
         public Connection()
         {
             this.Channels = new ObservableCollection<IChannel>();
+            this.IsConnected = false;
         }
     }
 }

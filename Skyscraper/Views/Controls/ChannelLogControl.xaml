@@ -58,6 +58,6 @@
     </UserControl.Resources>
     
     <Grid>
-        <ListView Grid.Row="0" ItemsSource="{Binding Path=Log}" VirtualizingStackPanel.IsVirtualizing="True" />
+        <ListView ItemsSource="{Binding Path=Log}" VirtualizingStackPanel.IsVirtualizing="True" />
     </Grid>
 </UserControl>

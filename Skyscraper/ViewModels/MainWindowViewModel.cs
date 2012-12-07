@@ -9,8 +9,21 @@ namespace Skyscraper.ViewModels
     {
         private ConnectionManager connectionManager = new ConnectionManager();
 
-        private Channel channel;
-        public Channel Channel
+        private Connection connection;
+        public Connection Connection
+        {
+            get
+            {
+                return this.connection;
+            }
+            set
+            {
+                this.SetProperty(ref this.connection, value);
+            }
+        }
+
+        private IChannel channel;
+        public IChannel Channel
         {
             get
             {
@@ -37,6 +50,7 @@ namespace Skyscraper.ViewModels
         }
 
         public RelayCommand ConnectCommand { get; private set; }
+        public RelayCommand DisconnectCommand { get; private set; }
         public RelayCommand SendCommand { get; private set; }
 
         public MainWindowViewModel() 
@@ -46,14 +60,52 @@ namespace Skyscraper.ViewModels
 
         private void InitCommands() 
         {
-            this.ConnectCommand = new RelayCommand((param) => { this.Connect(); });
+            this.ConnectCommand = new RelayCommand(
+            (param) => { this.Connect(); },
+            (param) => 
+            { 
+                if(this.Connection == null)
+                    return true;
+
+                return !this.Connection.IsConnected;
+            });
+
+            this.DisconnectCommand = new RelayCommand(
+            (param) => { this.Disconnect(); }, 
+            (param) => 
+            {
+                if (this.Connection == null)
+                    return false;
+
+                return this.Connection.IsConnected;
+            });
+
             this.SendCommand = new RelayCommand((param) => { this.Send(); }, (param) => { return !string.IsNullOrEmpty(this.ChatInput); });
         }
 
         private void Connect()
         {
             this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
-            this.connectionManager.Connect();
+            this.Connection = this.connectionManager.Connect();
+            this.Connection.PropertyChanged += Connection_PropertyChanged;
+        }
+
+        void Connection_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsConnected")
+            {
+                this.ConnectCommand.RaiseCanExecuteChanged();
+                this.DisconnectCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        private void Disconnect()
+        {
+            Connection connection = this.Connection;
+            this.Connection = null;
+
+            this.connectionManager.Disconnect(connection);
+            connection.PropertyChanged -= Connection_PropertyChanged;
         }
 
         private void Send()
