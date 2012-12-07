@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skyscraper.Models
 {
@@ -14,19 +10,36 @@ namespace Skyscraper.Models
 
     public class UserEvent : LogEntry, IUserEvent
     {
-        public UserEvent(IUser User)
+        private IUser user;
+        public IUser User
         {
-            this.User = User;
-            this.NicknameContinuity = User.Nickname;
+            get
+            {
+                return this.user;
+            }
+            set
+            {
+                this.SetProperty(ref this.user, value);
+            }
         }
 
-        public IUser User { get; set; }
-        /* 
-         * this is not the same as User.Nickname, which is always the current user's nickname,
-         * Instead this is the value of User.Nickname when the message was recieved.
-         * This is for logs, so that when someone changes their nickname, the log still reads their original name
-         * Making it possible to follow them when reading the log fresh.
-         */
-        public String NicknameContinuity { get; set; }
+        private String nicknameContinuity;
+        public String NicknameContinuity
+        {
+            get
+            {
+                return this.nicknameContinuity;
+            }
+            set
+            {
+                this.SetProperty(ref this.nicknameContinuity, value);
+            }
+        }
+
+        public UserEvent(IUser user)
+        {
+            this.User = user;
+            this.NicknameContinuity = this.User.Nickname;
+        }
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skyscraper.Models
 {
@@ -13,7 +9,22 @@ namespace Skyscraper.Models
 
     public class Quit : UserEvent, IQuit
     {
-        public Quit(IUser User, String Message) : base(User) { }
-        public String Message { get; set; }
+        private String message;
+        public String Message
+        {
+            get
+            {
+                return this.message;
+            }
+            set
+            {
+                this.SetProperty(ref this.message, value);
+            }
+        }
+
+        public Quit(IUser user, String message) : base(user) 
+        {
+            this.Message = message;
+        }
     }
 }

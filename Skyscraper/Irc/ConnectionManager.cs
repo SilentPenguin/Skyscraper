@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Windows;
 using IrcDotNet;
 using IrcDotNet.Collections;
 using Skyscraper.Models;
@@ -18,6 +20,17 @@ namespace Skyscraper.Irc
         }
     }
 
+    internal static class ModesExtensionMethods
+    {
+        [DebuggerStepThrough]
+        internal static string Join(this ReadOnlySet<char> self)
+        {
+            return new string(self.ToArray());
+        }
+    }
+
+    //TODO: AJ: Interface
+    //TODO: AJ: Move to IrcDotNet specific project
     public class ConnectionManager
     {
         private Dictionary<Connection, IrcClient> ircClients = new Dictionary<Connection, IrcClient>();
@@ -68,19 +81,34 @@ namespace Skyscraper.Irc
             ircChannel.Client.LocalUser.SendMessage(ircChannel, message);
         }
 
-        void ircClient_Registered(object sender, EventArgs e)
+        private User CreateUser(IrcChannelUser ircChannelUser, IChannel channel)
         {
-            IrcClient ircClient = (IrcClient)sender;
-            ircClient.LocalUser.JoinedChannel += LocalUser_JoinedChannel;
-            ircClient.LocalUser.LeftChannel += LocalUser_LeftChannel;
-            ircClient.Channels.Join("#skyscraper");
+            User user = new User()
+            {
+                Nickname = ircChannelUser.User.NickName,
+                Hostname = ircChannelUser.User.HostName,
+                Modes = ircChannelUser.Modes.Join(),
+                IsAway = ircChannelUser.User.IsAway
+            };
+
+            IrcUser ircUser = ircChannelUser.User;
+
+            this.users.Add(ircUser, user);
+            this.channelUsers.Add(ircChannelUser, user);
+            this.ircChannelUsers.Add(user, ircChannelUser);
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                channel.Users.Add(user);
+            });
+
+            return user;
         }
 
-        void LocalUser_JoinedChannel(object sender, IrcChannelEventArgs e)
+        private Channel CreateChannel(IrcChannel ircChannel)
         {
-            IrcLocalUser ircLocalUser = (IrcLocalUser)sender;
-            IrcClient ircClient = ircLocalUser.Client;
-            IrcChannel ircChannel = e.Channel;
+            ircChannel.UsersListReceived +=ircChannel_UsersListReceived;
+            IrcClient ircClient = ircChannel.Client;
 
             Channel channel = new Channel()
             {
@@ -88,7 +116,8 @@ namespace Skyscraper.Irc
                 Topic = ircChannel.Topic,
                 Modes = ircChannel.Modes.Join()
             };
-
+            
+            ircChannel.MessageReceived += ircChannel_MessageReceived;
             ircChannel.ModesChanged += ircChannel_ModesChanged;
             ircChannel.TopicChanged += ircChannel_TopicChanged;
             ircChannel.UserJoined += ircChannel_UserJoined;
@@ -99,7 +128,43 @@ namespace Skyscraper.Irc
             this.channels.Add(ircChannel, channel);
 
             Connection connection = this.connections[ircClient];
-            connection.Channels.Add(channel);
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                connection.Channels.Add(channel);
+            });
+
+            return channel;
+        }
+
+        void ircChannel_UsersListReceived(object sender, EventArgs e)
+        {
+            IrcChannel ircChannel = (IrcChannel)sender;
+            Channel channel = this.channels[ircChannel];
+
+            foreach (IrcChannelUser ircChannelUser in ircChannel.Users)
+            {
+                User user = this.CreateUser(ircChannelUser, channel);
+
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    channel.Users.Add(user);
+                });
+            }
+        }
+
+        void ircClient_Registered(object sender, EventArgs e)
+        {
+            IrcClient ircClient = (IrcClient)sender;
+            ircClient.LocalUser.JoinedChannel += LocalUser_JoinedChannel;
+            ircClient.LocalUser.LeftChannel += LocalUser_LeftChannel;
+            ircClient.Channels.Join("#skyscraper");
+        }
+
+        void LocalUser_JoinedChannel(object sender, IrcChannelEventArgs e)
+        {
+            IrcChannel ircChannel = e.Channel;
+            Channel channel = this.CreateChannel(ircChannel);
 
             this.OnJoinedChannel(channel);
         }
@@ -110,6 +175,7 @@ namespace Skyscraper.Irc
             IrcClient ircClient = ircLocalUser.Client;
             IrcChannel ircChannel = e.Channel;
 
+            ircChannel.MessageReceived -= ircChannel_MessageReceived;
             ircChannel.ModesChanged -= ircChannel_ModesChanged;
             ircChannel.TopicChanged -= ircChannel_TopicChanged;
             ircChannel.UserJoined -= ircChannel_UserJoined;
@@ -122,13 +188,31 @@ namespace Skyscraper.Irc
             this.channels.Remove(ircChannel);
 
             Connection connection = this.connections[ircClient];
-            connection.Channels.Remove(channel);
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                connection.Channels.Remove(channel);
+            });
+        }
+
+        void ircChannel_MessageReceived(object sender, IrcMessageEventArgs e)
+        {
+            IrcChannel ircChannel = (IrcChannel)sender;
+            IrcUser ircUser = (IrcUser)e.Source;
+            Channel channel = this.channels[ircChannel];
+            User user = this.users[ircUser];
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                channel.Log.Add(new Message(user, e.Text));
+            });
         }
 
         void ircChannel_ModesChanged(object sender, EventArgs e)
         {
             IrcChannel ircChannel = (IrcChannel)sender;
             Channel channel = this.channels[ircChannel];
+
             channel.Modes = ircChannel.Modes.Join();
         }
 
@@ -136,32 +220,22 @@ namespace Skyscraper.Irc
         {
             IrcChannel ircChannel = (IrcChannel)sender;
             Channel channel = this.channels[ircChannel];
+
             channel.Topic = ircChannel.Topic;
         }
 
         void ircChannel_UserJoined(object sender, IrcChannelUserEventArgs e)
         {
             IrcChannelUser ircChannelUser = e.ChannelUser;
-            IrcUser ircUser = ircChannelUser.User;
             IrcChannel ircChannel = (IrcChannel)sender;
             Channel channel = this.channels[ircChannel];
 
-            User user = new User()
+            User user = this.CreateUser(ircChannelUser, channel);
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Nickname = ircChannelUser.User.NickName,
-                Hostname = ircChannelUser.User.HostName,
-                Modes=ircChannelUser.Modes.Join(),
-                IsAway = ircChannelUser.User.IsAway
-            };
-
-            channel.Users.Add(user);
-            this.users.Add(ircUser, user);
-            this.channelUsers.Add(ircChannelUser,user);
-            this.ircChannelUsers.Add(user, ircChannelUser);
-
-            ircChannelUser.User.IsAwayChanged += ircUser_IsAwayChanged;
-            ircChannelUser.User.NickNameChanged += ircUser_NickNameChanged;
-            ircChannelUser.ModesChanged += ircChannelUser_ModesChanged;                    
+                channel.Log.Add(new Join(user));
+            });
         }
 
         void ircChannel_UserKicked(object sender, IrcChannelUserEventArgs e)
@@ -176,7 +250,11 @@ namespace Skyscraper.Irc
             ircUser.NickNameChanged -= ircUser_NickNameChanged;
             ircChannelUser.ModesChanged -= ircChannelUser_ModesChanged;
 
-            channel.Users.Remove(user);
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                channel.Users.Remove(user);
+            });
+
             this.users.Remove(ircUser);
             this.channelUsers.Remove(ircChannelUser);
             this.ircChannelUsers.Remove(user);
@@ -198,6 +276,11 @@ namespace Skyscraper.Irc
             this.users.Remove(ircUser);
             this.channelUsers.Remove(ircChannelUser);
             this.ircChannelUsers.Remove(user);
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                channel.Log.Add(new Part(user));
+            });
         }
 
         void ircUser_IsAwayChanged(object sender, EventArgs e)
@@ -222,15 +305,6 @@ namespace Skyscraper.Irc
             User user = this.users[ircUser];
 
             user.Nickname = ircUser.NickName;
-        }
-    }
-
-    //TODO: AJ: Move to utils?
-    public static class ModesExtensionMethods
-    {
-        public static string Join(this ReadOnlySet<char> self)
-        {
-            return new string(self.ToArray());
         }
     }
 }

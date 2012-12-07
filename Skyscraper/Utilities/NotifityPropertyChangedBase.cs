@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows;
 
 namespace Skyscraper.Utilities
 {
@@ -25,7 +26,10 @@ namespace Skyscraper.Utilities
 
             if (eventHandler != null)
             {
-                eventHandler(this, new PropertyChangedEventArgs(propertyName));
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    eventHandler(this, new PropertyChangedEventArgs(propertyName));
+                });
             }
         }
     }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skyscraper.Models
 {
@@ -11,20 +7,31 @@ namespace Skyscraper.Models
         String MessageBody { get; }
     }
 
-    class Message : UserEvent, IMessage
+    public class Message : UserEvent, IMessage
     {
-        public Message(IUser User, String Message) : base(User)
+        private String messageBody;
+        public String MessageBody
         {
-            this.User = User;
-            this.NicknameContinuity = User.Nickname;
-            this.MessageBody = Message;
+            get
+            {
+                return this.messageBody;
+            }
+            set
+            {
+                this.SetProperty(ref this.messageBody, value);
+            }
         }
 
-        public String MessageBody { get; set; }
+        public Message(IUser user, String message) : base(user)
+        {
+            this.User = user;
+            this.NicknameContinuity = user.Nickname;
+            this.MessageBody = message;
+        }
 
         public override string ToString()
         {
-            return MessageBody;
+            return this.MessageBody;
         }
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Skyscraper.Models
+﻿namespace Skyscraper.Models
 {
     public interface IJoin : IUserEvent
     {
@@ -13,6 +7,6 @@ namespace Skyscraper.Models
 
     public class Join : UserEvent
     {
-        public Join(IUser User) : base(User) { }
+        public Join(IUser user) : base(user) { }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using Skyscraper.Utilities;
 
 namespace Skyscraper.Models
 {
@@ -10,13 +8,24 @@ namespace Skyscraper.Models
         DateTime ReceivedAt { get; }
     }
 
-    public class LogEntry : ILogEntry
+    public class LogEntry : NotifityPropertyChangedBase, ILogEntry
     {
-        public LogEntry()
+        private DateTime receivedAt;
+        public DateTime ReceivedAt
         {
-            ReceivedAt = DateTime.Now;
+            get
+            {
+                return this.receivedAt;
+            }
+            set
+            {
+                this.SetProperty(ref this.receivedAt, value);
+            }
         }
 
-        public DateTime ReceivedAt { get; set; }
+        public LogEntry()
+        {
+            this.ReceivedAt = DateTime.Now;
+        }
     }
 }
