@@ -41,6 +41,8 @@ namespace Skyscraper.Irc
 
         private Dictionary<IUser, IrcChannelUser> ircChannelUsers = new Dictionary<IUser, IrcChannelUser>();
         private Dictionary<IrcChannelUser, IUser> channelUsers = new Dictionary<IrcChannelUser, IUser>();
+
+        private Dictionary<IUser, IrcUser> ircUsers = new Dictionary<IUser, IrcUser>();
         private Dictionary<IrcUser, IUser> users = new Dictionary<IrcUser, IUser>();
 
         public event EventHandler<JoinedChannelEventArgs> JoinedChannel;
@@ -54,33 +56,40 @@ namespace Skyscraper.Irc
             }
         }
 
-        public IConnection Connect(INetwork Network)
+        #region Connect
+        public IConnection Connect(INetwork network)
         {
-            IrcUserRegistrationInfo registrationInfo = new IrcUserRegistrationInfo();
-            registrationInfo.NickName = "Skyscraper";
-            registrationInfo.RealName = "Skyscraper";
-            registrationInfo.UserName = "Skyscraper";
-
-            IConnection connection = new Connection();
-
             IrcClient ircClient = new IrcClient();
+            IConnection connection = this.CreateConnection(ircClient);
 
-            this.ircClients.Add(connection, ircClient);
-            this.connections.Add(ircClient, connection);
-
-            ircClient.Registered += ircClient_Registered;
-            ircClient.Disconnected += ircClient_Disconnected;
-            ircClient.Connect(Network.Url.Host, Network.Url.Port, false, registrationInfo);
+            ircClient.Connect(network.Url.Host, network.Url.Port, false, new IrcUserRegistrationInfo()
+            {
+                NickName = "Skyscraper",
+                RealName = "Skyscraper",
+                UserName = "Skyscraper"
+            });
 
             return connection;
         }
+        #endregion
 
+        #region Disconnect
         public void Disconnect(IConnection connection, string message = null)
         {
             IrcClient ircClient = this.ircClients[connection];
             ircClient.Quit(message);
         }
+        #endregion
 
+        #region Join
+        public void Join(IConnection connection, string channelName)
+        {
+            IrcClient ircClient = this.ircClients[connection];
+            ircClient.Channels.Join(channelName);
+        }
+        #endregion
+
+        #region Send
         public void Send(IChannel channel, string message)
         {
             IrcChannel ircChannel = this.ircChannels[channel];
@@ -90,39 +99,24 @@ namespace Skyscraper.Irc
 
             channel.Log.Add(new Message(user, message));
         }
+        #endregion
 
-        private IUser CreateUser(IrcChannelUser ircChannelUser, IChannel channel)
+        #region Create
+        private IConnection CreateConnection(IrcClient ircClient)
         {
-            IUser user = channel.Users.SingleOrDefault(u => u.Nickname.Equals(ircChannelUser.User.NickName, StringComparison.Ordinal));
+            IConnection connection = new Connection();
 
-            if (user == null)
-            {
-                user = new User()
-                {
-                    Nickname = ircChannelUser.User.NickName,
-                    Hostname = ircChannelUser.User.HostName,
-                    Modes = ircChannelUser.Modes.Join(),
-                    IsAway = ircChannelUser.User.IsAway
-                };
+            this.ircClients.Add(connection, ircClient);
+            this.connections.Add(ircClient, connection);
 
-                IrcUser ircUser = ircChannelUser.User;
+            ircClient.Registered += ircClient_Registered;
+            ircClient.Disconnected+=ircClient_Disconnected;
 
-                this.users.Add(ircUser, user);
-                this.channelUsers.Add(ircChannelUser, user);
-                this.ircChannelUsers.Add(user, ircChannelUser);
-
-                Application.Current.Dispatcher.InvokeAsync(() =>
-                {
-                    channel.Users.Add(user);
-                });
-            }
-
-            return user;
+            return connection;
         }
 
         private IChannel CreateChannel(IrcChannel ircChannel)
         {
-            ircChannel.UsersListReceived +=ircChannel_UsersListReceived;
             IrcClient ircClient = ircChannel.Client;
 
             IChannel channel = new Channel()
@@ -131,7 +125,8 @@ namespace Skyscraper.Irc
                 Topic = ircChannel.Topic,
                 Modes = ircChannel.Modes.Join()
             };
-            
+
+            ircChannel.UsersListReceived += ircChannel_UsersListReceived;
             ircChannel.MessageReceived += ircChannel_MessageReceived;
             ircChannel.ModesChanged += ircChannel_ModesChanged;
             ircChannel.TopicChanged += ircChannel_TopicChanged;
@@ -152,6 +147,103 @@ namespace Skyscraper.Irc
             return channel;
         }
 
+        private IUser CreateUser(IrcChannelUser ircChannelUser, IChannel channel)
+        {
+            IUser user = channel.Users.SingleOrDefault(u => u.Nickname.Equals(ircChannelUser.User.NickName, StringComparison.Ordinal));
+
+            if (user == null)
+            {
+                user = new User()
+                {
+                    Nickname = ircChannelUser.User.NickName,
+                    Hostname = ircChannelUser.User.HostName,
+                    Modes = ircChannelUser.Modes.Join(),
+                    IsAway = ircChannelUser.User.IsAway
+                };
+
+                IrcUser ircUser = ircChannelUser.User;
+
+                this.ircChannelUsers.Add(user, ircChannelUser);
+                this.channelUsers.Add(ircChannelUser, user);
+
+                this.ircUsers.Add(user, ircUser);
+                this.users.Add(ircUser, user);                
+
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    channel.Users.Add(user);
+                });
+            }
+
+            return user;
+        }
+        #endregion
+
+        #region Destory
+        private void DestoryConnection(IConnection connection)
+        {
+            connection.IsConnected = false;
+
+            IrcClient ircClient = this.ircClients[connection];
+
+            ircClient.Registered += ircClient_Registered;
+            ircClient.Disconnected += ircClient_Disconnected;
+
+            ircClient.Quit();
+
+            this.ircClients.Remove(connection);
+            this.connections.Remove(ircClient);
+
+            foreach (IChannel channel in connection.Channels.ToArray())
+            {
+                this.DestoryChannel(channel, connection);
+            }
+        }
+
+        private void DestoryChannel(IChannel channel, IConnection connection)
+        {
+            IrcChannel ircChannel = this.ircChannels[channel];
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                connection.Channels.Remove(channel);
+            });
+
+            ircChannel.UsersListReceived += ircChannel_UsersListReceived;
+            ircChannel.MessageReceived += ircChannel_MessageReceived;
+            ircChannel.ModesChanged += ircChannel_ModesChanged;
+            ircChannel.TopicChanged += ircChannel_TopicChanged;
+            ircChannel.UserJoined += ircChannel_UserJoined;
+            ircChannel.UserKicked += ircChannel_UserKicked;
+            ircChannel.UserLeft += ircChannel_UserLeft;
+
+            this.ircChannels.Remove(channel);
+            this.channels.Remove(ircChannel);
+
+            foreach (IUser user in channel.Users.ToArray())
+            {
+                this.DestoryUser(user, channel);
+            }
+        }
+
+        private void DestoryUser(IUser user, IChannel channel)
+        {
+            IrcUser ircUser = this.ircUsers[user];
+            IrcChannelUser ircChannelUser = this.ircChannelUsers[user];
+
+            this.ircChannelUsers.Remove(user);
+            this.channelUsers.Remove(ircChannelUser);
+
+            this.ircUsers.Remove(user);
+            this.users.Remove(ircUser);
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                channel.Users.Remove(user);
+            });
+        }
+        #endregion
+
         void ircChannel_UsersListReceived(object sender, EventArgs e)
         {
             IrcChannel ircChannel = (IrcChannel)sender;
@@ -167,8 +259,6 @@ namespace Skyscraper.Irc
         {
             IrcClient ircClient = (IrcClient)sender;
             ircClient.LocalUser.JoinedChannel += LocalUser_JoinedChannel;
-            ircClient.LocalUser.LeftChannel += LocalUser_LeftChannel;
-            ircClient.Channels.Join("#skyscraper");
 
             IConnection connection = this.connections[ircClient];
             connection.IsConnected = true;
@@ -177,14 +267,12 @@ namespace Skyscraper.Irc
         void ircClient_Disconnected(object sender, EventArgs e)
         {
             IrcClient ircClient = (IrcClient)sender;
+            IConnection connection = this.connections[ircClient];
+
             ircClient.LocalUser.JoinedChannel -= LocalUser_JoinedChannel;
             ircClient.LocalUser.LeftChannel -= LocalUser_LeftChannel;
 
-            IConnection connection = this.connections[ircClient];
-            connection.IsConnected = false;
-
-            this.ircClients.Remove(connection);
-            this.connections.Remove(ircClient);
+            this.DestoryConnection(connection);
         }
 
         void LocalUser_JoinedChannel(object sender, IrcChannelEventArgs e)
@@ -199,26 +287,11 @@ namespace Skyscraper.Irc
         {
             IrcLocalUser ircLocalUser = (IrcLocalUser)sender;
             IrcClient ircClient = ircLocalUser.Client;
+            IConnection connection = this.connections[ircClient];
             IrcChannel ircChannel = e.Channel;
-
-            ircChannel.MessageReceived -= ircChannel_MessageReceived;
-            ircChannel.ModesChanged -= ircChannel_ModesChanged;
-            ircChannel.TopicChanged -= ircChannel_TopicChanged;
-            ircChannel.UserJoined -= ircChannel_UserJoined;
-            ircChannel.UserKicked -= ircChannel_UserKicked;
-            ircChannel.UserLeft -= ircChannel_UserLeft;
-
             IChannel channel = this.channels[ircChannel];
 
-            this.ircChannels.Remove(channel);
-            this.channels.Remove(ircChannel);
-
-            IConnection connection = this.connections[ircClient];
-
-            Application.Current.Dispatcher.InvokeAsync(() =>
-            {
-                connection.Channels.Remove(channel);
-            });
+            this.DestoryChannel(channel, connection);
         }
 
         void ircChannel_MessageReceived(object sender, IrcMessageEventArgs e)
@@ -272,18 +345,7 @@ namespace Skyscraper.Irc
             IrcChannel ircChannel = (IrcChannel)sender;
             IChannel channel = this.channels[ircChannel];
 
-            ircUser.IsAwayChanged -= ircUser_IsAwayChanged;
-            ircUser.NickNameChanged -= ircUser_NickNameChanged;
-            ircChannelUser.ModesChanged -= ircChannelUser_ModesChanged;
-
-            Application.Current.Dispatcher.Invoke(() =>
-            {
-                channel.Users.Remove(user);
-            });
-
-            this.users.Remove(ircUser);
-            this.channelUsers.Remove(ircChannelUser);
-            this.ircChannelUsers.Remove(user);
+            this.DestoryUser(user, channel);
         }
 
         void ircChannel_UserLeft(object sender, IrcChannelUserEventArgs e)
@@ -294,18 +356,7 @@ namespace Skyscraper.Irc
             IrcChannel ircChannel = (IrcChannel)sender;
             IChannel channel = this.channels[ircChannel];
 
-            ircUser.IsAwayChanged -= ircUser_IsAwayChanged;
-            ircUser.NickNameChanged -= ircUser_NickNameChanged;
-            ircChannelUser.ModesChanged -= ircChannelUser_ModesChanged;
-            
-            Application.Current.Dispatcher.InvokeAsync(() =>
-            {
-                channel.Users.Remove(user);
-            });
-
-            this.users.Remove(ircUser);
-            this.channelUsers.Remove(ircChannelUser);
-            this.ircChannelUsers.Remove(user);
+            this.DestoryUser(user, channel);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {

@@ -62,26 +62,16 @@ namespace Skyscraper.ViewModels
         private void InitCommands() 
         {
             this.ConnectCommand = new RelayCommand(
-            (param) => { this.Connect(); },
-            (param) => 
-            { 
-                if(this.Connection == null)
-                    return true;
-
-                return !this.Connection.IsConnected;
-            });
+            (executeParam) => { this.Connect(); },
+            (canExecuteParam) => { return (this.Connection == null) ? true : !this.Connection.IsConnected; });
 
             this.DisconnectCommand = new RelayCommand(
-            (param) => { this.Disconnect(); }, 
-            (param) => 
-            {
-                if (this.Connection == null)
-                    return false;
+            (executeParam) => { this.Disconnect(); },
+            (canExecuteParam) => { return (this.Connection == null) ? false : this.Connection.IsConnected; });
 
-                return this.Connection.IsConnected;
-            });
-
-            this.SendCommand = new RelayCommand((param) => { this.Send(); }, (param) => { return !string.IsNullOrEmpty(this.ChatInput); });
+            this.SendCommand = new RelayCommand(
+            (executeParam) => { this.Send(); },
+            (canExecuteParam) => { return !string.IsNullOrEmpty(this.ChatInput); });
         }
 
         private void Connect()
@@ -97,6 +87,9 @@ namespace Skyscraper.ViewModels
             {
                 this.ConnectCommand.RaiseCanExecuteChanged();
                 this.DisconnectCommand.RaiseCanExecuteChanged();
+
+                if (this.connection.IsConnected)
+                    this.connectionManager.Join(this.connection, "#skyscraper");
             }
         }
 
