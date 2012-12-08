@@ -13,7 +13,7 @@ namespace Skyscraper.Models
         ObservableCollection<ILogEntry> Log { get; set; }
     }
 
-    public class Channel : NotifityPropertyChangedBase, IChannel
+    public class Channel : NotifyPropertyChangedBase, IChannel
     {
         private string name;
         public string Name

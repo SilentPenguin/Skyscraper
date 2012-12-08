@@ -10,8 +10,8 @@ namespace Skyscraper.ViewModels
     {
         private ConnectionManager connectionManager = new ConnectionManager();
 
-        private IConnection connection;
-        public IConnection Connection
+        private INetwork connection;
+        public INetwork Connection
         {
             get
             {
@@ -95,7 +95,7 @@ namespace Skyscraper.ViewModels
 
         private void Disconnect()
         {
-            IConnection connection = this.Connection;
+            INetwork connection = this.Connection;
             this.Connection = null;
 
             this.connectionManager.Disconnect(connection);

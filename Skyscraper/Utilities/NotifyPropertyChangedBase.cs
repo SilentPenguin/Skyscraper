@@ -5,14 +5,16 @@ using System.Windows;
 
 namespace Skyscraper.Utilities
 {
-    public abstract class NotifityPropertyChangedBase : INotifyPropertyChanged
+    public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] String propertyName = null)
         {
             if (object.Equals(storage, value))
+            {
                 return false;
+            }
 
             storage = value;
             this.OnPropertyChanged(propertyName);

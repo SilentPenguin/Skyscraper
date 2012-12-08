@@ -8,7 +8,7 @@ namespace Skyscraper.Models
         DateTime ReceivedAt { get; }
     }
 
-    public class LogEntry : NotifityPropertyChangedBase, ILogEntry
+    public class LogEntry : NotifyPropertyChangedBase, ILogEntry
     {
         private DateTime receivedAt;
         public DateTime ReceivedAt

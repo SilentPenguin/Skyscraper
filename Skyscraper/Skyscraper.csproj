@@ -58,7 +58,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Utilities\NotifityPropertyChangedBase.cs" />
+    <Compile Include="Utilities\NotifyPropertyChangedBase.cs" />
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\ViewModelBase.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -92,7 +92,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Channel.cs" />
-    <Compile Include="Models\Connection.cs" />
     <Compile Include="Models\Join.cs" />
     <Compile Include="Models\LogEntry.cs" />
     <Compile Include="Models\Message.cs" />

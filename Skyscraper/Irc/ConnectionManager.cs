@@ -33,8 +33,8 @@ namespace Skyscraper.Irc
     //TODO: AJ: Move to IrcDotNet specific project
     public class ConnectionManager
     {
-        private Dictionary<IConnection, IrcClient> ircClients = new Dictionary<IConnection, IrcClient>();
-        private Dictionary<IrcClient, IConnection> connections = new Dictionary<IrcClient, IConnection>();
+        private Dictionary<INetwork, IrcClient> ircClients = new Dictionary<INetwork, IrcClient>();
+        private Dictionary<IrcClient, INetwork> connections = new Dictionary<IrcClient, INetwork>();
 
         private Dictionary<IChannel, IrcChannel> ircChannels = new Dictionary<IChannel, IrcChannel>();
         private Dictionary<IrcChannel, IChannel> channels = new Dictionary<IrcChannel, IChannel>();
@@ -57,10 +57,10 @@ namespace Skyscraper.Irc
         }
 
         #region Connect
-        public IConnection Connect(INetwork network)
+        public INetwork Connect(INetwork network)
         {
             IrcClient ircClient = new IrcClient();
-            IConnection connection = this.CreateConnection(ircClient);
+            INetwork connection = this.RegisterNetwork(ircClient, network);
 
             ircClient.Connect(network.Url.Host, network.Url.Port, false, new IrcUserRegistrationInfo()
             {
@@ -69,12 +69,12 @@ namespace Skyscraper.Irc
                 UserName = "Skyscraper"
             });
 
-            return connection;
+            return network;
         }
         #endregion
 
         #region Disconnect
-        public void Disconnect(IConnection connection, string message = null)
+        public void Disconnect(INetwork connection, string message = null)
         {
             IrcClient ircClient = this.ircClients[connection];
             ircClient.Quit(message);
@@ -82,7 +82,7 @@ namespace Skyscraper.Irc
         #endregion
 
         #region Join
-        public void Join(IConnection connection, string channelName)
+        public void Join(INetwork connection, string channelName)
         {
             IrcClient ircClient = this.ircClients[connection];
             ircClient.Channels.Join(channelName);
@@ -102,17 +102,15 @@ namespace Skyscraper.Irc
         #endregion
 
         #region Create
-        private IConnection CreateConnection(IrcClient ircClient)
+        private INetwork RegisterNetwork(IrcClient ircClient, INetwork network)
         {
-            IConnection connection = new Connection();
-
-            this.ircClients.Add(connection, ircClient);
-            this.connections.Add(ircClient, connection);
+            this.ircClients.Add(network, ircClient);
+            this.connections.Add(ircClient, network);
 
             ircClient.Registered += ircClient_Registered;
             ircClient.Disconnected+=ircClient_Disconnected;
 
-            return connection;
+            return network;
         }
 
         private IChannel CreateChannel(IrcChannel ircChannel)
@@ -137,7 +135,7 @@ namespace Skyscraper.Irc
             this.ircChannels.Add(channel, ircChannel);
             this.channels.Add(ircChannel, channel);
 
-            IConnection connection = this.connections[ircClient];
+            INetwork connection = this.connections[ircClient];
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
@@ -180,7 +178,7 @@ namespace Skyscraper.Irc
         #endregion
 
         #region Destory
-        private void DestoryConnection(IConnection connection)
+        private void DestoryConnection(INetwork connection)
         {
             connection.IsConnected = false;
 
@@ -200,7 +198,7 @@ namespace Skyscraper.Irc
             }
         }
 
-        private void DestoryChannel(IChannel channel, IConnection connection)
+        private void DestoryChannel(IChannel channel, INetwork connection)
         {
             IrcChannel ircChannel = this.ircChannels[channel];
 
@@ -260,14 +258,14 @@ namespace Skyscraper.Irc
             IrcClient ircClient = (IrcClient)sender;
             ircClient.LocalUser.JoinedChannel += LocalUser_JoinedChannel;
 
-            IConnection connection = this.connections[ircClient];
+            INetwork connection = this.connections[ircClient];
             connection.IsConnected = true;
         }
 
         void ircClient_Disconnected(object sender, EventArgs e)
         {
             IrcClient ircClient = (IrcClient)sender;
-            IConnection connection = this.connections[ircClient];
+            INetwork connection = this.connections[ircClient];
 
             ircClient.LocalUser.JoinedChannel -= LocalUser_JoinedChannel;
             ircClient.LocalUser.LeftChannel -= LocalUser_LeftChannel;
@@ -287,7 +285,7 @@ namespace Skyscraper.Irc
         {
             IrcLocalUser ircLocalUser = (IrcLocalUser)sender;
             IrcClient ircClient = ircLocalUser.Client;
-            IConnection connection = this.connections[ircClient];
+            INetwork connection = this.connections[ircClient];
             IrcChannel ircChannel = e.Channel;
             IChannel channel = this.channels[ircChannel];
 

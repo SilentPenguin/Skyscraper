@@ -11,7 +11,7 @@ namespace Skyscraper.Models
         bool IsAway { get; set; }
     }
 
-    public class User : NotifityPropertyChangedBase, IUser
+    public class User : NotifyPropertyChangedBase, IUser
     {
         private string nickname;
         public string Nickname

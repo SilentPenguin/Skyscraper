@@ -1,4 +1,4 @@
 ﻿namespace Skyscraper.Utilities
 {
-    public abstract class ViewModelBase : NotifityPropertyChangedBase { }
+    public abstract class ViewModelBase : NotifyPropertyChangedBase { }
 }
