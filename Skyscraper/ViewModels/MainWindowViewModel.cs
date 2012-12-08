@@ -2,6 +2,7 @@
 using Skyscraper.Irc;
 using Skyscraper.Models;
 using Skyscraper.Utilities;
+using System;
 
 namespace Skyscraper.ViewModels
 {
@@ -9,8 +10,8 @@ namespace Skyscraper.ViewModels
     {
         private ConnectionManager connectionManager = new ConnectionManager();
 
-        private Connection connection;
-        public Connection Connection
+        private IConnection connection;
+        public IConnection Connection
         {
             get
             {
@@ -86,7 +87,7 @@ namespace Skyscraper.ViewModels
         private void Connect()
         {
             this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
-            this.Connection = this.connectionManager.Connect();
+            this.Connection = this.connectionManager.Connect(new Network { Url = new Uri ("irc://irc.freenode.net:6667") });
             this.Connection.PropertyChanged += Connection_PropertyChanged;
         }
 
@@ -101,7 +102,7 @@ namespace Skyscraper.ViewModels
 
         private void Disconnect()
         {
-            Connection connection = this.Connection;
+            IConnection connection = this.Connection;
             this.Connection = null;
 
             this.connectionManager.Disconnect(connection);

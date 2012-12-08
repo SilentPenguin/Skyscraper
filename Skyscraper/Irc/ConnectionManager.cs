@@ -33,8 +33,8 @@ namespace Skyscraper.Irc
     //TODO: AJ: Move to IrcDotNet specific project
     public class ConnectionManager
     {
-        private Dictionary<Connection, IrcClient> ircClients = new Dictionary<Connection, IrcClient>();
-        private Dictionary<IrcClient, Connection> connections = new Dictionary<IrcClient, Connection>();
+        private Dictionary<IConnection, IrcClient> ircClients = new Dictionary<IConnection, IrcClient>();
+        private Dictionary<IrcClient, IConnection> connections = new Dictionary<IrcClient, IConnection>();
 
         private Dictionary<IChannel, IrcChannel> ircChannels = new Dictionary<IChannel, IrcChannel>();
         private Dictionary<IrcChannel, IChannel> channels = new Dictionary<IrcChannel, IChannel>();
@@ -54,14 +54,14 @@ namespace Skyscraper.Irc
             }
         }
 
-        public Connection Connect()
+        public IConnection Connect(INetwork Network)
         {
             IrcUserRegistrationInfo registrationInfo = new IrcUserRegistrationInfo();
             registrationInfo.NickName = "Skyscraper";
             registrationInfo.RealName = "Skyscraper";
             registrationInfo.UserName = "Skyscraper";
 
-            Connection connection = new Connection();
+            IConnection connection = new Connection();
 
             IrcClient ircClient = new IrcClient();
 
@@ -70,12 +70,12 @@ namespace Skyscraper.Irc
 
             ircClient.Registered += ircClient_Registered;
             ircClient.Disconnected += ircClient_Disconnected;
-            ircClient.Connect("chat.freenode.net", 6667, false, registrationInfo);
+            ircClient.Connect(Network.Url.Host, Network.Url.Port, false, registrationInfo);
 
             return connection;
         }
 
-        public void Disconnect(Connection connection, string message = null)
+        public void Disconnect(IConnection connection, string message = null)
         {
             IrcClient ircClient = this.ircClients[connection];
             ircClient.Quit(message);
@@ -142,7 +142,7 @@ namespace Skyscraper.Irc
             this.ircChannels.Add(channel, ircChannel);
             this.channels.Add(ircChannel, channel);
 
-            Connection connection = this.connections[ircClient];
+            IConnection connection = this.connections[ircClient];
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
@@ -170,7 +170,7 @@ namespace Skyscraper.Irc
             ircClient.LocalUser.LeftChannel += LocalUser_LeftChannel;
             ircClient.Channels.Join("#skyscraper");
 
-            Connection connection = this.connections[ircClient];
+            IConnection connection = this.connections[ircClient];
             connection.IsConnected = true;
         }
 
@@ -180,7 +180,7 @@ namespace Skyscraper.Irc
             ircClient.LocalUser.JoinedChannel -= LocalUser_JoinedChannel;
             ircClient.LocalUser.LeftChannel -= LocalUser_LeftChannel;
 
-            Connection connection = this.connections[ircClient];
+            IConnection connection = this.connections[ircClient];
             connection.IsConnected = false;
 
             this.ircClients.Remove(connection);
@@ -213,7 +213,7 @@ namespace Skyscraper.Irc
             this.ircChannels.Remove(channel);
             this.channels.Remove(ircChannel);
 
-            Connection connection = this.connections[ircClient];
+            IConnection connection = this.connections[ircClient];
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
@@ -297,8 +297,12 @@ namespace Skyscraper.Irc
             ircUser.IsAwayChanged -= ircUser_IsAwayChanged;
             ircUser.NickNameChanged -= ircUser_NickNameChanged;
             ircChannelUser.ModesChanged -= ircChannelUser_ModesChanged;
+            
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                channel.Users.Remove(user);
+            });
 
-            channel.Users.Remove(user);
             this.users.Remove(ircUser);
             this.channelUsers.Remove(ircChannelUser);
             this.ircChannelUsers.Remove(user);

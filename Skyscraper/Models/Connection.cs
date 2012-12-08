@@ -1,9 +1,17 @@
 ﻿using System.Collections.ObjectModel;
 using Skyscraper.Utilities;
+using System;
+using System.ComponentModel;
 
 namespace Skyscraper.Models
 {
-    public class Connection : NotifityPropertyChangedBase
+    public interface IConnection : INotifyPropertyChanged
+    {
+        ObservableCollection<IChannel> Channels { get; set; }
+        Boolean IsConnected { get; set; }
+    }
+
+    public class Connection : NotifityPropertyChangedBase, IConnection
     {
         private ObservableCollection<IChannel> channels;
         public ObservableCollection<IChannel> Channels
