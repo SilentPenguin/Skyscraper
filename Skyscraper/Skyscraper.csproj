@@ -98,7 +98,7 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Part.cs" />
     <Compile Include="Models\Quit.cs" />
-    <Compile Include="Models\Server.cs" />
+    <Compile Include="Models\Network.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserEvent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
