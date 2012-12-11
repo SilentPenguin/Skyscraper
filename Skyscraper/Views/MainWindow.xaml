@@ -34,6 +34,8 @@
 
         <TextBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Stretch" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}">
             <TextBox.InputBindings>
+                <KeyBinding Command="{Binding Path=ReplayPreviousCommand}" Key="Up" />
+                <KeyBinding Command="{Binding Path=ReplayNextCommand}" Key="Down" />
                 <KeyBinding Command="{Binding Path=SendCommand}" Key="Enter" />
             </TextBox.InputBindings>
         </TextBox>

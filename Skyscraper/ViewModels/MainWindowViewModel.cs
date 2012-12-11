@@ -3,12 +3,15 @@ using Skyscraper.Irc;
 using Skyscraper.Models;
 using Skyscraper.Utilities;
 using System;
+using System.Collections.Generic;
 
 namespace Skyscraper.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
         private ConnectionManager connectionManager = new ConnectionManager();
+
+        private IReplayHistory ReplayHistory { get; set; }
 
         private INetwork connection;
         public INetwork Connection
@@ -53,9 +56,12 @@ namespace Skyscraper.ViewModels
         public RelayCommand ConnectCommand { get; private set; }
         public RelayCommand DisconnectCommand { get; private set; }
         public RelayCommand SendCommand { get; private set; }
+        public RelayCommand ReplayPreviousCommand { get; private set; }
+        public RelayCommand ReplayNextCommand { get; private set; }
 
         public MainWindowViewModel() 
         {
+            this.ReplayHistory = new ReplayHistory();
             this.InitCommands();
         }
 
@@ -72,6 +78,25 @@ namespace Skyscraper.ViewModels
             this.SendCommand = new RelayCommand(
             (executeParam) => { this.Send(); },
             (canExecuteParam) => { return !string.IsNullOrEmpty(this.ChatInput); });
+
+            this.ReplayPreviousCommand = new RelayCommand(
+            (executeParam) => { this.NavigateUpReplay(); },
+            (canExecuteParam) => { return true; });
+
+            this.ReplayNextCommand = new RelayCommand(
+            (executeParam) => { this.NavigateDownReplay(); },
+            (canExecuteParam) => { return true; });
+
+        }
+
+        private void NavigateUpReplay()
+        {
+            this.ChatInput = this.ReplayHistory.GetPreviousCommand();
+        }
+
+        private void NavigateDownReplay()
+        {
+            this.ChatInput = this.ReplayHistory.GetNextCommand();
         }
 
         private void Connect()
@@ -104,6 +129,7 @@ namespace Skyscraper.ViewModels
 
         private void Send()
         {
+            this.ReplayHistory.Add(this.ChatInput);
             this.connectionManager.Send(this.Channel, this.ChatInput);
             this.ChatInput = string.Empty;
         }
