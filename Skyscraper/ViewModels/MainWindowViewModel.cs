@@ -145,6 +145,12 @@ namespace Skyscraper.ViewModels
             this.ChatInput = string.Empty;
         }
 
+        private void CommandReceived()
+        {
+            new Command(this.ChatInput);
+            this.ReplayHistory.Add(this.ChatInput);
+        }
+
         void connectionManager_JoinedChannel(object sender, JoinedChannelEventArgs e)
         {
             this.Channel = e.Channel;
