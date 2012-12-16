@@ -89,13 +89,24 @@ namespace Skyscraper.ViewModels
 
         }
 
+        private void CheckReplaying()
+        {
+            if (!this.ReplayHistory.IsReplaying && !String.IsNullOrEmpty(this.ChatInput))
+            {
+                this.ReplayHistory.Add(this.ChatInput);
+                this.ReplayHistory.GetPreviousCommand();
+            }
+        }
+
         private void NavigateUpReplay()
         {
+            this.CheckReplaying();
             this.ChatInput = this.ReplayHistory.GetPreviousCommand();
         }
 
         private void NavigateDownReplay()
         {
+            this.CheckReplaying();
             this.ChatInput = this.ReplayHistory.GetNextCommand();
         }
 
