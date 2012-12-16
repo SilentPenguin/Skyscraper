@@ -1,9 +1,7 @@
-﻿using System.Windows.Input;
-using Skyscraper.Irc;
+﻿using Skyscraper.Irc;
 using Skyscraper.Models;
 using Skyscraper.Utilities;
 using System;
-using System.Collections.Generic;
 
 namespace Skyscraper.ViewModels
 {
@@ -147,8 +145,8 @@ namespace Skyscraper.ViewModels
 
         private void CommandReceived()
         {
-            new Command(this.ChatInput);
-            this.ReplayHistory.Add(this.ChatInput);
+            ICommand command = new Command(this.ChatInput);
+            this.ReplayHistory.Add(command);
         }
 
         void connectionManager_JoinedChannel(object sender, JoinedChannelEventArgs e)
