@@ -85,7 +85,7 @@ namespace Skyscraper.ViewModels
 
             this.ReplayNextCommand = new RelayCommand(
             (executeParam) => { this.NavigateDownReplay(); },
-            (canExecuteParam) => { return true; });
+            (canExecuteParam) => { return this.ReplayHistory.IsReplaying; });
 
         }
 

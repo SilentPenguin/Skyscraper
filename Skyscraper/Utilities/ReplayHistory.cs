@@ -65,9 +65,10 @@ namespace Skyscraper.Utilities
         }
 
         public String GetNextCommand() {
-            if (this.HistoryLocation + 1 <= this.CommandHistory.Count())
+            ++this.HistoryLocation;
+            if (this.HistoryLocation > this.CommandHistory.Count())
             {
-                ++this.HistoryLocation;
+                this.HistoryLocation = 0;
             }
             return this.GetCommandAtLocation(this.HistoryLocation);
         }
