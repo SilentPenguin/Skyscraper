@@ -8,21 +8,23 @@ namespace Skyscraper.Models
 {
     public interface ICommand
     {
-        String Command { get; }
+        String Text { get; }
+        CommandType Type { get; }
+        String[] Arguments { get; }
     }
 
     public class Command : ICommand
     {
-        public Command(String Command)
+        public Command(String text)
         {
-            if (String.IsNullOrEmpty(Command))
+            if (String.IsNullOrEmpty(text))
             {
-                throw new ArgumentNullException("Command");
+                throw new ArgumentNullException("text");
             }
-            this.Command = Command;
+            this.Text = text;
         }
 
-        public String Command { get; private set; }
+        public String Text { get; private set; }
         private String[] commandBreakdown;
         private String[] CommandBreakdown
         {
@@ -30,7 +32,7 @@ namespace Skyscraper.Models
             {
                 if (this.commandBreakdown == null)
                 {
-                    this.commandBreakdown = this.Command.TrimStart('/').Split(' ');
+                    this.commandBreakdown = this.Text.TrimStart('/').Split(' ');
                 }
                 return commandBreakdown;
             }
@@ -57,7 +59,7 @@ namespace Skyscraper.Models
         public Boolean IsCommand {
             get
             {
-                return this.Command.StartsWith("/");
+                return this.Text.StartsWith("/");
             }
         }
 

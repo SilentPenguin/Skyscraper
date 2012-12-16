@@ -74,7 +74,7 @@ namespace Skyscraper.ViewModels
             (canExecuteParam) => { return (this.Connection == null) ? false : this.Connection.IsConnected; });
 
             this.SendCommand = new RelayCommand(
-            (executeParam) => { this.Send(); },
+            (executeParam) => { this.CommandReceived(); },
             (canExecuteParam) => { return !string.IsNullOrEmpty(this.ChatInput); });
 
             this.ReplayPreviousCommand = new RelayCommand(
@@ -108,10 +108,49 @@ namespace Skyscraper.ViewModels
             this.ChatInput = this.ReplayHistory.GetNextCommand();
         }
 
+        private void CommandReceived()
+        {
+            ICommand command = new Command(this.ChatInput);
+            switch (command.Type)
+            {
+                case CommandType.Say:
+                    this.Say(command);
+                    break;
+                case CommandType.Connect:
+                    this.Connect(command);
+                    break;
+                case CommandType.Disconnect:
+                    this.Disconnect();
+                    break;
+            }
+            this.ReplayHistory.Add(command);
+            this.ChatInput = string.Empty;
+        }
+
+        private void Say(ICommand command)
+        {
+            this.connectionManager.Send(this.channel, command.Text);
+        }
+
+        private void Connect(ICommand command)
+        {
+            this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
+            Uri networkUrl = new Uri(command.Arguments[0]);
+            if (networkUrl.Port < 0) {
+                Int16 port = 6667;
+                networkUrl = new Uri(command.Arguments[0] + ":" + port);
+            }
+            INetwork network = new Network {
+                Url = networkUrl,
+            };
+            this.Connection = this.connectionManager.Connect(network);
+            this.Connection.PropertyChanged += Connection_PropertyChanged;
+        }
+        [Obsolete]
         private void Connect()
         {
             this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
-            this.Connection = this.connectionManager.Connect(new Network { Url = new Uri ("irc://irc.freenode.net:6667") });
+            this.Connection = this.connectionManager.Connect(new Network { Url = new Uri("irc://irc.freenode.net:6667") });
             this.Connection.PropertyChanged += Connection_PropertyChanged;
         }
 
@@ -141,12 +180,6 @@ namespace Skyscraper.ViewModels
             this.ReplayHistory.Add(this.ChatInput);
             this.connectionManager.Send(this.Channel, this.ChatInput);
             this.ChatInput = string.Empty;
-        }
-
-        private void CommandReceived()
-        {
-            ICommand command = new Command(this.ChatInput);
-            this.ReplayHistory.Add(command);
         }
 
         void connectionManager_JoinedChannel(object sender, JoinedChannelEventArgs e)

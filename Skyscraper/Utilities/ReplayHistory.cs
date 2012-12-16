@@ -37,7 +37,7 @@ namespace Skyscraper.Utilities
         }
         public void Add(ICommand command)
         {
-            this.Add(command.Command);
+            this.Add(command.Text);
         }
 
         public void Add(String command){
