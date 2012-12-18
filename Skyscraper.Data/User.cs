@@ -1,16 +1,7 @@
-﻿using System;
-using Skyscraper.Utilities;
+﻿using Skyscraper.Utilities;
 
 namespace Skyscraper.Data
 {
-    public interface IUser
-    {
-        String Nickname { get; set; }
-        String Hostname { get; set; }
-        String Modes { get; set; }
-        bool IsAway { get; set; }
-    }
-
     public class User : NotifyPropertyChangedBase, IUser
     {
         private string nickname;

@@ -41,6 +41,15 @@
   <ItemGroup>
     <Compile Include="Channel.cs" />
     <Compile Include="Command.cs" />
+    <Compile Include="CommandType.cs" />
+    <Compile Include="IChannel.cs" />
+    <Compile Include="ICommand.cs" />
+    <Compile Include="IJoin.cs" />
+    <Compile Include="INetwork.cs" />
+    <Compile Include="IPart.cs" />
+    <Compile Include="IQuit.cs" />
+    <Compile Include="IUser.cs" />
+    <Compile Include="IUserEvent.cs" />
     <Compile Include="Join.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="Message.cs" />

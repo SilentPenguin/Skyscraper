@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skyscraper.Utilities
 {
-    public static class TypeExtentionMethods
+    public static class IComparableExtensionMethods
     {
-        public static bool WithinBounds<T>(this IList<T> list, Int32 index)
-        {
-            return 0 <= index && index < list.Count();
-        }
-
         public static bool Between<T>(this T number, T min, T max) where T : IComparable
         {
             return max.IsLessThan(min) ? number.Between(max, min) : min.IsEqualOrLessThan(number) && max.IsEqualOrGreaterThan(number);

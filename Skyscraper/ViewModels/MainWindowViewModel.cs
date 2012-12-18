@@ -1,7 +1,7 @@
-﻿using Skyscraper.Irc;
+﻿using System;
 using Skyscraper.Data;
+using Skyscraper.Irc;
 using Skyscraper.Utilities;
-using System;
 
 namespace Skyscraper.ViewModels
 {

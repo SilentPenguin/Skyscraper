@@ -2,11 +2,6 @@
 
 namespace Skyscraper.Data
 {
-    public interface IQuit : IUserEvent
-    {
-        String Message { get; }
-    }
-
     public class Quit : UserEvent, IQuit
     {
         private String message;

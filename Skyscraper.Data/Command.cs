@@ -1,44 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Skyscraper.Utilities;
 
 namespace Skyscraper.Data
 {
-    public interface ICommand
-    {
-        String Text { get; }
-        String Body { get; }
-        CommandType Type { get; }
-        String[] Arguments { get; }
-    }
-
     public class Command : ICommand
     {
-        public Command(String text)
+        public String[] Arguments
         {
-            if (String.IsNullOrEmpty(text))
+            get
             {
-                throw new ArgumentNullException("text");
+                return CommandBreakdown.Skip(1).ToArray();
             }
-
-            if (!text.StartsWith("/"))
-            {
-                text = "/say " + text.TrimStart();
-            }
-
-            this.Text = text;
-        }
-
-        public String Text { get; private set; }
+        } 
 
         public String Body
         {
             get
             {
                 return this.Text.Remove(0, this.Text.IndexOf(' ') + 1);
+            }
+        }
+
+        public String Text { get; private set; }
+
+        public CommandType Type
+        {
+            get
+            {
+                CommandType result = CommandType.Unrecognised;
+                Enum.TryParse<CommandType>(CommandBreakdown[0], ignoreCase:true, result: out result);
+                return result;
             }
         }
 
@@ -55,25 +46,19 @@ namespace Skyscraper.Data
             }
         }
 
-        public CommandType Type
+        public Command(String text)
         {
-            get
+            if (String.IsNullOrEmpty(text))
             {
-                CommandType result = CommandType.Unrecognised;
-                Enum.TryParse<CommandType>(CommandBreakdown[0], ignoreCase:true, result: out result);
-                return result;
+                throw new ArgumentNullException("text");
             }
+
+            if (!text.StartsWith("/"))
+            {
+                text = "/say " + text.TrimStart();
+            }
+
+            this.Text = text;
         }
-
-        public String[] Arguments { get { return CommandBreakdown.Skip(1).ToArray(); } } 
-    }
-
-    public enum CommandType
-    {
-        Unrecognised,
-        Server,
-        Quit,
-        Say,
-        Me,
     }
 }

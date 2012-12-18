@@ -2,12 +2,6 @@
 
 namespace Skyscraper.Data
 {
-    public interface IUserEvent : ILogEntry
-    {
-        IUser User { get; }
-        String NicknameContinuity { get; }
-    }
-
     public class UserEvent : LogEntry, IUserEvent
     {
         private IUser user;

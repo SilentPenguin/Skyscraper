@@ -1,32 +1,15 @@
-﻿using Skyscraper.Utilities;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Skyscraper.Utilities;
 
 namespace Skyscraper.Data
 {
-    public interface INetwork : INotifyPropertyChanged
-    {
-        String Name { get; }
-        Uri Url { get; }
-        ObservableCollection<IChannel> Channels { get; set; }
-        Boolean IsConnected { get; set; }
-    }
-
     public class Network : NotifyPropertyChangedBase, INetwork
     {
-        public Network()
-        {
-            isConnected = false;
-            channels = new ObservableCollection<IChannel>();
-        }
-
         private Regex urlRegularExpression = new Regex("");
+
         private bool isConnected;
         public bool IsConnected
         {
@@ -39,15 +22,16 @@ namespace Skyscraper.Data
                 this.SetProperty(ref this.isConnected, value);
             }
         }
-        private String _Name { get; set; }
+
+        private String name { get; set; }
         public String Name
         {
             get
             {
-                if (!String.IsNullOrWhiteSpace(this._Name))
+                if (!String.IsNullOrWhiteSpace(this.name))
                 {
                     //if a custom name gets defined somewhere along the line, return that instead
-                    return this._Name;
+                    return this.name;
                 }
 
                 if (!this.Url.HostNameType.Equals(UriHostNameType.Dns) || this.Url.IsLoopback)
@@ -74,9 +58,15 @@ namespace Skyscraper.Data
             }
         }
 
+        public Network()
+        {
+            this.isConnected = false;
+            this.channels = new ObservableCollection<IChannel>();
+        }
+
         public override string ToString()
         {
-            return Url.ToString();
+            return this.Url.ToString();
         }
     }
 }

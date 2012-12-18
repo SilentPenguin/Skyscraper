@@ -9,17 +9,6 @@ using Skyscraper.Data;
 
 namespace Skyscraper.Irc
 {
-    //AJ: Temp class
-    public class JoinedChannelEventArgs : EventArgs 
-    {
-        public IChannel Channel { get; set; }
-
-        public JoinedChannelEventArgs(IChannel channel) 
-        {
-            this.Channel = channel;
-        }
-    }
-
     internal static class ModesExtensionMethods
     {
         [DebuggerStepThrough]
