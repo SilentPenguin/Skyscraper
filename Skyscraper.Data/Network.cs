@@ -8,10 +8,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Skyscraper.Models
+namespace Skyscraper.Data
 {
-
-
     public interface INetwork : INotifyPropertyChanged
     {
         String Name { get; }
@@ -20,7 +18,7 @@ namespace Skyscraper.Models
         Boolean IsConnected { get; set; }
     }
 
-    class Network : NotifyPropertyChangedBase, INetwork
+    public class Network : NotifyPropertyChangedBase, INetwork
     {
         public Network()
         {

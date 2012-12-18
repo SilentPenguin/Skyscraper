@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Skyscraper"
-    xmlns:models="clr-namespace:Skyscraper.Models"
+    xmlns:models="clr-namespace:Skyscraper.Data;assembly=Skyscraper.Data"
     xmlns:viewModels="clr-namespace:Skyscraper.ViewModels"
     xmlns:controls="clr-namespace:Skyscraper.Views.Controls"
         

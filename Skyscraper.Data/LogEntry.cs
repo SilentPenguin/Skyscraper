@@ -1,7 +1,7 @@
 ﻿using System;
 using Skyscraper.Utilities;
 
-namespace Skyscraper.Models
+namespace Skyscraper.Data
 {
     public interface ILogEntry
     {

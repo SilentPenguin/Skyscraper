@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skyscraper.Models
+namespace Skyscraper.Data
 {
     public interface IQuit : IUserEvent
     {

@@ -1,4 +1,4 @@
-﻿namespace Skyscraper.Models
+﻿namespace Skyscraper.Data
 {
     public interface IJoin : IUserEvent
     {

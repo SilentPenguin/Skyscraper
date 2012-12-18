@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Skyscraper.Utilities;
 
-namespace Skyscraper.Models
+namespace Skyscraper.Data
 {
     public interface ICommand
     {
