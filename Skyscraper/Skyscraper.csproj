@@ -57,6 +57,7 @@
     </ApplicationDefinition>
     <Compile Include="Utilities\RelayCommand.cs" />
     <Compile Include="Utilities\ReplayHistory.cs" />
+    <Compile Include="Utilities\ViewModelBase.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="Views\Controls\ChannelLogControl.xaml">
       <SubType>Designer</SubType>
