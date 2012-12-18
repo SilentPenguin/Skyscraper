@@ -116,10 +116,10 @@ namespace Skyscraper.ViewModels
                 case CommandType.Say:
                     this.Say(command);
                     break;
-                case CommandType.Connect:
+                case CommandType.Server:
                     this.Connect(command);
                     break;
-                case CommandType.Disconnect:
+                case CommandType.Quit:
                     this.Disconnect();
                     break;
             }
@@ -129,23 +129,32 @@ namespace Skyscraper.ViewModels
 
         private void Say(ICommand command)
         {
-            this.connectionManager.Send(this.channel, command.Text);
+            this.connectionManager.Send(this.channel, command.Body);
         }
 
         private void Connect(ICommand command)
         {
             this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
-            Uri networkUrl = new Uri(command.Arguments[0]);
-            if (networkUrl.Port < 0) {
-                Int16 port = 6667;
-                networkUrl = new Uri(command.Arguments[0] + ":" + port);
+            String uri = command.Arguments[0];
+            String protocol = "irc://";
+            if (!uri.StartsWith(protocol))
+            {
+                uri = protocol + uri;
             }
+            Uri networkUrl = new Uri(uri);
+            if (networkUrl.Port < 0)
+            {
+                Int16 port = 6667;
+                uri += ":" + port;
+            }
+            networkUrl = new Uri(uri);
             INetwork network = new Network {
                 Url = networkUrl,
             };
             this.Connection = this.connectionManager.Connect(network);
             this.Connection.PropertyChanged += Connection_PropertyChanged;
         }
+
         [Obsolete]
         private void Connect()
         {

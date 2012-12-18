@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Skyscraper.Utilities;
 
 namespace Skyscraper.Models
 {
     public interface ICommand
     {
         String Text { get; }
+        String Body { get; }
         CommandType Type { get; }
         String[] Arguments { get; }
     }
@@ -21,10 +23,25 @@ namespace Skyscraper.Models
             {
                 throw new ArgumentNullException("text");
             }
+
+            if (!text.StartsWith("/"))
+            {
+                text = "/say " + text.TrimStart();
+            }
+
             this.Text = text;
         }
 
         public String Text { get; private set; }
+
+        public String Body
+        {
+            get
+            {
+                return this.Text.Remove(0, this.Text.IndexOf(' ') + 1);
+            }
+        }
+
         private String[] commandBreakdown;
         private String[] CommandBreakdown
         {
@@ -32,7 +49,7 @@ namespace Skyscraper.Models
             {
                 if (this.commandBreakdown == null)
                 {
-                    this.commandBreakdown = this.Text.TrimStart('/').Split(' ');
+                    this.commandBreakdown = this.Text.TrimStart('/').Split(' ').Where(s => !String.IsNullOrWhiteSpace(s)).ToArray();
                 }
                 return commandBreakdown;
             }
@@ -42,24 +59,9 @@ namespace Skyscraper.Models
         {
             get
             {
-                CommandType result;
-                if (!this.IsCommand)
-                {
-                    result = CommandType.Say;
-                }
-                else
-                {
-                    Enum.TryParse<CommandType>(CommandBreakdown[0], out result);
-                }
-
+                CommandType result = CommandType.Unrecognised;
+                Enum.TryParse<CommandType>(CommandBreakdown[0], ignoreCase:true, result: out result);
                 return result;
-            }
-        }
-
-        public Boolean IsCommand {
-            get
-            {
-                return this.Text.StartsWith("/");
             }
         }
 
@@ -68,8 +70,9 @@ namespace Skyscraper.Models
 
     public enum CommandType
     {
-        Connect,
-        Disconnect,
+        Unrecognised,
+        Server,
+        Quit,
         Say,
         Me,
     }
