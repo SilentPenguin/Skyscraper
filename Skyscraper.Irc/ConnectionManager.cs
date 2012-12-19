@@ -20,7 +20,7 @@ namespace Skyscraper.Irc
 
     //TODO: AJ: Interface
     //TODO: AJ: Move to IrcDotNet specific project
-    public class ConnectionManager
+    public class ConnectionManager : IConnectionManager
     {
         private Dictionary<INetwork, IrcClient> ircClients = new Dictionary<INetwork, IrcClient>();
         private Dictionary<IrcClient, INetwork> connections = new Dictionary<IrcClient, INetwork>();
