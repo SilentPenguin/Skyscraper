@@ -39,13 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command.cs" />
     <Compile Include="CommandFactory.cs" />
+    <Compile Include="ICommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skyscraper.Data\Skyscraper.Data.csproj">
+    <ProjectReference Include="..\Skyscraper.Models\Skyscraper.Models.csproj">
       <Project>{f5aa2aae-1ed4-49ea-b62a-ebc795d84018}</Project>
-      <Name>Skyscraper.Data</Name>
+      <Name>Skyscraper.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skyscraper.Irc\Skyscraper.Irc.csproj">
       <Project>{be5ec478-feae-49ba-b796-3d73d83599da}</Project>

@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using Skyscraper.Utilities;
 
-namespace Skyscraper.Data
+namespace Skyscraper.Models
 {
     public class Channel : NotifyPropertyChangedBase, IChannel
     {

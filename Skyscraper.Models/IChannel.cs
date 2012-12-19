@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 
-namespace Skyscraper.Data
+namespace Skyscraper.Models
 {
     public interface IChannel
     {

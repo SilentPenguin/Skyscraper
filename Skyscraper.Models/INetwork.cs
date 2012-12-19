@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace Skyscraper.Data
+namespace Skyscraper.Models
 {
     public interface INetwork : INotifyPropertyChanged
     {

@@ -1,4 +1,4 @@
-﻿namespace Skyscraper.Data
+﻿namespace Skyscraper.Models
 {
     public interface IPart : IUserEvent { }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Skyscraper.Data")]
+[assembly: AssemblyTitle("Skyscraper.ViewModels")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Skyscraper.Data")]
+[assembly: AssemblyProduct("Skyscraper.ViewModels")]
 [assembly: AssemblyCopyright("Copyright ©  2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("66c8bb70-f710-4c06-9327-462657489c7f")]
+[assembly: Guid("7c69492c-1980-4474-8640-564f3590948d")]
 
 // Version information for an assembly consists of the following four values:
 //

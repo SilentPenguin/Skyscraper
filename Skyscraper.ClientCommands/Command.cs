@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Skyscraper.Data
+namespace Skyscraper.Models
 {
     public class Command : ICommand
     {

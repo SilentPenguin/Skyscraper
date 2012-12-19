@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows;
 using IrcDotNet;
 using IrcDotNet.Collections;
-using Skyscraper.Data;
+using Skyscraper.Models;
 
 namespace Skyscraper.Irc
 {

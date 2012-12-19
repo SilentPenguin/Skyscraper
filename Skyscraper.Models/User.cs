@@ -1,6 +1,6 @@
 ﻿using Skyscraper.Utilities;
 
-namespace Skyscraper.Data
+namespace Skyscraper.Models
 {
     public class User : NotifyPropertyChangedBase, IUser
     {

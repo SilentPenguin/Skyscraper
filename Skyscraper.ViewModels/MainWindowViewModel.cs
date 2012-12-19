@@ -1,5 +1,5 @@
 ﻿using System;
-using Skyscraper.Data;
+using Skyscraper.Models;
 using Skyscraper.Irc;
 using Skyscraper.Utilities;
 

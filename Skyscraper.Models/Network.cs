@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Skyscraper.Utilities;
 
-namespace Skyscraper.Data
+namespace Skyscraper.Models
 {
     public class Network : NotifyPropertyChangedBase, INetwork
     {

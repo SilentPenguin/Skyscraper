@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Skyscraper.Data;
+using Skyscraper.Models;
 
 namespace Skyscraper.Utilities
 {

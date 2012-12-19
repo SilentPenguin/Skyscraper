@@ -55,11 +55,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Utilities\IReplayHistory.cs" />
-    <Compile Include="Utilities\RelayCommand.cs" />
-    <Compile Include="Utilities\ReplayHistory.cs" />
-    <Compile Include="Utilities\ViewModelBase.cs" />
-    <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Page Include="Views\Controls\ChannelLogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -115,9 +110,13 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Skyscraper.Data\Skyscraper.Data.csproj">
+    <ProjectReference Include="..\Skyscraper.ClientCommands\Skyscraper.ClientCommands.csproj">
+      <Project>{6bc062d0-0912-45cd-b421-76729f22f049}</Project>
+      <Name>Skyscraper.ClientCommands</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skyscraper.Models\Skyscraper.Models.csproj">
       <Project>{f5aa2aae-1ed4-49ea-b62a-ebc795d84018}</Project>
-      <Name>Skyscraper.Data</Name>
+      <Name>Skyscraper.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\Skyscraper.Irc\Skyscraper.Irc.csproj">
       <Project>{be5ec478-feae-49ba-b796-3d73d83599da}</Project>
@@ -126,6 +125,10 @@
     <ProjectReference Include="..\Skyscraper.Utilities\Skyscraper.Utilities.csproj">
       <Project>{04a46f9a-5b17-44f3-8630-5554882adc25}</Project>
       <Name>Skyscraper.Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skyscraper.ViewModels\Skyscraper.ViewModels.csproj">
+      <Project>{37018408-d2e3-4bf0-8d90-50762425121e}</Project>
+      <Name>Skyscraper.ViewModels</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

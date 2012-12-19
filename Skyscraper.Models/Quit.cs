@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Skyscraper.Data
+namespace Skyscraper.Models
 {
     public class Quit : UserEvent, IQuit
     {

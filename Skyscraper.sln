@@ -12,11 +12,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4157A7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.Irc", "Skyscraper.Irc\Skyscraper.Irc.csproj", "{BE5EC478-FEAE-49BA-B796-3D73D83599DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.Data", "Skyscraper.Data\Skyscraper.Data.csproj", "{F5AA2AAE-1ED4-49EA-B62A-EBC795D84018}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.Models", "Skyscraper.Models\Skyscraper.Models.csproj", "{F5AA2AAE-1ED4-49EA-B62A-EBC795D84018}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.Utilities", "Skyscraper.Utilities\Skyscraper.Utilities.csproj", "{04A46F9A-5B17-44F3-8630-5554882ADC25}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.ClientCommands", "Skyscraper.ClientCommands\Skyscraper.ClientCommands.csproj", "{6BC062D0-0912-45CD-B421-76729F22F049}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.ViewModels", "Skyscraper.ViewModels\Skyscraper.ViewModels.csproj", "{37018408-D2E3-4BF0-8D90-50762425121E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{6BC062D0-0912-45CD-B421-76729F22F049}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BC062D0-0912-45CD-B421-76729F22F049}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BC062D0-0912-45CD-B421-76729F22F049}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37018408-D2E3-4BF0-8D90-50762425121E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37018408-D2E3-4BF0-8D90-50762425121E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37018408-D2E3-4BF0-8D90-50762425121E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37018408-D2E3-4BF0-8D90-50762425121E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
