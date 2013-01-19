@@ -1,12 +1,18 @@
-﻿using System;
+﻿using Skyscraper.Irc;
+using Skyscraper.Models;
+using System;
 
-namespace Skyscraper.Models
+namespace Skyscraper.ClientCommands
 {
     public interface ICommand
     {
-        String Text { get; }
-        String Body { get; }
-        CommandType Type { get; }
-        String[] Arguments { get; }
+        INetwork Network { get; }
+        IChannel Channel { get; }
+        String Text { get; } //the original text typed by the user
+        String Body { get; } //
+        CommandType Type { get; } //the type of command
+        String[] Arguments { get; } // each individual argument typed
+
+        void Execute(IConnectionManager connection);
     }
 }

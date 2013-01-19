@@ -41,8 +41,14 @@
   <ItemGroup>
     <Compile Include="Command.cs" />
     <Compile Include="CommandFactory.cs" />
+    <Compile Include="CommandType.cs" />
     <Compile Include="ICommand.cs" />
+    <Compile Include="Join.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quit.cs" />
+    <Compile Include="Say.cs" />
+    <Compile Include="CommandTypeAttribute.cs" />
+    <Compile Include="Server.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skyscraper.Models\Skyscraper.Models.csproj">
@@ -52,6 +58,10 @@
     <ProjectReference Include="..\Skyscraper.Irc\Skyscraper.Irc.csproj">
       <Project>{be5ec478-feae-49ba-b796-3d73d83599da}</Project>
       <Name>Skyscraper.Irc</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Skyscraper.Utilities\Skyscraper.Utilities.csproj">
+      <Project>{04a46f9a-5b17-44f3-8630-5554882adc25}</Project>
+      <Name>Skyscraper.Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

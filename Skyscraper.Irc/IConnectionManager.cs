@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Skyscraper.Irc
 {
-    interface IConnectionManager
+    public interface IConnectionManager
     {
         Skyscraper.Models.INetwork Connect(Skyscraper.Models.INetwork network);
         void Disconnect(Skyscraper.Models.INetwork connection, string message = null);

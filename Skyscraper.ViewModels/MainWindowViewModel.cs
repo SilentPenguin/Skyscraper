@@ -2,6 +2,7 @@
 using Skyscraper.Models;
 using Skyscraper.Irc;
 using Skyscraper.Utilities;
+using Skyscraper.ClientCommands;
 
 namespace Skyscraper.ViewModels
 {
@@ -110,28 +111,19 @@ namespace Skyscraper.ViewModels
 
         private void CommandReceived()
         {
-            ICommand command = new Command(this.ChatInput);
-            switch (command.Type)
-            {
-                case CommandType.Say:
-                    this.Say(command);
-                    break;
-                case CommandType.Server:
-                    this.Connect(command);
-                    break;
-                case CommandType.Quit:
-                    this.Disconnect();
-                    break;
-            }
+            ICommand command = CommandFactory.Resolve(this.Connection, this.Channel, this.ChatInput);
+            command.Execute(this.connectionManager);
             this.ReplayHistory.Add(command);
             this.ChatInput = string.Empty;
         }
 
+        [Obsolete]
         private void Say(ICommand command)
         {
             this.connectionManager.Send(this.channel, command.Body);
         }
 
+        [Obsolete]
         private void Connect(ICommand command)
         {
             this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
@@ -175,6 +167,7 @@ namespace Skyscraper.ViewModels
             }
         }
 
+        [Obsolete]
         private void Disconnect()
         {
             INetwork connection = this.Connection;
@@ -184,6 +177,7 @@ namespace Skyscraper.ViewModels
             connection.PropertyChanged -= Connection_PropertyChanged;
         }
 
+        [Obsolete]
         private void Send()
         {
             this.ReplayHistory.Add(this.ChatInput);

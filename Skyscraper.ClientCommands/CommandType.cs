@@ -1,4 +1,4 @@
-﻿namespace Skyscraper.Models
+﻿namespace Skyscraper.ClientCommands
 {
     public enum CommandType
     {
@@ -7,5 +7,6 @@
         Quit,
         Say,
         Me,
+        Join,
     }
 }

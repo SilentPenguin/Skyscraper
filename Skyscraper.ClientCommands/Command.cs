@@ -1,10 +1,38 @@
-﻿using System;
+﻿using Skyscraper.Irc;
+using Skyscraper.Models;
+using System;
 using System.Linq;
 
-namespace Skyscraper.Models
+namespace Skyscraper.ClientCommands
 {
-    public class Command : ICommand
+    public class Command
     {
+        public Command(Command command) : this(command.Text)
+        {
+            this.network = command.Network;
+            this.channel = command.Channel;
+        }
+
+        public Command(String text)
+        {
+            if (String.IsNullOrEmpty(text))
+            {
+                throw new ArgumentNullException("text");
+            }
+
+            if (!text.StartsWith("/"))
+            {
+                text = "/say " + text.TrimStart();
+            }
+
+            this.Text = text;
+        }
+
+        private INetwork network;
+        private IChannel channel;
+        public INetwork Network { get { return network; } set { network = value; } }
+        public IChannel Channel { get { return channel; } set { channel = value; } }
+
         public String[] Arguments
         {
             get
@@ -44,21 +72,6 @@ namespace Skyscraper.Models
                 }
                 return commandBreakdown;
             }
-        }
-
-        public Command(String text)
-        {
-            if (String.IsNullOrEmpty(text))
-            {
-                throw new ArgumentNullException("text");
-            }
-
-            if (!text.StartsWith("/"))
-            {
-                text = "/say " + text.TrimStart();
-            }
-
-            this.Text = text;
         }
     }
 }

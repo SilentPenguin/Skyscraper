@@ -40,7 +40,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Channel.cs" />
-    <Compile Include="CommandType.cs" />
     <Compile Include="IChannel.cs" />
     <Compile Include="IJoin.cs" />
     <Compile Include="INetwork.cs" />
