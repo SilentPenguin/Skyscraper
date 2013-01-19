@@ -8,5 +8,6 @@
         Say,
         Me,
         Join,
+        Part,
     }
 }

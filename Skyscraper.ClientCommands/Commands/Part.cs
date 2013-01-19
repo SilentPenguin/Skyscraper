@@ -5,17 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyscraper.ClientCommands
+namespace Skyscraper.ClientCommands.Commands
 {
-    [CommandType(CommandType.Join)]
-    class Join : Command, ICommand
+    [CommandType(CommandType.Part)]
+    class Part : Command, ICommand
     {
-        public Join(Command command) : base(command) { }
+        public Part(Command command) : base(command) { }
 
         public void Execute(IConnectionManager connection)
         {
 
-            connection.Join(this.Network, this.Body);
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyscraper.ClientCommands
+namespace Skyscraper.ClientCommands.Commands
 {
     [CommandType(CommandType.Server)]
     class Server : Command, ICommand

@@ -5,16 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyscraper.ClientCommands
+namespace Skyscraper.ClientCommands.Commands
 {
-    [CommandType(CommandType.Quit)]
-    class Quit : Command, ICommand
+    [CommandType(CommandType.Me)]
+    class Me : Command, ICommand
     {
-        public Quit(Command command) : base(command) { }
+        public Me(Command command) : base(command) { }
 
         public void Execute(IConnectionManager connection)
         {
-            connection.Disconnect(this.Network, this.Body);
+
         }
     }
 }

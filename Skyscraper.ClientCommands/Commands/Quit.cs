@@ -4,16 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace Skyscraper.ClientCommands
+
+namespace Skyscraper.ClientCommands.Commands
 {
-    [CommandType(CommandType.Say)]
-    class Say : Command, ICommand
+    [CommandType(CommandType.Quit)]
+    class Quit : Command, ICommand
     {
-        public Say(Command command) : base(command) { }
+        public Quit(Command command) : base(command) { }
 
         public void Execute(IConnectionManager connection)
         {
-            connection.Send(this.Channel, this.Body);
+            connection.Disconnect(this.Network, this.Body);
         }
     }
 }
