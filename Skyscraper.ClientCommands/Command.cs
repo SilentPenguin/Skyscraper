@@ -51,7 +51,7 @@ namespace Skyscraper.ClientCommands
 
         public String Text { get; private set; }
 
-        public String Type
+        public String CommandWord
         {
             get
             {

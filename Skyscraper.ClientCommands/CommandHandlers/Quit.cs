@@ -1,14 +1,9 @@
 ﻿using Skyscraper.Irc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Skyscraper.ClientCommands.Commands
+namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [CommandType("Quit")]
-    class Quit : Command, ICommand
+    [TextCommandHandler("Quit")]
+    public class Quit : Command, ICommandHandler
     {
         public Quit(Command command) : base(command) { }
 

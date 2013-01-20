@@ -1,14 +1,9 @@
 ﻿using Skyscraper.Irc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Skyscraper.ClientCommands.Commands
+namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [CommandType("Join")]
-    class Join : Command, ICommand
+    [TextCommandHandler("Join")]
+    public class Join : Command, ICommandHandler
     {
         public Join(Command command) : base(command) { }
 

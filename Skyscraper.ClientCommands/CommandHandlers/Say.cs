@@ -1,13 +1,9 @@
 ﻿using Skyscraper.Irc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-namespace Skyscraper.ClientCommands.Commands
+
+namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [CommandType("Say")]
-    class Say : Command, ICommand
+    [TextCommandHandler("Say")]
+    public class Say : Command, ICommandHandler
     {
         public Say(Command command) : base(command) { }
 
