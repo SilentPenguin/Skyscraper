@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Skyscraper.ClientCommands.Commands
 {
-    [CommandType(CommandType.Join)]
+    [CommandType("Join")]
     class Join : Command, ICommand
     {
         public Join(Command command) : base(command) { }

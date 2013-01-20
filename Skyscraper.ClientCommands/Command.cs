@@ -51,13 +51,11 @@ namespace Skyscraper.ClientCommands
 
         public String Text { get; private set; }
 
-        public CommandType Type
+        public String Type
         {
             get
             {
-                CommandType result = CommandType.Unrecognised;
-                Enum.TryParse<CommandType>(CommandBreakdown[0], ignoreCase:true, result: out result);
-                return result;
+                return this.CommandBreakdown[0].ToUpper();
             }
         }
 

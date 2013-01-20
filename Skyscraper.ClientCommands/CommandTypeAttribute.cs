@@ -9,10 +9,10 @@ namespace Skyscraper.ClientCommands
     [AttributeUsage(AttributeTargets.Class)]
     class CommandTypeAttribute : System.Attribute
     {
-        public CommandType Value { get; set; }
-        public CommandTypeAttribute(CommandType value)
+        public String Value { get; set; }
+        public CommandTypeAttribute(String value)
         {
-            this.Value = value;
+            this.Value = value.ToUpper();
         }
     }
 }

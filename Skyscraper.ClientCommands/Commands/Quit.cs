@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Skyscraper.ClientCommands.Commands
 {
-    [CommandType(CommandType.Quit)]
+    [CommandType("Quit")]
     class Quit : Command, ICommand
     {
         public Quit(Command command) : base(command) { }

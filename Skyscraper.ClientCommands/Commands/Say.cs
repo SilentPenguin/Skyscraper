@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 namespace Skyscraper.ClientCommands.Commands
 {
-    [CommandType(CommandType.Say)]
+    [CommandType("Say")]
     class Say : Command, ICommand
     {
         public Say(Command command) : base(command) { }

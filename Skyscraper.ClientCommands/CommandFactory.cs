@@ -11,7 +11,7 @@ namespace Skyscraper.ClientCommands
 {
     public class CommandFactory
     {
-        private static Dictionary<CommandType, Type> DefaultCommands;
+        private static Dictionary<String, Type> DefaultCommands;
 
         static CommandFactory()
         {

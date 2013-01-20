@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Skyscraper.ClientCommands.Commands
 {
-    [CommandType(CommandType.Me)]
+    [CommandType("Me")]
     class Me : Command, ICommand
     {
         public Me(Command command) : base(command) { }

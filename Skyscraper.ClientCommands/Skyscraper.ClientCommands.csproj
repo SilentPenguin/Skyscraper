@@ -43,7 +43,6 @@
     <Compile Include="CommandFactory.cs" />
     <Compile Include="Commands\Me.cs" />
     <Compile Include="Commands\Part.cs" />
-    <Compile Include="CommandType.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="Commands\Join.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
