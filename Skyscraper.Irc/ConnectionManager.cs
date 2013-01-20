@@ -6,6 +6,7 @@ using System.Windows;
 using IrcDotNet;
 using IrcDotNet.Collections;
 using Skyscraper.Models;
+using Skyscraper.Irc.Events;
 
 namespace Skyscraper.Irc
 {
@@ -34,14 +35,34 @@ namespace Skyscraper.Irc
         private Dictionary<IUser, IrcUser> ircUsers = new Dictionary<IUser, IrcUser>();
         private Dictionary<IrcUser, IUser> users = new Dictionary<IrcUser, IUser>();
 
-        public event EventHandler<JoinedChannelEventArgs> JoinedChannel;
+        public event EventHandler<NetworkEventArgs> NetworkAdded;
+        protected virtual void OnNetworkAdded(INetwork network)
+        {
+            EventHandler<NetworkEventArgs> eventHandler = this.NetworkAdded;
+            if (eventHandler != null)
+            {
+                eventHandler(this, new NetworkEventArgs(network));
+            }
+        }
+
+        public event EventHandler<NetworkEventArgs> NetworkRemoved;
+        protected virtual void OnNetworkRemoved(INetwork network)
+        {
+            EventHandler<NetworkEventArgs> eventHandler = this.NetworkRemoved;
+            if (eventHandler != null)
+            {
+                eventHandler(this, new NetworkEventArgs(network));
+            }
+        }
+
+        public event EventHandler<ChannelEventArgs> JoinedChannel;
         protected virtual void OnJoinedChannel(IChannel channel)
         {
-            EventHandler<JoinedChannelEventArgs> eventHandler = this.JoinedChannel;
+            EventHandler<ChannelEventArgs> eventHandler = this.JoinedChannel;
 
             if (eventHandler != null)
             {
-                eventHandler(this, new JoinedChannelEventArgs(channel));
+                eventHandler(this, new ChannelEventArgs(channel));
             }
         }
 
@@ -50,6 +71,8 @@ namespace Skyscraper.Irc
         {
             IrcClient ircClient = new IrcClient();
             INetwork connection = this.RegisterNetwork(ircClient, network);
+
+            this.OnNetworkAdded(connection);
 
             ircClient.Connect(network.Url.Host, network.Url.Port, false, new IrcUserRegistrationInfo()
             {
@@ -67,6 +90,7 @@ namespace Skyscraper.Irc
         {
             IrcClient ircClient = this.ircClients[connection];
             ircClient.Quit(message);
+            this.OnNetworkRemoved(connection);
         }
         #endregion
 

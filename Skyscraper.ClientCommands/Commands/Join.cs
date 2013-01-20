@@ -14,7 +14,6 @@ namespace Skyscraper.ClientCommands.Commands
 
         public void Execute(IConnectionManager connection)
         {
-
             connection.Join(this.Network, this.Body);
         }
     }

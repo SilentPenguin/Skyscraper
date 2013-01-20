@@ -3,6 +3,7 @@ using Skyscraper.Models;
 using Skyscraper.Irc;
 using Skyscraper.Utilities;
 using Skyscraper.ClientCommands;
+using Skyscraper.Irc.Events;
 
 namespace Skyscraper.ViewModels
 {
@@ -10,7 +11,7 @@ namespace Skyscraper.ViewModels
     {
         private ConnectionManager connectionManager = new ConnectionManager();
 
-        private IReplayHistory ReplayHistory { get; set; }
+        private IReplayHistory replayHistory { get; set; }
 
         private INetwork connection;
         public INetwork Connection
@@ -52,28 +53,26 @@ namespace Skyscraper.ViewModels
             }
         }
 
-        public RelayCommand ConnectCommand { get; private set; }
-        public RelayCommand DisconnectCommand { get; private set; }
         public RelayCommand SendCommand { get; private set; }
         public RelayCommand ReplayPreviousCommand { get; private set; }
         public RelayCommand ReplayNextCommand { get; private set; }
 
         public MainWindowViewModel() 
         {
-            this.ReplayHistory = new ReplayHistory();
+            this.replayHistory = new ReplayHistory();
             this.InitCommands();
+            this.InitConnectionManagerEvents();
+        }
+
+        private void InitConnectionManagerEvents()
+        {
+            this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
+            this.connectionManager.NetworkAdded += connectionManager_NetworkAdded;
+            this.connectionManager.NetworkRemoved += connectionManager_NetworkRemoved;
         }
 
         private void InitCommands() 
         {
-            this.ConnectCommand = new RelayCommand(
-            (executeParam) => { this.Connect(); },
-            (canExecuteParam) => { return (this.Connection == null) ? true : !this.Connection.IsConnected; });
-
-            this.DisconnectCommand = new RelayCommand(
-            (executeParam) => { this.Disconnect(); },
-            (canExecuteParam) => { return (this.Connection == null) ? false : this.Connection.IsConnected; });
-
             this.SendCommand = new RelayCommand(
             (executeParam) => { this.CommandReceived(); },
             (canExecuteParam) => { return !string.IsNullOrEmpty(this.ChatInput); });
@@ -84,36 +83,36 @@ namespace Skyscraper.ViewModels
 
             this.ReplayNextCommand = new RelayCommand(
             (executeParam) => { this.NavigateDownReplay(); },
-            (canExecuteParam) => { return this.ReplayHistory.IsReplaying; });
+            (canExecuteParam) => { return this.replayHistory.IsReplaying; });
 
         }
 
         private void CheckReplaying()
         {
-            if (!this.ReplayHistory.IsReplaying && !String.IsNullOrEmpty(this.ChatInput))
+            if (!this.replayHistory.IsReplaying && !String.IsNullOrEmpty(this.ChatInput))
             {
-                this.ReplayHistory.Add(this.ChatInput);
-                this.ReplayHistory.GetPreviousCommand();
+                this.replayHistory.Add(this.ChatInput);
+                this.replayHistory.GetPreviousCommand();
             }
         }
 
         private void NavigateUpReplay()
         {
             this.CheckReplaying();
-            this.ChatInput = this.ReplayHistory.GetPreviousCommand();
+            this.ChatInput = this.replayHistory.GetPreviousCommand();
         }
 
         private void NavigateDownReplay()
         {
             this.CheckReplaying();
-            this.ChatInput = this.ReplayHistory.GetNextCommand();
+            this.ChatInput = this.replayHistory.GetNextCommand();
         }
 
         private void CommandReceived()
         {
             ICommand command = CommandFactory.Resolve(this.Connection, this.Channel, this.ChatInput);
             command.Execute(this.connectionManager);
-            this.ReplayHistory.Add(command);
+            this.replayHistory.Add(command);
             this.ChatInput = string.Empty;
         }
 
@@ -126,7 +125,6 @@ namespace Skyscraper.ViewModels
         [Obsolete]
         private void Connect(ICommand command)
         {
-            this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
             String uri = command.Arguments[0];
             String protocol = "irc://";
             if (!uri.StartsWith(protocol))
@@ -157,14 +155,7 @@ namespace Skyscraper.ViewModels
 
         void Connection_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsConnected")
-            {
-                this.ConnectCommand.RaiseCanExecuteChanged();
-                this.DisconnectCommand.RaiseCanExecuteChanged();
-
-                if (this.connection.IsConnected)
-                    this.connectionManager.Join(this.connection, "#skyscraper");
-            }
+            
         }
 
         [Obsolete]
@@ -180,12 +171,24 @@ namespace Skyscraper.ViewModels
         [Obsolete]
         private void Send()
         {
-            this.ReplayHistory.Add(this.ChatInput);
+            this.replayHistory.Add(this.ChatInput);
             this.connectionManager.Send(this.Channel, this.ChatInput);
             this.ChatInput = string.Empty;
         }
 
-        void connectionManager_JoinedChannel(object sender, JoinedChannelEventArgs e)
+        void connectionManager_NetworkAdded(object sender, NetworkEventArgs e)
+        {
+            this.Connection = e.Network;
+            this.Connection.PropertyChanged += Connection_PropertyChanged;
+        }
+
+        void connectionManager_NetworkRemoved(object sender, NetworkEventArgs e)
+        {
+            this.connection.PropertyChanged -= Connection_PropertyChanged;
+            this.connection = null;
+        }
+
+        void connectionManager_JoinedChannel(object sender, ChannelEventArgs e)
         {
             this.Channel = e.Channel;
         }
