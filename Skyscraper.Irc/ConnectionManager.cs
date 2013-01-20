@@ -102,7 +102,7 @@ namespace Skyscraper.Irc
         }
         #endregion
 
-        #region Send
+          #region Send
         public void Send(IChannel channel, string message)
         {
             IrcChannel ircChannel = this.ircChannels[channel];
