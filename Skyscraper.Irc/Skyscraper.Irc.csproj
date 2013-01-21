@@ -48,10 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionManager.cs" />
-    <Compile Include="Events\ObjectEventArgs.cs" />
+    <Compile Include="ObjectEventArgs.cs" />
+    <Compile Include="RawMessageEventArgs.cs" />
     <Compile Include="IConnectionManager.cs" />
-    <Compile Include="Events\ChannelEventArgs.cs" />
-    <Compile Include="Events\NetworkEventArgs.cs" />
+    <Compile Include="ChannelEventArgs.cs" />
+    <Compile Include="NetworkEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

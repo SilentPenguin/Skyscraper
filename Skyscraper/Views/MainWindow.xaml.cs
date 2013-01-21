@@ -17,11 +17,16 @@ namespace Skyscraper.Views
             }
         }
 
+        private RawLogWindow rawLogWindow;
+
         public MainWindow()
         {
             InitializeComponent();
 
             this.ViewModel = new MainWindowViewModel();
+            this.rawLogWindow = new RawLogWindow();
+            this.rawLogWindow.DataContext = this.ViewModel;
+            this.rawLogWindow.Show();
         }
     }
 }

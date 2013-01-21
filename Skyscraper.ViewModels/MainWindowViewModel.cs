@@ -4,6 +4,7 @@ using Skyscraper.Irc;
 using Skyscraper.Utilities;
 using Skyscraper.ClientCommands;
 using Skyscraper.Irc.Events;
+using System.Windows;
 
 namespace Skyscraper.ViewModels
 {
@@ -29,12 +30,25 @@ namespace Skyscraper.ViewModels
         public IChannel Channel
         {
             get
-            {
+            {               
                 return this.channel;
             }
             set
             {
                 this.SetProperty(ref this.channel, value);
+            }
+        }
+
+        private IRawLog rawLog;
+        public IRawLog RawLog
+        {
+            get
+            {
+                return this.rawLog;
+            }
+            set
+            {
+                this.SetProperty(ref this.rawLog, value);
             }
         }
 
@@ -67,6 +81,8 @@ namespace Skyscraper.ViewModels
             this.SendCommand = new RelayCommand((executeParam) => { this.CommandReceived(); }, (canExecuteParam) => { return !string.IsNullOrEmpty(this.ChatInput); });
             this.ReplayPreviousCommand = new RelayCommand((executeParam) => { this.NavigateUpReplay(); },(canExecuteParam) => { return true; });
             this.ReplayNextCommand = new RelayCommand((executeParam) => { this.NavigateDownReplay(); }, (canExecuteParam) => { return this.replayHistory.IsReplaying; });
+
+            this.rawLog = new RawLog();
         }
 
         private void InitConnectionManagerEvents()
@@ -74,6 +90,16 @@ namespace Skyscraper.ViewModels
             this.connectionManager.JoinedChannel += connectionManager_JoinedChannel;
             this.connectionManager.NetworkAdded += connectionManager_NetworkAdded;
             this.connectionManager.NetworkRemoved += connectionManager_NetworkRemoved;
+
+            this.connectionManager.RawMessage += connectionManager_RawMessage;
+        }
+
+        void connectionManager_RawMessage(object sender, RawMessageEventArgs e)
+        {
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                this.RawLog.Log.Add(e.RawMessage);
+            });
         }
 
         private void CheckReplaying()

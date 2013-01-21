@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows;
 using IrcDotNet;
 using IrcDotNet.Collections;
-using Skyscraper.Models;
 using Skyscraper.Irc.Events;
+using Skyscraper.Models;
 
 namespace Skyscraper.Irc
 {
@@ -19,7 +19,6 @@ namespace Skyscraper.Irc
         }
     }
 
-    //TODO: AJ: Interface
     //TODO: AJ: Move to IrcDotNet specific project
     public class ConnectionManager : IConnectionManager
     {
@@ -66,10 +65,22 @@ namespace Skyscraper.Irc
             }
         }
 
+        public event EventHandler<RawMessageEventArgs> RawMessage;
+        protected virtual void OnRawMessage(string message, RawMessageDirection direction)
+        {
+            EventHandler<RawMessageEventArgs> eventHandler = this.RawMessage;
+
+            if (eventHandler != null)
+            {
+                eventHandler(this, new RawMessageEventArgs(new RawMessage(message, direction)));
+            }
+        }
+
         #region Connect
         public INetwork Connect(INetwork network)
         {
             IrcClient ircClient = new IrcClient();
+
             INetwork connection = this.RegisterNetwork(ircClient, network);
 
             this.OnNetworkAdded(connection);
@@ -102,7 +113,7 @@ namespace Skyscraper.Irc
         }
         #endregion
 
-          #region Send
+        #region Send
         public void Send(IChannel channel, string message)
         {
             IrcChannel ircChannel = this.ircChannels[channel];
@@ -120,6 +131,8 @@ namespace Skyscraper.Irc
             this.ircClients.Add(network, ircClient);
             this.connections.Add(ircClient, network);
 
+            ircClient.RawMessageReceived += ircClient_RawMessageReceived;
+            ircClient.RawMessageSent += ircClient_RawMessageSent;
             ircClient.Registered += ircClient_Registered;
             ircClient.Disconnected+=ircClient_Disconnected;
 
@@ -197,8 +210,10 @@ namespace Skyscraper.Irc
 
             IrcClient ircClient = this.ircClients[connection];
 
-            ircClient.Registered += ircClient_Registered;
-            ircClient.Disconnected += ircClient_Disconnected;
+            ircClient.Registered -= ircClient_Registered;
+            ircClient.Disconnected -= ircClient_Disconnected;
+            ircClient.RawMessageReceived -= ircClient_RawMessageReceived;
+            ircClient.RawMessageSent -= ircClient_RawMessageSent;
 
             ircClient.Quit();
 
@@ -220,13 +235,13 @@ namespace Skyscraper.Irc
                 connection.Channels.Remove(channel);
             });
 
-            ircChannel.UsersListReceived += ircChannel_UsersListReceived;
-            ircChannel.MessageReceived += ircChannel_MessageReceived;
-            ircChannel.ModesChanged += ircChannel_ModesChanged;
-            ircChannel.TopicChanged += ircChannel_TopicChanged;
-            ircChannel.UserJoined += ircChannel_UserJoined;
-            ircChannel.UserKicked += ircChannel_UserKicked;
-            ircChannel.UserLeft += ircChannel_UserLeft;
+            ircChannel.UsersListReceived -= ircChannel_UsersListReceived;
+            ircChannel.MessageReceived -= ircChannel_MessageReceived;
+            ircChannel.ModesChanged -= ircChannel_ModesChanged;
+            ircChannel.TopicChanged -= ircChannel_TopicChanged;
+            ircChannel.UserJoined -= ircChannel_UserJoined;
+            ircChannel.UserKicked -= ircChannel_UserKicked;
+            ircChannel.UserLeft -= ircChannel_UserLeft;
 
             this.ircChannels.Remove(channel);
             this.channels.Remove(ircChannel);
@@ -254,6 +269,16 @@ namespace Skyscraper.Irc
             });
         }
         #endregion
+
+        void ircClient_RawMessageReceived(object sender, IrcRawMessageEventArgs e)
+        {
+            this.OnRawMessage(e.RawContent, RawMessageDirection.Received);
+        }
+
+        void ircClient_RawMessageSent(object sender, IrcRawMessageEventArgs e)
+        {
+            this.OnRawMessage(e.RawContent, RawMessageDirection.Sent);
+        }
 
         void ircChannel_UsersListReceived(object sender, EventArgs e)
         {
