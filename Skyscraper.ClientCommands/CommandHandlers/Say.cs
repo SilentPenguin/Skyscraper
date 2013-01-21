@@ -3,13 +3,11 @@
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
     [TextCommandHandler("Say")]
-    public class Say : Command, ICommandHandler
+    public class Say : ICommandHandler
     {
-        public Say(Command command) : base(command) { }
-
-        public void Execute(IConnectionManager connection)
+        public void Execute(IConnectionManager connection, ICommand command)
         {
-            connection.Send(this.Channel, this.Body);
+            connection.Send(command.Channel, command.Body);
         }
     }
 }

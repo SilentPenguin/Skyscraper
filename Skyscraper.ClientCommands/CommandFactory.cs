@@ -21,28 +21,29 @@ namespace Skyscraper.ClientCommands
             CommandFactory.Commands = new Dictionary<string, ICommandHandler>();
         }
 
-        public static ICommandHandler Resolve(INetwork network, IChannel channel, String commandString) 
+        public static void Resolve(INetwork network, IChannel channel, String commandString, out ICommand command, out ICommandHandler handler) 
         {
-            Command command = new Command(commandString) { Network = network, Channel = channel };
+            command = new Command(commandString) { Network = network, Channel = channel };
+            handler = null;
             string commandWord = command.CommandWord.ToUpperInvariant();
 
             lock (CommandFactory.Commands)
             {
                 if(CommandFactory.Commands.ContainsKey(commandWord))
                 {
-                    return CommandFactory.Commands[commandWord];
+                    handler = CommandFactory.Commands[commandWord];
+                    return;
                 }
                 else if(CommandFactory.CommandTypes.ContainsKey(commandWord))
                 {
                     Type commandType = CommandFactory.CommandTypes[command.CommandWord.ToUpperInvariant()];
-                    ICommandHandler commandHandler = Activator.CreateInstance(commandType, command) as ICommandHandler;
+                    ICommandHandler commandHandler = Activator.CreateInstance(commandType) as ICommandHandler;
                     CommandFactory.Commands.Add(commandWord, commandHandler);
 
-                    return commandHandler;
+                    handler = commandHandler;
+                    return;
                 }                
             }
-
-            return null;
         }
     }
 }

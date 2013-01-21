@@ -26,7 +26,7 @@ namespace Skyscraper.Utilities
             this.CommandHistory = new List<String>();
         }
 
-        public void Add(ICommandHandler command)
+        public void Add(ICommand command)
         {
             this.Add(command.Text);
         }

@@ -3,13 +3,11 @@
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
     [TextCommandHandler("Join")]
-    public class Join : Command, ICommandHandler
+    public class Join : ICommandHandler
     {
-        public Join(Command command) : base(command) { }
-
-        public void Execute(IConnectionManager connection)
+        public void Execute(IConnectionManager connection, ICommand command)
         {
-            connection.Join(this.Network, this.Body);
+            connection.Join(command.Network, command.Body);
         }
     }
 }

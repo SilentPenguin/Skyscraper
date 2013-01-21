@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Skyscraper.ClientCommands
 {
-    public class Command
+    public class Command : ICommand
     {
         public Command(Command command) : this(command.Text)
         {

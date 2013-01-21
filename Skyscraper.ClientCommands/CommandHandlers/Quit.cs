@@ -3,13 +3,11 @@
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
     [TextCommandHandler("Quit")]
-    public class Quit : Command, ICommandHandler
+    public class Quit : ICommandHandler
     {
-        public Quit(Command command) : base(command) { }
-
-        public void Execute(IConnectionManager connection)
+        public void Execute(IConnectionManager connection, ICommand command)
         {
-            connection.Disconnect(this.Network, this.Body);
+            connection.Disconnect(command.Network, command.Body);
         }
     }
 }
