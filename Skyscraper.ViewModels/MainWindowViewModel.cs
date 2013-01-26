@@ -125,13 +125,10 @@ namespace Skyscraper.ViewModels
 
         private void CommandReceived()
         {
-            ICommand command;
-            ICommandHandler handler;
-
-            CommandFactory.Resolve(this.Connection, this.Channel, this.ChatInput, out command, out handler);
-            handler.Execute(this.connectionManager, command);
+            ICommandState commandState = CommandFactory.Resolve(this.Connection, this.Channel, this.ChatInput);
+            commandState.Execute(this.connectionManager);
             
-            this.replayHistory.Add(command);
+            this.replayHistory.Add(commandState.Command);
             this.ChatInput = string.Empty;
         }
 

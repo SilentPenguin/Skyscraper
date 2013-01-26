@@ -43,9 +43,11 @@
     <Compile Include="CommandFactory.cs" />
     <Compile Include="CommandHandlers\Me.cs" />
     <Compile Include="CommandHandlers\Part.cs" />
+    <Compile Include="CommandState.cs" />
     <Compile Include="ICommand.cs" />
     <Compile Include="CommandHandlers\Join.cs" />
     <Compile Include="ICommandHandler.cs" />
+    <Compile Include="ICommandState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommandHandlers\Quit.cs" />
     <Compile Include="CommandHandlers\Say.cs" />

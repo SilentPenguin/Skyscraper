@@ -8,42 +8,23 @@ namespace Skyscraper.ClientCommands
 {
     public class CommandFactory
     {
-        private static Dictionary<string, Type> commandTypes;
-        private static Dictionary<string, ICommandHandler> commands;
+        private static TypeDictionary<string, ICommandHandler> commands;
 
         static CommandFactory()
         {
-            CommandFactory.commandTypes = TypeHelper
+            CommandFactory.commands = new TypeDictionary<string, ICommandHandler>(
+                TypeHelper
                 .ClassesForInterfaceInAssemby<ICommandHandler>()
                 .SelectMany(t => (Attribute.GetCustomAttribute(t, typeof(TextCommandHandlerAttribute)) as TextCommandHandlerAttribute).CommandWords.Select(cw => new { CommandWord = cw, Type = t }))
-                .ToDictionary(c => c.CommandWord.ToUpperInvariant(), c => c.Type);
-
-            CommandFactory.commands = new Dictionary<string, ICommandHandler>();
+                .ToDictionary(c => c.CommandWord.ToUpperInvariant(), c => c.Type)
+            );
         }
 
-        public static void Resolve(INetwork network, IChannel channel, String commandString, out ICommand command, out ICommandHandler handler) 
+        public static ICommandState Resolve(INetwork network, IChannel channel, String commandString) 
         {
-            command = new Command(commandString) { Network = network, Channel = channel };
-            handler = null;
+            ICommand command = new Command(commandString) { Network = network, Channel = channel };
             string commandWord = command.CommandWord.ToUpperInvariant();
-
-            lock (CommandFactory.commands)
-            {
-                if(CommandFactory.commands.ContainsKey(commandWord))
-                {
-                    handler = CommandFactory.commands[commandWord];
-                    return;
-                }
-                else if(CommandFactory.commandTypes.ContainsKey(commandWord))
-                {
-                    Type commandType = CommandFactory.commandTypes[command.CommandWord.ToUpperInvariant()];
-                    ICommandHandler commandHandler = Activator.CreateInstance(commandType) as ICommandHandler;
-                    CommandFactory.commands.Add(commandWord, commandHandler);
-
-                    handler = commandHandler;
-                    return;
-                }                
-            }
+            return new CommandState(CommandFactory.commands[commandWord], command);
         }
     }
 }
