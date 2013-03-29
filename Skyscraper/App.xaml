@@ -4,6 +4,20 @@
              StartupUri="Views/MainWindow.xaml">
     
     <Application.Resources>
+        <Style x:Key="TextBoxBorder" TargetType="{x:Type Border}">
+            <Setter Property="BorderBrush"              Value="Gray"></Setter>
+            <Setter Property="BorderThickness"          Value="1"></Setter>
+            <Setter Property="CornerRadius"             Value="3"></Setter>
+            <Setter Property="Margin"                   Value="6"></Setter>
+        </Style>
+        <Style TargetType="{x:Type TextBox}">
+            <Setter Property="FontStyle"                Value="Normal"></Setter>
+            <Setter Property="SpellCheck.IsEnabled"     Value="True"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="BorderThickness"          Value="0"></Setter>
+            <Setter Property="Padding"                  Value="2"></Setter>
+            <Setter Property="Background"               Value="Transparent"></Setter>
+        </Style>
     </Application.Resources>
     
 </Application>

@@ -11,15 +11,14 @@
     xmlns:controls="clr-namespace:Skyscraper.Views.Controls"
         
     mc:Ignorable="d"
-        
+    
     d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}"
-        
-    Title="MainWindow" Height="350" Width="525">
+    
+    Title="MainWindow" Height="500" Width="400">
 
     <Grid>
         
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="150" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
@@ -28,17 +27,22 @@
             <RowDefinition Height="35" />
         </Grid.RowDefinitions>
 
-        <controls:ChannelUserListControl Grid.Column="0" Grid.Row="0" DataContext="{Binding Channel}" />
-        <controls:ChannelLogControl Grid.Column="1" Grid.Row="0" DataContext="{Binding Channel}" />
+        <controls:ChannelLogControl Grid.Column="0" Grid.Row="0" DataContext="{Binding Channel}" />
 
-        <TextBox Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Stretch" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True">
-            <TextBox.InputBindings>
-                <KeyBinding Command="{Binding Path=ReplayPreviousCommand}" Key="Up" />
-                <KeyBinding Command="{Binding Path=ReplayNextCommand}" Key="Down" />
-                <KeyBinding Command="{Binding Path=SendCommand}" Key="Enter" />
-            </TextBox.InputBindings>
-        </TextBox>
-        
+        <Border
+            Style="{StaticResource TextBoxBorder}"
+            Grid.Column="0"
+            Grid.Row="1"
+            HorizontalAlignment="Stretch">
+            <TextBox Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True">
+                <TextBox.InputBindings>
+                    <KeyBinding Command="{Binding Path=ReplayPreviousCommand}" Key="Up" />
+                    <KeyBinding Command="{Binding Path=ReplayNextCommand}" Key="Down" />
+                    <KeyBinding Command="{Binding Path=SendCommand}" Key="Enter" />
+                </TextBox.InputBindings>
+            </TextBox>
+        </Border>
+
     </Grid>
     
 </Window>
