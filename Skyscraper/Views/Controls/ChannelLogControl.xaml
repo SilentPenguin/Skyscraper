@@ -16,7 +16,7 @@
     d:DesignHeight="300" d:DesignWidth="300">
     
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type models:RawMessage}">
+        <DataTemplate DataType="{x:Type models:Join}">
             <TextBlock Foreground="DarkGreen">
                 <Run Text="[" />
                 <Run Text="{Binding Path=ReceivedAt}" />
