@@ -125,6 +125,14 @@ namespace Skyscraper.Irc
         }
         #endregion
 
+        #region SendCommand
+        public void SendCommand(INetwork network, string message)
+        {
+            IrcClient ircClient = this.ircClients[network];
+            ircClient.SendRawMessage(message);
+        }
+        #endregion
+
         #region Create
         private INetwork RegisterNetwork(IrcClient ircClient, INetwork network)
         {
