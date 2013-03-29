@@ -8,6 +8,7 @@ namespace Skyscraper.Models
     {
         String Name { get; }
         Uri Url { get; }
+        IUser LocalUser { get; }
         ObservableCollection<IChannel> Channels { get; set; }
         Boolean IsConnected { get; set; }
     }

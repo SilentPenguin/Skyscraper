@@ -20,9 +20,14 @@ namespace Skyscraper.ClientCommands
             );
         }
 
-        public static ICommandState Resolve(INetwork network, IChannel channel, String commandString) 
+        public static ICommandState Resolve(INetwork network, IChannel channel, IUser user, String commandString) 
         {
-            ICommand command = new Command(commandString) { Network = network, Channel = channel };
+            ICommand command = new Command(commandString)
+            {
+                Network = network,
+                Channel = channel,
+                User = user,
+            };
             string commandWord = command.CommandWord.ToUpperInvariant();
             return new CommandState(CommandFactory.commands[commandWord], command);
         }

@@ -58,6 +58,19 @@ namespace Skyscraper.Models
             }
         }
 
+        private IUser localUser;
+        public IUser LocalUser
+        {
+            get
+            {
+                return this.localUser;
+            }
+            set
+            {
+                this.SetProperty(ref this.localUser, value);
+            }
+        }
+
         public Network()
         {
             this.isConnected = false;

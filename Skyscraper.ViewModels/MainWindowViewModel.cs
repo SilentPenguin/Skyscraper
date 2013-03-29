@@ -13,6 +13,19 @@ namespace Skyscraper.ViewModels
         private ConnectionManager connectionManager = new ConnectionManager();
         private IReplayHistory replayHistory = new ReplayHistory();
 
+        private IUser user;
+        public IUser User
+        {
+            get
+            {
+                return this.user;
+            }
+            set
+            {
+                this.SetProperty(ref this.user, value);
+            }
+        }
+
         private INetwork connection;
         public INetwork Connection
         {
@@ -74,6 +87,14 @@ namespace Skyscraper.ViewModels
         {
             this.InitCommands();
             this.InitConnectionManagerEvents();
+
+            string defaultUsername = System.Environment.UserName.Replace(" ","");
+
+            this.user = new User
+            {
+                Nickname = defaultUsername,
+                Realname = defaultUsername,
+            };
         }
 
         private void InitCommands() 
@@ -125,7 +146,7 @@ namespace Skyscraper.ViewModels
 
         private void CommandReceived()
         {
-            ICommandState commandState = CommandFactory.Resolve(this.Connection, this.Channel, this.ChatInput);
+            ICommandState commandState = CommandFactory.Resolve(this.Connection, this.Channel, this.user, this.ChatInput);
             commandState.Execute(this.connectionManager);
             
             this.replayHistory.Add(commandState.Command);

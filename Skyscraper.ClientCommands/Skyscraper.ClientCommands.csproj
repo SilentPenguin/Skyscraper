@@ -42,6 +42,7 @@
     <Compile Include="Command.cs" />
     <Compile Include="CommandFactory.cs" />
     <Compile Include="CommandHandlers\Me.cs" />
+    <Compile Include="CommandHandlers\Nick.cs" />
     <Compile Include="CommandHandlers\Part.cs" />
     <Compile Include="CommandState.cs" />
     <Compile Include="ICommand.cs" />

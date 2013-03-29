@@ -4,6 +4,16 @@ namespace Skyscraper.Models
 {
     public class User : NotifyPropertyChangedBase, IUser
     {
+        public User() { }
+        public User(IUser user)
+        {
+            nickname = user.Nickname;
+            hostname = user.Hostname;
+            realname = user.Realname;
+            modes = user.Modes;
+            isAway = user.IsAway;
+        }
+
         private string nickname;
         public string Nickname
         {
@@ -27,6 +37,19 @@ namespace Skyscraper.Models
             set
             {
                 this.SetProperty(ref this.hostname, value);
+            }
+        }
+
+        private string realname;
+        public string Realname
+        {
+            get
+            {
+                return this.realname;
+            }
+            set
+            {
+                this.SetProperty(ref this.realname, value);
             }
         }
 

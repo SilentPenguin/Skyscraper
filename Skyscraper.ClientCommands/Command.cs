@@ -49,6 +49,8 @@ namespace Skyscraper.ClientCommands
 
         public INetwork Network { get; set; }
         public IChannel Channel { get; set; }
+        public IUser User { get; set; }
+
         public String Text { get; private set; }
 
         public Command(Command command)

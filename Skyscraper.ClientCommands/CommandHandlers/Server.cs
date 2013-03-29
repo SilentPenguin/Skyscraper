@@ -9,29 +9,40 @@ namespace Skyscraper.ClientCommands.CommandHandlers
     {
         public void Execute(IConnectionManager connection, ICommand command) 
         {
-            string uri = command.Arguments[0];
-            string protocol = "irc://";
-
-            if (!uri.StartsWith(protocol))
+            INetwork network;
+            if (command.Network == null)
             {
-                uri = protocol + uri;
+                //if the network infomation is not set explicitly
+                //parse it out, when calling the command as 
+                //a client command /server then this will be the
+                //case.
+                string uri = command.Arguments[0];
+                string protocol = "irc://";
+
+                if (!uri.StartsWith(protocol))
+                {
+                    uri = protocol + uri;
+                }
+
+                Uri networkUrl = new Uri(uri);
+
+                if (networkUrl.Port < 0)
+                {
+                    uri += ":6667";
+                }
+
+                network = new Network
+                {
+                    Url = new Uri(uri),
+                    LocalUser = new User(command.User),
+                };
+            }
+            else
+            {
+                network = command.Network;
             }
 
-            Uri networkUrl = new Uri(uri);
-
-            if (networkUrl.Port < 0)
-            {
-                uri += ":6667";
-            }
-
-            networkUrl = new Uri(uri);
-
-            INetwork network = new Network
-            {
-                Url = networkUrl,
-            };
-
-            connection.Connect(network);
+            connection.Connect(network, command.User);
         }
     }
 }

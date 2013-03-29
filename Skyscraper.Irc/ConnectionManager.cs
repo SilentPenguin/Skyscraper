@@ -19,7 +19,6 @@ namespace Skyscraper.Irc
         }
     }
 
-    //TODO: AJ: Move to IrcDotNet specific project
     public class ConnectionManager : IConnectionManager
     {
         private Dictionary<INetwork, IrcClient> ircClients = new Dictionary<INetwork, IrcClient>();
@@ -77,7 +76,7 @@ namespace Skyscraper.Irc
         }
 
         #region Connect
-        public INetwork Connect(INetwork network)
+        public INetwork Connect(INetwork network, IUser user)
         {
             IrcClient ircClient = new IrcClient();
 
@@ -87,9 +86,9 @@ namespace Skyscraper.Irc
 
             ircClient.Connect(network.Url.Host, network.Url.Port, false, new IrcUserRegistrationInfo()
             {
-                NickName = "Skyscraper",
-                RealName = "Skyscraper",
-                UserName = "Skyscraper"
+                NickName = user.Nickname,
+                RealName = user.Realname,
+                UserName = user.Nickname,
             });
 
             return network;
@@ -114,12 +113,10 @@ namespace Skyscraper.Irc
         #endregion
 
         #region Send
-        public void Send(IChannel channel, string message)
+        public void Send(IChannel channel, IUser user, string message)
         {
             IrcChannel ircChannel = this.ircChannels[channel];
             ircChannel.Client.LocalUser.SendMessage(ircChannel, message);
-
-            IUser user = channel.Users.Single(u => u.Nickname.Equals("Skyscraper", StringComparison.Ordinal));
 
             channel.Log.Add(new Message(user, message));
         }
@@ -142,7 +139,7 @@ namespace Skyscraper.Irc
             ircClient.RawMessageReceived += ircClient_RawMessageReceived;
             ircClient.RawMessageSent += ircClient_RawMessageSent;
             ircClient.Registered += ircClient_Registered;
-            ircClient.Disconnected+=ircClient_Disconnected;
+            ircClient.Disconnected +=ircClient_Disconnected;
 
             return network;
         }
@@ -303,6 +300,7 @@ namespace Skyscraper.Irc
         {
             IrcClient ircClient = (IrcClient)sender;
             ircClient.LocalUser.JoinedChannel += LocalUser_JoinedChannel;
+            ircClient.LocalUser.NickNameChanged += LocalUser_NicknameChanged;
 
             INetwork connection = this.connections[ircClient];
             connection.IsConnected = true;
@@ -317,6 +315,14 @@ namespace Skyscraper.Irc
             ircClient.LocalUser.LeftChannel -= LocalUser_LeftChannel;
 
             this.DestoryConnection(connection);
+        }
+
+        void LocalUser_NicknameChanged(object sender, EventArgs e)
+        {
+            IrcLocalUser ircLocalUser = (IrcLocalUser)sender;
+            IrcClient ircClient = ircLocalUser.Client;
+            INetwork connection = this.connections[ircClient];
+            connection.LocalUser.Nickname = ircLocalUser.NickName;
         }
 
         void LocalUser_JoinedChannel(object sender, IrcChannelEventArgs e)
