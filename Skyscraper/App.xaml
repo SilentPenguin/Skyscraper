@@ -19,6 +19,7 @@
         </Style>
         <Style x:Key="TextBoxBorder" TargetType="{x:Type Border}">
             <Setter Property="Background"               Value="White"></Setter>
+            <Setter Property="Opacity"                  Value="0.75"></Setter>
             <Setter Property="BorderBrush"              Value="Gray"></Setter>
             <Setter Property="BorderThickness"          Value="1"></Setter>
             <Setter Property="CornerRadius"             Value="3"></Setter>
