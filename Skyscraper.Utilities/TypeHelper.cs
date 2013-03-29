@@ -17,7 +17,7 @@ namespace Skyscraper.Utilities
                 .ToList();
         }
 
-        public static IEnumerable<Type> ClassesForInterfaceInAssemby<T>(Assembly assembly = null)
+        public static IEnumerable<Type> ClassesForInterfaceInAssembly<T>(Assembly assembly = null)
         {
             if (assembly == null)
             {

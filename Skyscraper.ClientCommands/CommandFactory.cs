@@ -14,7 +14,7 @@ namespace Skyscraper.ClientCommands
         {
             CommandFactory.commands = new TypeDictionary<string, ICommandHandler>(
                 TypeHelper
-                .ClassesForInterfaceInAssemby<ICommandHandler>()
+                .ClassesForInterfaceInAssembly<ICommandHandler>()
                 .SelectMany(t => (Attribute.GetCustomAttribute(t, typeof(TextCommandHandlerAttribute)) as TextCommandHandlerAttribute).CommandWords.Select(cw => new { CommandWord = cw, Type = t }))
                 .ToDictionary(c => c.CommandWord.ToUpperInvariant(), c => c.Type)
             );
