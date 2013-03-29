@@ -17,6 +17,12 @@ namespace Skyscraper.Views
             }
         }
 
+        protected override void OnSourceInitialized(System.EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+            this.ExtendGlassFrame(new Thickness(-1));
+        }
+
         private RawLogWindow rawLogWindow;
 
         public MainWindow()

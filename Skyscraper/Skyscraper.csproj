@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="GlassHelper.cs" />
     <Compile Include="Views\RawLogWindow.xaml.cs">
       <DependentUpon>RawLogWindow.xaml</DependentUpon>
     </Compile>
