@@ -49,6 +49,7 @@
     <Compile Include="IUser.cs" />
     <Compile Include="IUserEvent.cs" />
     <Compile Include="Join.cs" />
+    <Compile Include="Kick.cs" />
     <Compile Include="LogEntry.cs" />
     <Compile Include="Message.cs" />
     <Compile Include="Network.cs" />

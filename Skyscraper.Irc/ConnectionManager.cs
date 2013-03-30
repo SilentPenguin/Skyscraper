@@ -57,7 +57,16 @@ namespace Skyscraper.Irc
         protected virtual void OnJoinedChannel(IChannel channel)
         {
             EventHandler<ChannelEventArgs> eventHandler = this.JoinedChannel;
+            if (eventHandler != null)
+            {
+                eventHandler(this, new ChannelEventArgs(channel));
+            }
+        }
 
+        public event EventHandler<ChannelEventArgs> PartedChannel;
+        protected virtual void OnPartedChannel(IChannel channel)
+        {
+            EventHandler<ChannelEventArgs> eventHandler = this.PartedChannel;
             if (eventHandler != null)
             {
                 eventHandler(this, new ChannelEventArgs(channel));
@@ -68,7 +77,6 @@ namespace Skyscraper.Irc
         protected virtual void OnRawMessage(string message, RawMessageDirection direction)
         {
             EventHandler<RawMessageEventArgs> eventHandler = this.RawMessage;
-
             if (eventHandler != null)
             {
                 eventHandler(this, new RawMessageEventArgs(new RawMessage(message, direction)));
@@ -112,6 +120,14 @@ namespace Skyscraper.Irc
         }
         #endregion
 
+        #region Part
+        public void Part(INetwork connection, string channelName)
+        {
+            IrcClient ircClient = this.ircClients[connection];
+            ircClient.Channels.Leave(channelName);
+        }
+        #endregion
+
         #region Send
         public void Send(IChannel channel, IUser user, string message)
         {
@@ -122,8 +138,18 @@ namespace Skyscraper.Irc
         }
         #endregion
 
-        #region SendCommand
-        public void SendCommand(INetwork network, string message)
+        #region SendAction
+        public void SendAction(INetwork connection, IChannel channel, string action)
+        {
+            IrcClient ircClient = this.ircClients[connection];
+            IrcChannel ircChannel = this.ircChannels[channel];
+            IrcDotNet.Ctcp.CtcpClient ctcpClient = new IrcDotNet.Ctcp.CtcpClient(ircClient);
+            ctcpClient.SendAction(ircChannel, action);
+        }
+        #endregion
+
+        #region SendRaw
+        public void SendRaw(INetwork network, string message)
         {
             IrcClient ircClient = this.ircClients[network];
             ircClient.SendRawMessage(message);
@@ -342,6 +368,8 @@ namespace Skyscraper.Irc
             IChannel channel = this.channels[ircChannel];
 
             this.DestoryChannel(channel, connection);
+
+            this.OnPartedChannel(channel);
         }
 
         void ircChannel_MessageReceived(object sender, IrcMessageEventArgs e)
@@ -396,6 +424,11 @@ namespace Skyscraper.Irc
             IChannel channel = this.channels[ircChannel];
 
             this.DestoryUser(user, channel);
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                channel.Log.Add(new Kick(user, e.Comment));
+            });
         }
 
         void ircChannel_UserLeft(object sender, IrcChannelUserEventArgs e)
