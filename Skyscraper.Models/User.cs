@@ -78,5 +78,22 @@ namespace Skyscraper.Models
                 this.SetProperty(ref this.isAway, value);
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            User user = (User)obj;
+
+            return this.Nickname == user.Nickname;
+        }
+
+        public override int GetHashCode()
+        {
+            return this.Nickname.GetHashCode();
+        }
     }
 }
