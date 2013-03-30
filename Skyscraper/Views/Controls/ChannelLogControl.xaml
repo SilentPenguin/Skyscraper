@@ -46,6 +46,17 @@
             </TextBlock>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type models:Nick}">
+            <TextBlock Foreground="DarkRed">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=NicknameContinuity}" />
+                <Run Text="is now known as" />
+                <Run Text="{Binding Path=User.Nickname}" />
+            </TextBlock>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type models:Message}">
             <TextBlock Foreground="Black">
                 <Run Text="[" />

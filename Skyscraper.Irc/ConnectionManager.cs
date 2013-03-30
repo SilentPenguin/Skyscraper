@@ -221,7 +221,7 @@ namespace Skyscraper.Irc
                     Nickname = ircChannelUser.User.NickName,
                     Hostname = ircChannelUser.User.HostName,
                     Modes = ircChannelUser.Modes.Join(),
-                    IsAway = ircChannelUser.User.IsAway
+                    IsAway = ircChannelUser.User.IsAway,
                 };
 
                 IrcUser ircUser = ircChannelUser.User;
@@ -357,6 +357,11 @@ namespace Skyscraper.Irc
             IrcClient ircClient = ircLocalUser.Client;
             INetwork connection = this.connections[ircClient];
             connection.LocalUser.Nickname = ircLocalUser.NickName;
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                connection.Channels.ForEach(c=> c.Log.Add(new Nick(connection.LocalUser)));
+            });
         }
 
         void LocalUser_JoinedChannel(object sender, IrcChannelEventArgs e)
@@ -474,9 +479,15 @@ namespace Skyscraper.Irc
         void ircUser_NickNameChanged(object sender, EventArgs e)
         {
             IrcUser ircUser = (IrcUser)sender;
+            INetwork connection = this.connections[ircUser.Client];
             IUser user = this.users[ircUser];
 
             user.Nickname = ircUser.NickName;
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                connection.Channels.ForEach(c => c.Log.Add(new Nick(user)));
+            });
         }
     }
 }
