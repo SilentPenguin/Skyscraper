@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Skyscraper.Models;
 using Skyscraper.Irc;
 using Skyscraper.Utilities;
@@ -88,7 +89,9 @@ namespace Skyscraper.ViewModels
             this.InitCommands();
             this.InitConnectionManagerEvents();
 
-            string defaultUsername = System.Environment.UserName.Replace(" ","");
+            string defaultUsername = Environment.UserName
+                .Replace(" ", "")
+                .Replace(".", "");
 
             this.user = new User
             {
@@ -153,23 +156,30 @@ namespace Skyscraper.ViewModels
             this.ChatInput = string.Empty;
         }
 
-        void Connection_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e) { }
-
         void connectionManager_NetworkAdded(object sender, NetworkEventArgs e)
         {
             this.Connection = e.Network;
-            this.Connection.PropertyChanged += Connection_PropertyChanged;
         }
 
         void connectionManager_NetworkRemoved(object sender, NetworkEventArgs e)
         {
-            this.connection.PropertyChanged -= Connection_PropertyChanged;
             this.connection = null;
         }
 
         void connectionManager_JoinedChannel(object sender, ChannelEventArgs e)
         {
-            this.Channel = e.Channel;
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                this.Channel = e.Channel;
+            });
+        }
+
+        void connectionManager_PartedChannel(object sender, ChannelEventArgs e)
+        {
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                this.Channel = this.Connection.Channels.FirstOrDefault();
+            });
         }
     }
 }
