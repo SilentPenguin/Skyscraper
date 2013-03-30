@@ -12,14 +12,15 @@ namespace Skyscraper.ClientCommands.CommandHandlers
     {
         void ICommandHandler.Execute(IConnectionManager connection, ICommand command)
         {
+            string newNickname = command.Arguments[0];
             if (command.Network != null)
             {
-
+                connection.SetNickname(command.Network, newNickname);
             }
 
             if (command.User != null)
             {
-                command.User.Nickname = command.Arguments[0];
+                command.User.Nickname = newNickname;
             }
         }
     }

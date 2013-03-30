@@ -128,6 +128,14 @@ namespace Skyscraper.Irc
         }
         #endregion
 
+        #region Nickname
+        public void SetNickname(INetwork connection, string newNickname)
+        {
+            IrcClient ircClient = this.ircClients[connection];
+            ircClient.LocalUser.SetNickName(newNickname);
+        }
+        #endregion
+
         #region Send
         public void Send(IChannel channel, IUser user, string message)
         {

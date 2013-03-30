@@ -9,5 +9,6 @@ namespace Skyscraper.Irc
         void Disconnect(INetwork connection, string message = null);
         void Join(INetwork connection, string channelName);
         void Send(IChannel channel, IUser user, string message);
+        void SetNickname(INetwork connection, string newNickname);
     }
 }
