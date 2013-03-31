@@ -292,13 +292,24 @@ namespace Skyscraper.Irc
             IrcChannelUser ircChannelUser = this.channelUsers[user];
 
             this.channelUsers.Remove(ircChannelUser);
-
             this.users.Remove(ircUser);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 channel.Users.Remove(user);
             });
+        }
+
+        private void DestroyUser(IUser user)
+        {
+            IrcUser ircUser = this.users[user];
+            IrcChannelUser ircChannelUser = this.channelUsers[user];
+
+            ircUser.NickNameChanged -= ircUser_NickNameChanged;
+            ircUser.IsAwayChanged -= ircUser_IsAwayChanged;
+            ircUser.Quit -= ircUser_Quit;
+
+            this.users.Remove(ircUser);
         }
         #endregion
 
@@ -479,13 +490,11 @@ namespace Skyscraper.Irc
 
         void ircUser_Quit(object sender, IrcCommentEventArgs e)
         {
-            throw new NotImplementedException();
-
             IrcUser ircUser = (IrcUser)sender;
             INetwork connection = this.connections[ircUser.Client];
             IUser user = this.users[ircUser];
 
-            //TODO handle user quit correctly
+            DestroyUser(user);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
