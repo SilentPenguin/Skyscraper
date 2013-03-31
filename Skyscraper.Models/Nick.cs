@@ -8,6 +8,8 @@ namespace Skyscraper.Models
 {
     public class Nick : UserEvent
     {
-        public Nick(IUser user) : base(user) { }
+        public Nick(IUser user, string oldUsername) : base(user) {
+            base.NicknameContinuity = oldUsername;
+        }
     }
 }

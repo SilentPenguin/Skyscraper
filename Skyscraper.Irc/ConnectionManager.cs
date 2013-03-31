@@ -226,6 +226,10 @@ namespace Skyscraper.Irc
 
                 IrcUser ircUser = ircChannelUser.User;
 
+                ircUser.NickNameChanged += ircUser_NickNameChanged;
+                ircUser.IsAwayChanged += ircUser_IsAwayChanged;
+                ircUser.Quit += ircUser_Quit;
+
                 this.ircChannelUsers.Add(user, ircChannelUser);
                 this.channelUsers.Add(ircChannelUser, user);
 
@@ -468,26 +472,32 @@ namespace Skyscraper.Irc
             user.IsAway = ircUser.IsAway;
         }
 
-        void ircChannelUser_ModesChanged(object sender, EventArgs e)
-        {
-            IrcChannelUser ircChannelUser = (IrcChannelUser)sender;
-            IUser user = this.channelUsers[ircChannelUser];
-
-            user.Modes = ircChannelUser.Modes.Join();
-        }
-
         void ircUser_NickNameChanged(object sender, EventArgs e)
         {
             IrcUser ircUser = (IrcUser)sender;
             INetwork connection = this.connections[ircUser.Client];
             IUser user = this.users[ircUser];
 
+            string oldUsername = user.Nickname;
             user.Nickname = ircUser.NickName;
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                connection.Channels.ForEach(c => c.Log.Add(new Nick(user)));
+                connection.Channels.ForEach(c => c.Log.Add(new Nick(user, oldUsername)));
             });
+        }
+
+        void ircUser_Quit(object sender, IrcCommentEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void ircChannelUser_ModesChanged(object sender, EventArgs e)
+        {
+            IrcChannelUser ircChannelUser = (IrcChannelUser)sender;
+            IUser user = this.channelUsers[ircChannelUser];
+
+            user.Modes = ircChannelUser.Modes.Join();
         }
     }
 }
