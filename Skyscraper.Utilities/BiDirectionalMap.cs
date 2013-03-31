@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Skyscraper.Utilities
 {
-    class BiDirectionalMap <TKey, TValue> : IDictionary<TKey, TValue>
+    public class BiDirectionalMap <TKey, TValue> : IDictionary<TKey, TValue>
     {
         private IDictionary<TKey, TValue> values = new Dictionary<TKey, TValue>();
         private IDictionary <TValue, TKey> keys = new Dictionary<TValue, TKey>();
