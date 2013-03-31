@@ -500,7 +500,7 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                connection.Channels.ForEach(c => c.Log.Add(new Quit(user,e.Comment));
+                connection.Channels.ForEach(c => c.Log.Add(new Quit(user,e.Comment)));
             });
         }
 
