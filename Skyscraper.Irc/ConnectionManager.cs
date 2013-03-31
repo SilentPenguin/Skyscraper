@@ -360,11 +360,12 @@ namespace Skyscraper.Irc
             IrcLocalUser ircLocalUser = (IrcLocalUser)sender;
             IrcClient ircClient = ircLocalUser.Client;
             INetwork connection = this.connections[ircClient];
+            string oldNickname = connection.LocalUser.Nickname;
             connection.LocalUser.Nickname = ircLocalUser.NickName;
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                connection.Channels.ForEach(c=> c.Log.Add(new Nick(connection.LocalUser)));
+                connection.Channels.ForEach(c=> c.Log.Add(new Nick(connection.LocalUser, oldNickname)));
             });
         }
 
