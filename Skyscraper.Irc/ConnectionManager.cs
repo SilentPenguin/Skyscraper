@@ -491,6 +491,17 @@ namespace Skyscraper.Irc
         void ircUser_Quit(object sender, IrcCommentEventArgs e)
         {
             throw new NotImplementedException();
+
+            IrcUser ircUser = (IrcUser)sender;
+            INetwork connection = this.connections[ircUser.Client];
+            IUser user = this.users[ircUser];
+
+            //TODO handle user quit correctly
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                connection.Channels.ForEach(c => c.Log.Add(new Quit(user,e.Comment));
+            });
         }
 
         void ircChannelUser_ModesChanged(object sender, EventArgs e)
