@@ -14,57 +14,52 @@
         
     d:DataContext="{d:DesignInstance Type=models:Client, IsDesignTimeCreatable=True}"
     d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type models:Join}">
             <TextBlock Foreground="DarkGreen">
-                <Run Text="[" />
-                <Run Text="{Binding Path=ReceivedAt}" />
-                <Run Text="] *" />
-                <Run Text="{Binding Path=User.Nickname}" />
-                <Run Text="has joined the channel." />
+                <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
+                <Run Text="has joined " />
+                <Run Text="{Binding Path=Network.Name, Mode=OneWay}" />
+                <Run Text="{Binding Path=Source.Name, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Part}">
             <TextBlock Foreground="DarkRed">
-                <Run Text="[" />
-                <Run Text="{Binding Path=ReceivedAt}" />
-                <Run Text="] *" />
-                <Run Text="{Binding Path=User.Nickname}" />
-                <Run Text="has left the channel." />
+                <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
+                <Run Text="has left " />
+                <Run Text="{Binding Path=Network.Name, Mode=OneWay}" />
+                <Run Text="{Binding Path=Source.Name, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Quit}">
             <TextBlock Foreground="DarkRed">
-                <Run Text="[" />
-                <Run Text="{Binding Path=ReceivedAt}" />
-                <Run Text="] *" />
-                <Run Text="{Binding Path=User.Nickname}" />
-                <Run Text="has left the network." />
+                <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
+                <Run Text="has quit " />
+                <Run Text="{Binding Path=Network.Name, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Nick}">
             <TextBlock Foreground="DarkRed">
-                <Run Text="[" />
-                <Run Text="{Binding Path=ReceivedAt}" />
-                <Run Text="] *" />
-                <Run Text="{Binding Path=NicknameContinuity}" />
+                <Run Text="{Binding Path=Network.Name, Mode=OneWay}" />
+                <Run Text=":" />
+                <Run Text="{Binding Path=NicknameContinuity, Mode=OneWay}" />
                 <Run Text="is now known as" />
-                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Message}">
             <TextBlock Foreground="Black">
-                <Run Text="[" />
-                <Run Text="{Binding Path=ReceivedAt}" />
-                <Run Text="] *" />
-                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="{Binding Path=Network.Name, Mode=OneWay}"/>
+                <Run Text="{Binding Path=Source.Name, Mode=OneWay}" />
+                <Run Text=":" />
+                <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
                 <Run Text=" " />
-                <Run Text="{Binding Path=MessageBody}" />
+                <Run Text="{Binding Path=MessageBody, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
     </UserControl.Resources>

@@ -30,7 +30,8 @@ namespace Skyscraper.Models
             }
         }
 
-        public UserEvent(IUser user)
+        public UserEvent(INetwork network, ILogSource source, IUser user) 
+            : base(network, source)
         {
             this.User = user;
             this.NicknameContinuity = this.User.Nickname;

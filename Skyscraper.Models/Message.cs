@@ -17,7 +17,8 @@ namespace Skyscraper.Models
             }
         }
 
-        public Message(IUser user, String message) : base(user)
+        public Message(INetwork network, ILogSource source, IUser user, string message)
+            : base(network, source, user)
         {
             this.User = user;
             this.NicknameContinuity = user.Nickname;

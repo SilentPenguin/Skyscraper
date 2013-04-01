@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 
 namespace Skyscraper.Models
 {
-    public interface IChannel : ILog
+    public interface IChannel : ILog, ILogSource
     {
         String Name { get; }
         String Modes { get; set; }

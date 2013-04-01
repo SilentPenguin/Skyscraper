@@ -14,7 +14,8 @@
         
     d:DataContext="{d:DesignInstance Type=models:Channel, IsDesignTimeCreatable=True}"
     d:DesignHeight="300" d:DesignWidth="300">
-    
+
+
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type models:Join}">
             <TextBlock Foreground="DarkGreen">
@@ -68,7 +69,7 @@
             </TextBlock>
         </DataTemplate>
     </UserControl.Resources>
-    
+
     <Grid>
         <ListView ItemsSource="{Binding Path=Log}" VirtualizingStackPanel.IsVirtualizing="True" />
     </Grid>

@@ -2,7 +2,7 @@
 
 namespace Skyscraper.Models
 {
-    public class User : NotifyPropertyChangedBase, IUser
+    public class User : NotifyPropertyChangedBase, IUser, ILogSource
     {
         public User() { }
         public User(IUser user)
@@ -24,6 +24,14 @@ namespace Skyscraper.Models
             set
             {
                 this.SetProperty(ref this.nickname, value);
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return this.nickname;
             }
         }
 

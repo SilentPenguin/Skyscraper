@@ -2,8 +2,8 @@
 {
     public class Nick : UserEvent, INick
     {
-        public Nick(IUser user, string oldNickname) 
-            : base(user) 
+        public Nick(INetwork network, ILogSource source, IUser user, string oldNickname)
+            : base(network, source, user)
         {
             base.NicknameContinuity = oldNickname;
         }
