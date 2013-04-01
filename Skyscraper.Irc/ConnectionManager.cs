@@ -208,9 +208,9 @@ namespace Skyscraper.Irc
 
         private IUser CreateUser(IrcChannelUser ircChannelUser, IChannel channel)
         {
-            IUser user = channel.Users.SingleOrDefault(u => u.Nickname.Equals(ircChannelUser.User.NickName, StringComparison.Ordinal));
-
-            if (user == null)
+            IUser user;
+            
+            if (!this.users.TryGetValue(ircChannelUser.User, out user))
             {
                 user = new User()
                 {
@@ -226,15 +226,15 @@ namespace Skyscraper.Irc
                 ircUser.IsAwayChanged += ircUser_IsAwayChanged;
                 ircUser.Quit += ircUser_Quit;
 
-                this.channelUsers.Add(user, ircChannelUser);
-
-                this.users.Add(user, ircUser);                
-
-                Application.Current.Dispatcher.InvokeAsync(() =>
-                {
-                    channel.Users.Add(user);
-                });
+                this.users.Add(user, ircUser);
             }
+
+            this.channelUsers.Add(user, ircChannelUser);
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                channel.Users.Add(user);
+            });
 
             return user;
         }
@@ -323,17 +323,6 @@ namespace Skyscraper.Irc
             this.OnRawMessage(e.RawContent, RawMessageDirection.Sent);
         }
 
-        void ircChannel_UsersListReceived(object sender, EventArgs e)
-        {
-            IrcChannel ircChannel = (IrcChannel)sender;
-            IChannel channel = this.channels[ircChannel];
-
-            foreach (IrcChannelUser ircChannelUser in ircChannel.Users)
-            {
-                IUser user = this.CreateUser(ircChannelUser, channel);
-            }
-        }
-
         void ircClient_Registered(object sender, EventArgs e)
         {
             IrcClient ircClient = (IrcClient)sender;
@@ -388,6 +377,17 @@ namespace Skyscraper.Irc
             this.DestoryChannel(channel, connection);
 
             this.OnPartedChannel(channel);
+        }
+
+        void ircChannel_UsersListReceived(object sender, EventArgs e)
+        {
+            IrcChannel ircChannel = (IrcChannel)sender;
+            IChannel channel = this.channels[ircChannel];
+
+            foreach (IrcChannelUser ircChannelUser in ircChannel.Users)
+            {
+                IUser user = this.CreateUser(ircChannelUser, channel);
+            }
         }
 
         void ircChannel_MessageReceived(object sender, IrcMessageEventArgs e)
