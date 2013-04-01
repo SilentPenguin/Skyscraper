@@ -59,6 +59,9 @@
     <Compile Include="Views\RawLogWindow.xaml.cs">
       <DependentUpon>RawLogWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\UserListWindow.xaml.cs">
+      <DependentUpon>UserListWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\Controls\ChannelLogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -93,6 +96,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\RawLogWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserListWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
