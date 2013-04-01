@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Skyscraper.Models;
 using Skyscraper.Utilities;
@@ -29,6 +28,7 @@ namespace Skyscraper.ClientCommands
                 User = user,
             };
             string commandWord = command.CommandWord.ToUpperInvariant();
+
             return new CommandState(CommandFactory.commands[commandWord], command);
         }
     }

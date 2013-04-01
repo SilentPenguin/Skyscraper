@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skyscraper.Utilities
 {
@@ -11,42 +9,24 @@ namespace Skyscraper.Utilities
         private IDictionary<TKey, TValue> values = new Dictionary<TKey, TValue>();
         private IDictionary <TValue, TKey> keys = new Dictionary<TValue, TKey>();
 
-        public void Add(TKey key, TValue value)
+        public int Count
         {
-            this.values.Add(key, value);
-            this.keys.Add(value, key);
+            get { return Math.Min(this.values.Count(), this.keys.Count()); }
         }
 
-        public void Add(TValue value, TKey key)
+        public bool IsReadOnly
         {
-            Add(key, value);
+            get { return this.values.IsReadOnly || this.keys.IsReadOnly; }
         }
 
-        public bool ContainsKey(TKey key)
+        public ICollection<TKey> Keys
         {
-            return this.values.ContainsKey(key);
+            get { return this.keys.Values; }
         }
 
-        public bool ContainsKey(TValue value)
+        public ICollection<TValue> Values
         {
-            return this.keys.ContainsKey(value);
-        }
-
-        public bool Remove(TKey key)
-        {
-            TValue value = this.values[key];
-            return this.Remove(key, value);
-        }
-
-        public bool Remove(TValue value)
-        {
-            TKey key = this.keys[value];
-            return this.Remove(key, value);
-        }
-
-        private bool Remove(TKey key, TValue value)
-        {
-            return this.values.Remove(key) && this.keys.Remove(value);
+            get { return this.values.Values; }
         }
 
         public TValue this[TKey key]
@@ -79,10 +59,53 @@ namespace Skyscraper.Utilities
         {
             this.Add(item.Key, item.Value);
         }
-
         public void Add(KeyValuePair<TValue, TKey> item)
         {
             this.Add(item.Key, item.Value);
+        }
+        public void Add(TValue value, TKey key)
+        {
+            Add(key, value);
+        }
+        public void Add(TKey key, TValue value)
+        {
+            this.values.Add(key, value);
+            this.keys.Add(value, key);
+        }
+
+        public bool ContainsKey(TKey key)
+        {
+            return this.values.ContainsKey(key);
+        }
+
+        public bool ContainsKey(TValue value)
+        {
+            return this.keys.ContainsKey(value);
+        }
+
+        public bool Remove(TKey key)
+        {
+            TValue value = this.values[key];
+
+            return this.Remove(key, value);
+        }
+
+        public bool Remove(TValue value)
+        {
+            TKey key = this.keys[value];
+
+            return this.Remove(key, value);
+        }
+
+        private bool Remove(TKey key, TValue value)
+        {
+            return this.values.Remove(key) && this.keys.Remove(value);
+        }
+
+
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            return this.Remove(item.Key, item.Value);
         }
 
         public void Clear()
@@ -101,20 +124,6 @@ namespace Skyscraper.Utilities
             return this.keys.Contains(item);
         }
 
-        public int Count
-        {
-            get { return Math.Min(this.values.Count(), this.keys.Count()); }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return this.values.IsReadOnly || this.keys.IsReadOnly; }
-        }
-
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            return this.Remove(item.Key, item.Value);
-        }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
@@ -126,12 +135,6 @@ namespace Skyscraper.Utilities
             return this.values.GetEnumerator();
         }
 
-
-        public ICollection<TKey> Keys
-        {
-            get { return this.keys.Values; }
-        }
-
         public bool TryGetValue(TKey key, out TValue value)
         {
             return this.values.TryGetValue(key, out value);
@@ -140,11 +143,6 @@ namespace Skyscraper.Utilities
         public bool TryGetValue(TValue key, out TKey value)
         {
             return this.keys.TryGetValue(key, out value);
-        }
-
-        public ICollection<TValue> Values
-        {
-            get { return this.values.Values; }
         }
 
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)

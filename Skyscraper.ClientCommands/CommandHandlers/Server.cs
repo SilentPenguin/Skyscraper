@@ -10,6 +10,7 @@ namespace Skyscraper.ClientCommands.CommandHandlers
         public void Execute(IConnectionManager connection, ICommand command) 
         {
             INetwork network;
+
             if (command.Network == null)
             {
                 //if the network infomation is not set explicitly

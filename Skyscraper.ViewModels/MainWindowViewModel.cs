@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Skyscraper.Models;
-using Skyscraper.Irc;
-using Skyscraper.Utilities;
-using Skyscraper.ClientCommands;
-using Skyscraper.Irc.Events;
 using System.Windows;
+using Skyscraper.ClientCommands;
+using Skyscraper.Irc;
+using Skyscraper.Irc.Events;
+using Skyscraper.Models;
+using Skyscraper.Utilities;
 
 namespace Skyscraper.ViewModels
 {

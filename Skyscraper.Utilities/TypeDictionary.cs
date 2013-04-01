@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skyscraper.Utilities
 {
@@ -11,17 +9,60 @@ namespace Skyscraper.Utilities
         private Dictionary<TKey, Type> types;
         private Dictionary<TKey, TValue> instances;
 
-        public TypeDictionary() {
+        public ICollection<TKey> Keys
+        {
+            get { return this.types.Keys; }
+        }
+
+        public ICollection<TValue> Values
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        public int Count
+        {
+            get { return this.types.Count; }
+        }
+
+        public bool IsReadOnly
+        {
+            get { return false; }
+        }
+
+        public TValue this[TKey key]
+        {
+            get
+            {
+                TValue result;
+                this.TryGetValue(key, out result);
+
+                return result;
+            }
+            set
+            {
+                lock (this)
+                {
+                    this.types[key] = value.GetType();
+                    this.instances[key] = value;
+                }
+            }
+        }
+
+        public TypeDictionary() 
+        {
             this.types = new Dictionary<TKey, Type> { };
             this.instances = new Dictionary<TKey, TValue> { };
         }
-
         public TypeDictionary(Dictionary<TKey, Type> types)
         {
             this.types = types;
             this.instances = new Dictionary<TKey, TValue> { };
         }
 
+        public void Add(KeyValuePair<TKey, TValue> item)
+        {
+            this.Add(item.Key, item.Value);
+        }
         public void Add(TKey key, TValue value)
         {
             lock (this)
@@ -36,17 +77,22 @@ namespace Skyscraper.Utilities
             return this.types.ContainsKey(key);
         }
 
-        public ICollection<TKey> Keys
-        {
-            get { return this.types.Keys; }
-        }
-
         public bool Remove(TKey key)
         {
             lock (this)
             {
                 this.instances.Remove(key);
+
                 return this.types.Remove(key);
+            }
+        }
+        public bool Remove(KeyValuePair<TKey, TValue> item)
+        {
+            lock (this)
+            {
+                this.instances.Remove(item.Key);
+
+                return this.types.Remove(item.Key);
             }
         }
 
@@ -64,40 +110,15 @@ namespace Skyscraper.Utilities
                     Boolean success = this.types.TryGetValue(key, out type);
                     value = Activator.CreateInstance(type) as TValue;
                     success &= value != null;
+
                     if (success)
                     {
                         this.instances.Add(key, value);
                     }
+
                     return success;
                 }
             }
-        }
-
-        public ICollection<TValue> Values
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        public TValue this[TKey key]
-        {
-            get
-            {
-                TValue result;
-                this.TryGetValue(key, out result);
-                return result;
-            }
-            set
-            {
-                lock (this){
-                    this.types[key] = value.GetType();
-                    this.instances[key] = value;
-                }
-            }
-        }
-
-        public void Add(KeyValuePair<TKey, TValue> item)
-        {
-            this.Add(item.Key, item.Value);
         }
 
         public void Clear()
@@ -117,25 +138,6 @@ namespace Skyscraper.Utilities
         public void CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
             throw new NotImplementedException();
-        }
-
-        public int Count
-        {
-            get { return this.types.Count; }
-        }
-
-        public bool IsReadOnly
-        {
-            get { return false; }
-        }
-
-        public bool Remove(KeyValuePair<TKey, TValue> item)
-        {
-            lock (this)
-            {
-                this.instances.Remove(item.Key);
-                return this.types.Remove(item.Key);
-            }
         }
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()

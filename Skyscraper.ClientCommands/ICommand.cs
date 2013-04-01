@@ -1,5 +1,4 @@
-﻿using System;
-using Skyscraper.Models;
+﻿using Skyscraper.Models;
 
 namespace Skyscraper.ClientCommands
 {

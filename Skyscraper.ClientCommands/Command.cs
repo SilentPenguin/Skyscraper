@@ -1,7 +1,6 @@
-﻿using Skyscraper.Irc;
-using Skyscraper.Models;
-using System;
+﻿using System;
 using System.Linq;
+using Skyscraper.Models;
 
 namespace Skyscraper.ClientCommands
 {
