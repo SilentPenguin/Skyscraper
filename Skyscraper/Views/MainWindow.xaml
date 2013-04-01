@@ -29,7 +29,7 @@
 
         <controls:LogControl Grid.Column="0" Grid.Row="0" DataContext="{Binding Client}" />
 
-        <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource MainInputBorder}" HorizontalAlignment="Stretch">
+        <controls:ClippingBorder Grid.Column="0" Grid.Row="1" Style="{StaticResource MainInputBorder}" HorizontalAlignment="Stretch">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -46,7 +46,7 @@
                     </TextBox.InputBindings>
                 </TextBox>
             </Grid>
-        </Border>
+        </controls:ClippingBorder>
 
     </Grid>
     

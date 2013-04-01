@@ -24,13 +24,13 @@
             <Setter Property="BorderThickness"          Value="1"></Setter>
             <Setter Property="CornerRadius"             Value="3"></Setter>
             <Setter Property="Margin"                   Value="0 5 0 0"></Setter>
+            <Setter Property="ClipToBounds"             Value="True"></Setter>
         </Style>
         <Style x:Key="MainInputSelect" TargetType="{x:Type ComboBox}">
             <Setter Property="FontStyle"                Value="Normal"></Setter>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="BorderThickness"          Value="0"></Setter>
             <Setter Property="Padding"                  Value="2"></Setter>
-            <Setter Property="Background"               Value="Transparent"></Setter>
         </Style>
         <Style x:Key="MainInputBox" TargetType="{x:Type TextBox}">
             <Setter Property="FontStyle"                Value="Normal"></Setter>
