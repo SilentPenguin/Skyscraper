@@ -24,15 +24,21 @@ namespace Skyscraper.Views
         }
 
         private RawLogWindow rawLogWindow;
+        private UserListWindow userListWindow;
 
         public MainWindow()
         {
             InitializeComponent();
 
             this.ViewModel = new MainWindowViewModel();
+
             this.rawLogWindow = new RawLogWindow();
             this.rawLogWindow.DataContext = this.ViewModel;
             this.rawLogWindow.Show();
+
+            this.userListWindow = new UserListWindow();
+            this.userListWindow.DataContext = this.ViewModel;
+            this.userListWindow.Show();
         }
     }
 }
