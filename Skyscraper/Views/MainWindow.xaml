@@ -36,7 +36,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
-                <ComboBox Style="{StaticResource MainInputSelect}" Grid.Column="0" ItemsSource="{Binding Connection.Channels}" DisplayMemberPath="Name" SelectedItem="{Binding Channel}"></ComboBox>
+                <ComboBox Style="{StaticResource MainInputSelect}" Grid.Column="0" ItemsSource="{Binding Connection.Channels}" DisplayMemberPath="Name" SelectedItem="{Binding Channel, Mode=TwoWay}"></ComboBox>
                 <Label Target="{x:Reference CommandInput}" Style="{StaticResource MainInputText}" Grid.Column="1" Content="{Binding User.Nickname}"></Label>
                 <TextBox Name="CommandInput" Style="{StaticResource MainInputBox}" Grid.Column="2" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True">
                     <TextBox.InputBindings>
