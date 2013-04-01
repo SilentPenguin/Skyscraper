@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\Controls\ClippingBorder.cs" />
     <Compile Include="GlassHelper.cs" />
     <Compile Include="Views\Controls\LogControl.xaml.cs">
       <DependentUpon>LogControl.xaml</DependentUpon>
