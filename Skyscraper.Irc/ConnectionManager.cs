@@ -23,7 +23,6 @@ namespace Skyscraper.Irc
     {
         private BiDirectionalMap<INetwork, IrcClient> connections = new BiDirectionalMap<INetwork, IrcClient>();
         private BiDirectionalMap<IChannel, IrcChannel> channels = new BiDirectionalMap<IChannel, IrcChannel>();
-        private BiDirectionalMap<IUser, IrcChannelUser> channelUsers = new BiDirectionalMap<IUser, IrcChannelUser>();
         private BiDirectionalMap<IUser, IrcUser> users = new BiDirectionalMap<IUser, IrcUser>();
         
         public event EventHandler<NetworkEventArgs> NetworkAdded;
@@ -224,8 +223,6 @@ namespace Skyscraper.Irc
                 this.users.Add(user, ircUser);
             }
 
-            this.channelUsers.Add(user, ircChannelUser);
-
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 channel.Users.Add(user);
@@ -277,16 +274,14 @@ namespace Skyscraper.Irc
 
             foreach (IUser user in channel.Users.ToArray())
             {
-                this.DestoryUser(user, channel);
+                this.DestoryUser(this.users[user], channel);
             }
         }
 
-        private void DestoryUser(IUser user, IChannel channel)
+        private void DestoryUser(IrcUser ircUser, IChannel channel)
         {
-            IrcUser ircUser = this.users[user];
-            IrcChannelUser ircChannelUser = this.channelUsers[user];
+            IUser user = this.users[ircUser];
 
-            this.channelUsers.Remove(ircChannelUser);
             this.users.Remove(ircUser);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
@@ -295,10 +290,9 @@ namespace Skyscraper.Irc
             });
         }
 
-        private void DestroyUser(IUser user)
+        private void DestroyUser(IrcUser ircUser)
         {
-            IrcUser ircUser = this.users[user];
-            IrcChannelUser ircChannelUser = this.channelUsers[user];
+            IUser user = this.users[ircUser];
 
             ircUser.NickNameChanged -= ircUser_NickNameChanged;
             ircUser.IsAwayChanged -= ircUser_IsAwayChanged;
@@ -436,7 +430,7 @@ namespace Skyscraper.Irc
             IrcChannel ircChannel = (IrcChannel)sender;
             IChannel channel = this.channels[ircChannel];
 
-            this.DestoryUser(user, channel);
+            this.DestoryUser(ircUser, channel);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
@@ -452,7 +446,7 @@ namespace Skyscraper.Irc
             IrcChannel ircChannel = (IrcChannel)sender;
             IChannel channel = this.channels[ircChannel];
 
-            this.DestoryUser(user, channel);
+            this.DestoryUser(ircUser, channel);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
@@ -489,7 +483,7 @@ namespace Skyscraper.Irc
             INetwork connection = this.connections[ircUser.Client];
             IUser user = this.users[ircUser];
 
-            DestroyUser(user);
+            DestroyUser(ircUser);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
@@ -500,7 +494,7 @@ namespace Skyscraper.Irc
         void ircChannelUser_ModesChanged(object sender, EventArgs e)
         {
             IrcChannelUser ircChannelUser = (IrcChannelUser)sender;
-            IUser user = this.channelUsers[ircChannelUser];
+            IUser user = this.users[ircChannelUser.User];
 
             user.Modes = ircChannelUser.Modes.Join();
         }
