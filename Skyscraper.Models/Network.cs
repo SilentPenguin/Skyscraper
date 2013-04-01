@@ -39,7 +39,12 @@ namespace Skyscraper.Models
                     return string.Empty;
                 }
 
-                return this.Url.Host.Split('.').Last();
+                //strip out the host from the url
+                string host = this.Url.Host;
+                int start = host.StartsWith("irc.") ? 4 : 0;
+                int end = host.LastIndexOf('.');
+                this.name = host.Substring(start, end - start);
+                return this.name;
             }
         }
         

@@ -19,7 +19,7 @@
         <DataTemplate DataType="{x:Type models:Join}">
             <TextBlock Foreground="DarkGreen">
                 <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
-                <Run Text="has joined " />
+                <Run Text="has joined" />
                 <Run Text="{Binding Path=Network.Name, Mode=OneWay}" />
                 <Run Text="{Binding Path=Source.Name, Mode=OneWay}" />
             </TextBlock>
