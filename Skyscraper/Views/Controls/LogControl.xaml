@@ -1,0 +1,75 @@
+﻿<UserControl 
+    x:Class="Skyscraper.Views.Controls.LogControl"
+             
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Skyscraper"
+    xmlns:models="clr-namespace:Skyscraper.Models;assembly=Skyscraper.Models"
+    xmlns:viewModels="clr-namespace:Skyscraper.ViewModels;assembly=Skyscraper.ViewModels"
+    xmlns:syswin="clr-namespace:System.Windows;assembly=System"
+        
+    mc:Ignorable="d"
+        
+    d:DataContext="{d:DesignInstance Type=models:Client, IsDesignTimeCreatable=True}"
+    d:DesignHeight="300" d:DesignWidth="300">
+    
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type models:Join}">
+            <TextBlock Foreground="DarkGreen">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="has joined the channel." />
+            </TextBlock>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type models:Part}">
+            <TextBlock Foreground="DarkRed">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="has left the channel." />
+            </TextBlock>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type models:Quit}">
+            <TextBlock Foreground="DarkRed">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="has left the network." />
+            </TextBlock>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type models:Nick}">
+            <TextBlock Foreground="DarkRed">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=NicknameContinuity}" />
+                <Run Text="is now known as" />
+                <Run Text="{Binding Path=User.Nickname}" />
+            </TextBlock>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type models:Message}">
+            <TextBlock Foreground="Black">
+                <Run Text="[" />
+                <Run Text="{Binding Path=ReceivedAt}" />
+                <Run Text="] *" />
+                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text=" " />
+                <Run Text="{Binding Path=MessageBody}" />
+            </TextBlock>
+        </DataTemplate>
+    </UserControl.Resources>
+    
+    <Grid>
+        <ListView ItemsSource="{Binding Path=Log}" VirtualizingStackPanel.IsVirtualizing="True" />
+    </Grid>
+</UserControl>

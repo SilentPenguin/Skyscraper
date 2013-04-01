@@ -40,8 +40,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Channel.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="IChannel.cs" />
+    <Compile Include="IClient.cs" />
     <Compile Include="IJoin.cs" />
+    <Compile Include="ILog.cs" />
     <Compile Include="IMessage.cs" />
     <Compile Include="INetwork.cs" />
     <Compile Include="INick.cs" />

@@ -1,4 +1,4 @@
 ﻿namespace Skyscraper.Models
 {
-    interface INick : IUserEvent { }
+    public interface INick : IUserEvent { }
 }

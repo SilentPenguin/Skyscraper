@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace Skyscraper.Utilities
 {
+    [DebuggerStepThrough]
     public class BiDirectionalMap <TKey, TValue> : IDictionary<TKey, TValue>
     {
         private IDictionary<TKey, TValue> values = new Dictionary<TKey, TValue>();

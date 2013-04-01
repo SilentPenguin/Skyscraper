@@ -11,7 +11,19 @@ namespace Skyscraper.ViewModels
 {
     public class MainWindowViewModel : ViewModelBase
     {
-        private ConnectionManager connectionManager = new ConnectionManager();
+        private IClient client;
+        public IClient Client
+        {
+            get
+            {
+                return this.client;
+            }
+            set
+            {
+                this.SetProperty(ref this.client, value);
+            }
+        }
+        private ConnectionManager connectionManager { get; set; }
         private IReplayHistory replayHistory = new ReplayHistory();
 
         private IUser user;
@@ -86,6 +98,8 @@ namespace Skyscraper.ViewModels
 
         public MainWindowViewModel() 
         {
+            this.client = new Client();
+            this.connectionManager = new ConnectionManager(this.Client);
             this.InitCommands();
             this.InitConnectionManagerEvents();
 

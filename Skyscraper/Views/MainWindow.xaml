@@ -27,7 +27,7 @@
             <RowDefinition Height="28" />
         </Grid.RowDefinitions>
 
-        <controls:ChannelLogControl Grid.Column="0" Grid.Row="0" DataContext="{Binding Channel}" />
+        <controls:LogControl Grid.Column="0" Grid.Row="0" DataContext="{Binding Client}" />
 
         <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource MainInputBorder}" HorizontalAlignment="Stretch">
             <Grid>

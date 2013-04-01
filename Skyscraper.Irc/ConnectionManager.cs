@@ -21,10 +21,17 @@ namespace Skyscraper.Irc
 
     public class ConnectionManager : IConnectionManager
     {
+        private IClient client {get;set;}
+
         private BiDirectionalMap<INetwork, IrcClient> connections = new BiDirectionalMap<INetwork, IrcClient>();
         private BiDirectionalMap<IChannel, IrcChannel> channels = new BiDirectionalMap<IChannel, IrcChannel>();
         private BiDirectionalMap<IUser, IrcUser> users = new BiDirectionalMap<IUser, IrcUser>();
         
+        public ConnectionManager(IClient client)
+        {
+            this.client = client;
+        }
+
         public event EventHandler<NetworkEventArgs> NetworkAdded;
         protected virtual void OnNetworkAdded(INetwork network)
         {
@@ -129,12 +136,15 @@ namespace Skyscraper.Irc
         #endregion
 
         #region Send
-        public void Send(IChannel channel, IUser user, string message)
+        public void Send(IChannel channel, IUser user, string messageString)
         {
             IrcChannel ircChannel = this.channels[channel];
-            ircChannel.Client.LocalUser.SendMessage(ircChannel, message);
+            ircChannel.Client.LocalUser.SendMessage(ircChannel, messageString);
 
-            channel.Log.Add(new Message(user, message));
+            Message message = new Message(user, messageString);
+
+            channel.Log.Add(message);
+            this.client.Log.Add(message);
         }
         #endregion
 
@@ -386,7 +396,9 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                channel.Log.Add(new Message(user, e.Text));
+                Message message = new Message(user, e.Text);
+                channel.Log.Add(message);
+                this.client.Log.Add(message);
             });
         }
 
@@ -416,7 +428,9 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                channel.Log.Add(new Join(user));
+                Join join = new Join(user);
+                channel.Log.Add(join);
+                this.client.Log.Add(join);
             });
         }
 
@@ -432,7 +446,9 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                channel.Log.Add(new Kick(user, e.Comment));
+                Kick kick = new Kick(user, e.Comment);
+                channel.Log.Add(kick);
+                this.client.Log.Add(kick);
             });
         }
 
@@ -448,7 +464,9 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                channel.Log.Add(new Part(user));
+                Part part = new Part(user);
+                channel.Log.Add(part);
+                this.client.Log.Add(part);
             });
         }
 
@@ -471,7 +489,9 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                connection.Channels.ForEach(c => c.Log.Add(new Nick(user, oldUsername)));
+                Nick nick = new Nick(user, oldUsername);
+                connection.Channels.ForEach(c => c.Log.Add(nick));
+                this.client.Log.Add(nick);
             });
         }
 
@@ -485,7 +505,9 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                connection.Channels.ForEach(c => c.Log.Add(new Quit(user,e.Comment)));
+                Quit quit = new Quit(user, e.Comment);
+                connection.Channels.ForEach(c => c.Log.Add(quit));
+                this.client.Log.Add(quit);
             });
         }
 
@@ -493,7 +515,7 @@ namespace Skyscraper.Irc
         {
             IrcChannelUser ircChannelUser = (IrcChannelUser)sender;
             IUser user = this.users[ircChannelUser.User];
-
+            
             user.Modes = ircChannelUser.Modes.Join();
         }
     }
