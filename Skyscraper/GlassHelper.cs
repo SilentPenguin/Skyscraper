@@ -6,9 +6,24 @@ using System.Windows.Media;
 
 namespace Skyscraper.ViewModels
 {
-
     public static class GlassHelper
     {
+        private struct MARGINS
+        {
+            public int Left;
+            public int Right;
+            public int Top;
+            public int Bottom;
+
+            public MARGINS(Thickness thickness)
+            {
+                Left = (int)thickness.Left;
+                Right = (int)thickness.Right;
+                Top = (int)thickness.Top;
+                Bottom = (int)thickness.Bottom;
+            }
+        }
+
         [DllImport("dwmapi.dll", PreserveSig=false)]
         static extern void DwmExtendFrameIntoClientArea(IntPtr hwnd, ref MARGINS margins);
 
@@ -32,22 +47,6 @@ namespace Skyscraper.ViewModels
             DwmExtendFrameIntoClientArea(hwnd, ref margins);
 
             return true;
-        }
-
-        private struct MARGINS
-        {
-            public int Left;
-            public int Right;
-            public int Top;
-            public int Bottom;
-
-            public MARGINS(Thickness thickness)
-            {
-                Left = (int)thickness.Left;
-                Right = (int)thickness.Right;
-                Top = (int)thickness.Top;
-                Bottom = (int)thickness.Bottom;
-            }
         }
     }
 }
