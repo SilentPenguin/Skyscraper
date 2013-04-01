@@ -29,14 +29,16 @@
 
         <controls:ChannelLogControl Grid.Column="0" Grid.Row="0" DataContext="{Binding Channel}" />
 
-        <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource TextBoxBorder}" HorizontalAlignment="Stretch">
+        <Border Grid.Column="0" Grid.Row="1" Style="{StaticResource MainInputBorder}" HorizontalAlignment="Stretch">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
-                <ComboBox Grid.Column="0" ItemsSource="{Binding Connection.Channels}" DisplayMemberPath="Name" SelectedItem="{Binding Channel}"></ComboBox>
-                <TextBox  Grid.Column="1" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True">
+                <ComboBox Style="{StaticResource MainInputSelect}" Grid.Column="0" ItemsSource="{Binding Connection.Channels}" DisplayMemberPath="Name" SelectedItem="{Binding Channel}"></ComboBox>
+                <Label Target="{x:Reference CommandInput}" Style="{StaticResource MainInputText}" Grid.Column="1" Content="{Binding User.Nickname}"></Label>
+                <TextBox Name="CommandInput" Style="{StaticResource MainInputBox}" Grid.Column="2" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True">
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding Path=ReplayPreviousCommand}" Key="Up" />
                         <KeyBinding Command="{Binding Path=ReplayNextCommand}" Key="Down" />

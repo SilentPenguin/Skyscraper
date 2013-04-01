@@ -17,7 +17,7 @@
             <Setter Property="BorderBrush"              Value="Transparent"></Setter>
             <Setter Property="BorderThickness"          Value="0"></Setter>
         </Style>
-        <Style x:Key="TextBoxBorder" TargetType="{x:Type Border}">
+        <Style x:Key="MainInputBorder" TargetType="{x:Type Border}">
             <Setter Property="Background"               Value="White"></Setter>
             <Setter Property="Opacity"                  Value="0.75"></Setter>
             <Setter Property="BorderBrush"              Value="Gray"></Setter>
@@ -25,12 +25,25 @@
             <Setter Property="CornerRadius"             Value="3"></Setter>
             <Setter Property="Margin"                   Value="0 5 0 0"></Setter>
         </Style>
-        <Style TargetType="{x:Type TextBox}">
+        <Style x:Key="MainInputSelect" TargetType="{x:Type ComboBox}">
+            <Setter Property="FontStyle"                Value="Normal"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            <Setter Property="BorderThickness"          Value="0"></Setter>
+            <Setter Property="Padding"                  Value="2"></Setter>
+            <Setter Property="Background"               Value="Transparent"></Setter>
+        </Style>
+        <Style x:Key="MainInputBox" TargetType="{x:Type TextBox}">
             <Setter Property="FontStyle"                Value="Normal"></Setter>
             <Setter Property="SpellCheck.IsEnabled"     Value="True"></Setter>
             <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
             <Setter Property="BorderThickness"          Value="0"></Setter>
-            <Setter Property="Padding"                  Value="2"></Setter>
+            <Setter Property="Padding"                  Value="0 2 0 2"></Setter>
+            <Setter Property="Background"               Value="Transparent"></Setter>
+        </Style>
+        <Style x:Key="MainInputText" TargetType="{x:Type Label}">
+            <Setter Property="FontStyle"                Value="Normal"></Setter>
+            <Setter Property="SpellCheck.IsEnabled"     Value="True"></Setter>
+            <Setter Property="Padding"                  Value="4 2 4 2"></Setter>
             <Setter Property="Background"               Value="Transparent"></Setter>
         </Style>
     </Application.Resources>
