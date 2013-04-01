@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Windows;
 using IrcDotNet;
 using IrcDotNet.Collections;
+using IrcDotNet.Ctcp;
 using Skyscraper.Irc.Events;
 using Skyscraper.Models;
 using Skyscraper.Utilities;
@@ -21,9 +23,10 @@ namespace Skyscraper.Irc
 
     public class ConnectionManager : IConnectionManager
     {
-        private IClient client {get;set;}
+        private IClient client { get; set; }
 
         private BiDirectionalMap<INetwork, IrcClient> connections = new BiDirectionalMap<INetwork, IrcClient>();
+        private BiDirectionalMap<INetwork, CtcpClient> ctcpConnections = new BiDirectionalMap<INetwork, CtcpClient>();
         private BiDirectionalMap<IChannel, IrcChannel> channels = new BiDirectionalMap<IChannel, IrcChannel>();
         private BiDirectionalMap<IUser, IrcUser> users = new BiDirectionalMap<IUser, IrcUser>();
         
@@ -86,7 +89,6 @@ namespace Skyscraper.Irc
         public INetwork Connect(INetwork network, IUser user)
         {
             IrcClient ircClient = new IrcClient();
-
             INetwork connection = this.RegisterNetwork(ircClient, network);
 
             this.OnNetworkAdded(connection);
@@ -149,11 +151,10 @@ namespace Skyscraper.Irc
         #endregion
 
         #region SendAction
-        public void SendAction(INetwork connection, IChannel channel, string action)
+        public void SendAction(INetwork network, IChannel channel, string action)
         {
-            IrcClient ircClient = this.connections[connection];
+            CtcpClient ctcpClient = this.ctcpConnections[network];
             IrcChannel ircChannel = this.channels[channel];
-            IrcDotNet.Ctcp.CtcpClient ctcpClient = new IrcDotNet.Ctcp.CtcpClient(ircClient);
             ctcpClient.SendAction(ircChannel, action);
         }
         #endregion
@@ -174,7 +175,13 @@ namespace Skyscraper.Irc
             ircClient.RawMessageReceived += ircClient_RawMessageReceived;
             ircClient.RawMessageSent += ircClient_RawMessageSent;
             ircClient.Registered += ircClient_Registered;
-            ircClient.Disconnected +=ircClient_Disconnected;
+            ircClient.Disconnected += ircClient_Disconnected;
+
+            CtcpClient ctcpClient = new CtcpClient(ircClient);
+
+            this.ctcpConnections.Add(network, ctcpClient);
+
+            ctcpClient.ClientVersion = "Skyscraper v" + Assembly.GetEntryAssembly().GetName().Version.ToString();
 
             return network;
         }
@@ -243,23 +250,22 @@ namespace Skyscraper.Irc
         #endregion
 
         #region Destory
-        private void DestoryConnection(INetwork connection)
+        private void DestoryConnection(INetwork network)
         {
-            connection.IsConnected = false;
+            network.IsConnected = false;
 
-            IrcClient ircClient = this.connections[connection];
-
+            IrcClient ircClient = this.connections[network];
             ircClient.Registered -= ircClient_Registered;
             ircClient.Disconnected -= ircClient_Disconnected;
             ircClient.RawMessageReceived -= ircClient_RawMessageReceived;
             ircClient.RawMessageSent -= ircClient_RawMessageSent;
-
             ircClient.Quit();
+
             this.connections.Remove(ircClient);
 
-            foreach (IChannel channel in connection.Channels.ToArray())
+            foreach (IChannel channel in network.Channels)
             {
-                this.DestoryChannel(channel, connection);
+                this.DestoryChannel(channel, network);
             }
         }
 
@@ -282,7 +288,7 @@ namespace Skyscraper.Irc
 
             this.channels.Remove(ircChannel);
 
-            foreach (IUser user in channel.Users.ToArray())
+            foreach (IUser user in channel.Users)
             {
                 this.DestoryUser(this.users[user], channel);
             }
