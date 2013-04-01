@@ -282,8 +282,6 @@ namespace Skyscraper.Irc
         {
             IUser user = this.users[ircUser];
 
-            this.users.Remove(ircUser);
-
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 channel.Users.Remove(user);
