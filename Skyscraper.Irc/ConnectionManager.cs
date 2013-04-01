@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows;
@@ -22,13 +21,9 @@ namespace Skyscraper.Irc
 
     public class ConnectionManager : IConnectionManager
     {
-
         private BiDirectionalMap<INetwork, IrcClient> connections = new BiDirectionalMap<INetwork, IrcClient>();
-
         private BiDirectionalMap<IChannel, IrcChannel> channels = new BiDirectionalMap<IChannel, IrcChannel>();
-
         private BiDirectionalMap<IUser, IrcChannelUser> channelUsers = new BiDirectionalMap<IUser, IrcChannelUser>();
-
         private BiDirectionalMap<IUser, IrcUser> users = new BiDirectionalMap<IUser, IrcUser>();
         
         public event EventHandler<NetworkEventArgs> NetworkAdded;

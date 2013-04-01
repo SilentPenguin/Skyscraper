@@ -2,11 +2,6 @@
 
 namespace Skyscraper.Models
 {
-    public interface IMessage : IUserEvent
-    {
-        String MessageBody { get; }
-    }
-
     public class Message : UserEvent, IMessage
     {
         private String messageBody;
