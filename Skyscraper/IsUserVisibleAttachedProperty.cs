@@ -13,12 +13,12 @@ namespace Skyscraper
             new FrameworkPropertyMetadata(false, OnSetIsUserVisibleBehaviourChanged)
         );
 
-        public static bool GetIsBroughtIntoViewWhenSelected(FrameworkElement frameworkElement)
+        public static bool GetIsUserVisibleBehaviour(FrameworkElement frameworkElement)
         {
             return (bool)frameworkElement.GetValue(IsUserVisibleBehaviourProperty);
         }
 
-        public static void SetIsBroughtIntoViewWhenSelected(FrameworkElement frameworkElement, bool value)
+        public static void SetIsUserVisibleBehaviour(FrameworkElement frameworkElement, bool value)
         {
             frameworkElement.SetValue(IsUserVisibleBehaviourProperty, value);
         }

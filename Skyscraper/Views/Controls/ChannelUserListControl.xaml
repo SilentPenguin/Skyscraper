@@ -17,7 +17,7 @@
     <UserControl.Resources>
         
         <DataTemplate DataType="{x:Type models:User}">
-            <TextBlock Foreground="Black" local:AttachedBehaviours.IsBroughtIntoViewWhenSelected="True" local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
+            <TextBlock Foreground="Black" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="{Binding Path=Nickname}" />
             </TextBlock>
         </DataTemplate>
