@@ -353,15 +353,9 @@ namespace Skyscraper.Irc
             IrcLocalUser ircLocalUser = (IrcLocalUser)sender;
             IrcClient ircClient = ircLocalUser.Client;
             INetwork connection = this.connections[ircClient];
-            string oldNickname = connection.LocalUser.Nickname;
             connection.LocalUser.Nickname = ircLocalUser.NickName;
 
-            Application.Current.Dispatcher.InvokeAsync(() =>
-            {
-                Nick nick = new Nick(connection, null, connection.LocalUser, oldNickname);
-                connection.Channels.ForEach(c=> c.Log.Add(nick));
-                this.client.Log.Add(nick);
-            });
+            //intentionally not logging the nickname change here, because IrcUser_NicknameChanged also fires.
         }
 
         void LocalUser_JoinedChannel(object sender, IrcChannelEventArgs e)
