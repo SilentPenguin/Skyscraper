@@ -43,8 +43,13 @@ namespace Skyscraper.Models
                 string host = this.Url.Host;
                 int start = host.StartsWith("irc.") ? 4 : 0;
                 int end = host.LastIndexOf('.');
-                this.name = host.Substring(start, end - start);
+                this.Name = host.Substring(start, end - start);
                 return this.name;
+            }
+            set
+            {
+                //capitalise the first letter if the name does not contain any capitals
+                this.name = !value.HasUpperCase() ? char.ToUpper(value[0]) + value.Substring(1) : value;
             }
         }
         

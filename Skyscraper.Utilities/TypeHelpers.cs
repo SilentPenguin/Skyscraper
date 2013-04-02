@@ -5,7 +5,7 @@ using System.Reflection;
 
 namespace Skyscraper.Utilities
 {
-    public class TypeHelper
+    public class TypeHelpers
     {
         public static IEnumerable<Type> ClassesForInterface<T>()
         {
