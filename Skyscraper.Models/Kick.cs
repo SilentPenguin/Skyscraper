@@ -4,8 +4,8 @@
     {
         public string Message { get; private set; }
 
-        public Kick(IUser user, string message)
-            : base(user)
+        public Kick(INetwork network, ILogSource source, IUser user, string message)
+            : base(network, source, user)
         {
             this.Message = message;
         }

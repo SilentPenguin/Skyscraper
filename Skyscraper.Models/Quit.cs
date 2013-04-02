@@ -17,7 +17,8 @@ namespace Skyscraper.Models
             }
         }
 
-        public Quit(IUser user, String message) : base(user) 
+        public Quit(INetwork network, ILogSource source, IUser user, string message)
+            : base(network, source, user) 
         {
             this.Message = message;
         }

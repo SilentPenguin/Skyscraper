@@ -2,6 +2,7 @@
 {
     public class Join : UserEvent
     {
-        public Join(IUser user) : base(user) { }
+        public Join(INetwork network, ILogSource source, IUser user) 
+            : base(network, source, user) { }
     }
 }

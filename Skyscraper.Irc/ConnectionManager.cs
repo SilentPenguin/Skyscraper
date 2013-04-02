@@ -141,9 +141,10 @@ namespace Skyscraper.Irc
         public void Send(IChannel channel, IUser user, string messageString)
         {
             IrcChannel ircChannel = this.channels[channel];
+            INetwork network = this.connections[ircChannel.Client];
             ircChannel.Client.LocalUser.SendMessage(ircChannel, messageString);
 
-            Message message = new Message(user, messageString);
+            Message message = new Message(network, channel, user, messageString);
 
             channel.Log.Add(message);
             this.client.Log.Add(message);
@@ -357,7 +358,9 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                connection.Channels.ForEach(c=> c.Log.Add(new Nick(connection.LocalUser, oldNickname)));
+                Nick nick = new Nick(connection, null, connection.LocalUser, oldNickname);
+                connection.Channels.ForEach(c=> c.Log.Add(nick));
+                this.client.Log.Add(nick);
             });
         }
 
@@ -397,12 +400,13 @@ namespace Skyscraper.Irc
         {
             IrcChannel ircChannel = (IrcChannel)sender;
             IrcUser ircUser = (IrcUser)e.Source;
+            INetwork network = this.connections[ircChannel.Client];
             IChannel channel = this.channels[ircChannel];
             IUser user = this.users[ircUser];
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Message message = new Message(user, e.Text);
+                Message message = new Message(network, channel, user, e.Text);
                 channel.Log.Add(message);
                 this.client.Log.Add(message);
             });
@@ -428,13 +432,14 @@ namespace Skyscraper.Irc
         {
             IrcChannelUser ircChannelUser = e.ChannelUser;
             IrcChannel ircChannel = (IrcChannel)sender;
+            INetwork network = this.connections[ircChannel.Client];
             IChannel channel = this.channels[ircChannel];
 
             IUser user = this.CreateUser(ircChannelUser, channel);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Join join = new Join(user);
+                Join join = new Join(network, channel, user);
                 channel.Log.Add(join);
                 this.client.Log.Add(join);
             });
@@ -446,13 +451,14 @@ namespace Skyscraper.Irc
             IrcUser ircUser = ircChannelUser.User;
             IUser user = this.users[ircUser];
             IrcChannel ircChannel = (IrcChannel)sender;
+            INetwork network = this.connections[ircChannel.Client];
             IChannel channel = this.channels[ircChannel];
 
             this.DestoryUser(ircUser, channel);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Kick kick = new Kick(user, e.Comment);
+                Kick kick = new Kick(network, channel, user, e.Comment);
                 channel.Log.Add(kick);
                 this.client.Log.Add(kick);
             });
@@ -464,13 +470,14 @@ namespace Skyscraper.Irc
             IrcUser ircUser = ircChannelUser.User;
             IUser user = this.users[ircUser];
             IrcChannel ircChannel = (IrcChannel)sender;
+            INetwork network = this.connections[ircChannel.Client];
             IChannel channel = this.channels[ircChannel];
 
             this.DestoryUser(ircUser, channel);
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Part part = new Part(user);
+                Part part = new Part(network, channel, user);
                 channel.Log.Add(part);
                 this.client.Log.Add(part);
             });
@@ -495,7 +502,7 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Nick nick = new Nick(user, oldUsername);
+                Nick nick = new Nick(connection, null, user, oldUsername);
                 connection.Channels.ForEach(c => c.Log.Add(nick));
                 this.client.Log.Add(nick);
             });
@@ -511,7 +518,7 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Quit quit = new Quit(user, e.Comment);
+                Quit quit = new Quit(connection, null, user, e.Comment);
                 connection.Channels.ForEach(c => c.Log.Add(quit));
                 this.client.Log.Add(quit);
             });
