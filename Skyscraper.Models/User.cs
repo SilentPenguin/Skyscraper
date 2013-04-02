@@ -79,6 +79,19 @@ namespace Skyscraper.Models
             }
         }
 
+        private bool isUserVisible;
+        public bool IsUserVisible
+        {
+            get
+            {
+                return this.isUserVisible;
+            }
+            set
+            {
+                this.SetProperty(ref this.isUserVisible, value);
+            }
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null || GetType() != obj.GetType())
