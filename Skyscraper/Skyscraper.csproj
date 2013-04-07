@@ -55,8 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="CursorLocationAttachedProperty.cs" />
-    <Compile Include="IsUserVisibleAttachedProperty.cs" />
+    <Compile Include="AttachedBehaviours.cs" />
     <Compile Include="UIElementExtensionMethods.cs" />
     <Compile Include="Views\Controls\ClippingBorder.cs" />
     <Compile Include="GlassHelper.cs" />
