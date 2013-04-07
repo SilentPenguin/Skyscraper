@@ -184,18 +184,25 @@ namespace Skyscraper.Irc
 
             ctcpClient.ClientVersion = "Skyscraper v" + Assembly.GetEntryAssembly().GetName().Version.ToString();
 
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                this.client.Networks.Add(network);
+            });
+
             return network;
         }
 
         private IChannel CreateChannel(IrcChannel ircChannel)
         {
             IrcClient ircClient = ircChannel.Client;
+            INetwork network = this.connections[ircClient];
 
             IChannel channel = new Channel()
             {
+                Network = network,
                 Name = ircChannel.Name,
                 Topic = ircChannel.Topic,
-                Modes = ircChannel.Modes.Join()
+                Modes = ircChannel.Modes.Join(),
             };
 
             ircChannel.UsersListReceived += ircChannel_UsersListReceived;
@@ -213,6 +220,7 @@ namespace Skyscraper.Irc
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 connection.Channels.Add(channel);
+                this.client.Channels.Add(channel);
             });
 
             return channel;
@@ -244,6 +252,8 @@ namespace Skyscraper.Irc
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 channel.Users.Add(user);
+                user.Channels.Add(channel);
+                this.client.Users.Add(user);
             });
 
             return user;
@@ -293,6 +303,11 @@ namespace Skyscraper.Irc
             {
                 this.DestoryUser(this.users[user], channel);
             }
+
+            Application.Current.Dispatcher.InvokeAsync(() =>
+            {
+                this.client.Channels.Remove(channel);
+            });
         }
 
         private void DestoryUser(IrcUser ircUser, IChannel channel)
@@ -302,6 +317,11 @@ namespace Skyscraper.Irc
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 channel.Users.Remove(user);
+                user.Channels.Remove(channel);
+                if (user.Channels.Count() == 0)
+                {
+                    this.client.Users.Remove(user);
+                }
             });
         }
 

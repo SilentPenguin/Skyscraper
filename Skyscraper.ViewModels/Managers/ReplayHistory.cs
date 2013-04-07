@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Skyscraper.ClientCommands;
+using Skyscraper.Utilities;
 
-namespace Skyscraper.Utilities
+namespace Skyscraper.ViewModels.Behaviours
 {
     public class ReplayHistory : IReplayHistory
     {

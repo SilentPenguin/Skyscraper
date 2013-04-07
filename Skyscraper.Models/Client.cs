@@ -23,6 +23,32 @@ namespace Skyscraper.Models
             }
         }
 
+        public ObservableCollection<IChannel> channels;
+        public ObservableCollection<IChannel> Channels
+        {
+            get
+            {
+                return this.channels;
+            }
+            set
+            {
+                this.SetProperty(ref this.channels, value);
+            }
+        }
+
+        public ObservableCollection<IUser> users;
+        public ObservableCollection<IUser> Users
+        {
+            get
+            {
+                return this.users;
+            }
+            set
+            {
+                this.SetProperty(ref this.users, value);
+            }
+        }
+
         private ObservableCollection<ILogEntry> log;
         public ObservableCollection<ILogEntry> Log
         {
@@ -40,6 +66,7 @@ namespace Skyscraper.Models
         {
             this.Networks = new ObservableCollection<INetwork>();
             this.Log = new ObservableCollection<ILogEntry>();
+            this.Users = new ObservableCollection<IUser>();
         }
     }
 }

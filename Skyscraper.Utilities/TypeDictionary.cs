@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Skyscraper.Utilities
@@ -9,6 +10,18 @@ namespace Skyscraper.Utilities
         private Dictionary<TKey, Type> types;
         private Dictionary<TKey, TValue> instances;
 
+        public TypeDictionary()
+        {
+            this.types = new Dictionary<TKey, Type> { };
+            this.instances = new Dictionary<TKey, TValue> { };
+        }
+
+        public TypeDictionary(Dictionary<TKey, Type> types)
+        {
+            this.types = types;
+            this.instances = new Dictionary<TKey, TValue> { };
+        }
+
         public ICollection<TKey> Keys
         {
             get { return this.types.Keys; }
@@ -16,7 +29,14 @@ namespace Skyscraper.Utilities
 
         public ICollection<TValue> Values
         {
-            get { throw new NotImplementedException(); }
+            get {
+                ICollection<TValue> result = new Collection<TValue>();
+                foreach (TKey type in types.Keys)
+                {
+                    result.Add(this[type]);
+                }
+                return result;
+            }
         }
 
         public int Count
@@ -27,6 +47,11 @@ namespace Skyscraper.Utilities
         public bool IsReadOnly
         {
             get { return false; }
+        }
+
+        public TValue InitialiseType(TKey key)
+        {
+            return this[key];
         }
 
         public TValue this[TKey key]
@@ -46,17 +71,6 @@ namespace Skyscraper.Utilities
                     this.instances[key] = value;
                 }
             }
-        }
-
-        public TypeDictionary() 
-        {
-            this.types = new Dictionary<TKey, Type> { };
-            this.instances = new Dictionary<TKey, TValue> { };
-        }
-        public TypeDictionary(Dictionary<TKey, Type> types)
-        {
-            this.types = types;
-            this.instances = new Dictionary<TKey, TValue> { };
         }
 
         public void Add(KeyValuePair<TKey, TValue> item)
@@ -142,12 +156,20 @@ namespace Skyscraper.Utilities
 
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            throw new NotImplementedException();
+            if (this.types.Count() != this.instances.Count())
+            {
+                foreach (TKey type in this.types.Keys)
+                {
+                    this.InitialiseType(type);
+                }
+            }
+
+            return new Enumerator<KeyValuePair<TKey, TValue>>(this.instances.ToList());
         }
 
         System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return this.GetEnumerator();
         }
     }
 }

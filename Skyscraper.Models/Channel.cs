@@ -5,6 +5,19 @@ namespace Skyscraper.Models
 {
     public class Channel : NotifyPropertyChangedBase, IChannel
     {
+        private INetwork network;
+        public INetwork Network
+        {
+            get
+            {
+                return this.network;
+            }
+            set
+            {
+                this.SetProperty(ref this.network, value);
+            }
+        }
+
         private string name;
         public string Name
         {
@@ -67,6 +80,19 @@ namespace Skyscraper.Models
             set
             {
                 this.SetProperty(ref this.log, value);
+            }
+        }
+
+        private bool isUserVisible;
+        public bool IsUserVisible
+        {
+            get
+            {
+                return this.isUserVisible;
+            }
+            set
+            {
+                this.SetProperty(ref this.isUserVisible, value);
             }
         }
 

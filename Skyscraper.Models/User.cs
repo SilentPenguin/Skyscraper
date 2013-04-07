@@ -1,4 +1,5 @@
 ﻿using Skyscraper.Utilities;
+using System.Collections.ObjectModel;
 
 namespace Skyscraper.Models
 {
@@ -12,6 +13,20 @@ namespace Skyscraper.Models
             realname = user.Realname;
             modes = user.Modes;
             isAway = user.IsAway;
+            this.channels = new ObservableCollection<IChannel>();
+        }
+
+        private ObservableCollection<IChannel> channels;
+        public ObservableCollection<IChannel> Channels
+        {
+            get
+            {
+                return this.channels;
+            }
+            set
+            {
+                this.SetProperty(ref this.channels, value);
+            }
         }
 
         private string nickname;

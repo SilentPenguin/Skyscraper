@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BiDirectionalMap.cs" />
+    <Compile Include="Enumerator.cs" />
     <Compile Include="IListExtensionMethods.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="StringHelpers.cs" />
     <Compile Include="TypeDictionary.cs" />
     <Compile Include="TypeHelpers.cs" />
+    <Compile Include="TypeList.cs" />
     <Compile Include="ViewModelBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

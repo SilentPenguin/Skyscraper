@@ -17,7 +17,7 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type models:Join}">
-            <TextBlock Foreground="DarkGreen">
+            <TextBlock Foreground="DarkGreen" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
                 <Run Text="has joined" />
                 <Run Text="{Binding Path=Network.Name, Mode=OneWay}" /><Run Text="{Binding Path=Source.Name, Mode=OneWay}" />
@@ -25,7 +25,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Part}">
-            <TextBlock Foreground="DarkRed">
+            <TextBlock Foreground="DarkRed" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
                 <Run Text="has left" />
                 <Run Text="{Binding Path=Network.Name, Mode=OneWay}" /><Run Text="{Binding Path=Source.Name, Mode=OneWay}" />
@@ -33,7 +33,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Quit}">
-            <TextBlock Foreground="DarkRed">
+            <TextBlock Foreground="DarkRed" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
                 <Run Text="has quit" />
                 <Run Text="{Binding Path=Network.Name, Mode=OneWay}" />
@@ -41,7 +41,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Nick}">
-            <TextBlock Foreground="DarkRed">
+            <TextBlock Foreground="DarkRed" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="{Binding Path=Network.Name, Mode=OneWay}" /><Run Text=":" /><Run Text="{Binding Path=NicknameContinuity, Mode=OneWay}" />
                 <Run Text="is now known as" />
                 <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
@@ -49,7 +49,7 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Message}">
-            <TextBlock Foreground="Black">
+            <TextBlock Foreground="Black" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="{Binding Path=Network.Name, Mode=OneWay}"/><Run Text="{Binding Path=Source.Name, Mode=OneWay}" /><Run Text=":" /><Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
                 <Run Text="{Binding Path=MessageBody, Mode=OneWay}" />
             </TextBlock>

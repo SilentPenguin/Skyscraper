@@ -39,6 +39,8 @@ namespace Skyscraper.Views
             this.userListWindow = new UserListWindow();
             this.userListWindow.DataContext = this.ViewModel;
             this.userListWindow.Show();
+
+            
         }
     }
 }

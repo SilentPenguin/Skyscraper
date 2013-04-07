@@ -2,6 +2,7 @@
 using System.Linq;
 using Skyscraper.Models;
 using Skyscraper.Utilities;
+using System.Collections.Generic;
 
 namespace Skyscraper.ClientCommands
 {
@@ -17,6 +18,11 @@ namespace Skyscraper.ClientCommands
                 .SelectMany(t => (Attribute.GetCustomAttribute(t, typeof(CommandHandlerAttribute)) as CommandHandlerAttribute).CommandWords.Select(cw => new { CommandWord = cw, Type = t }))
                 .ToDictionary(c => c.CommandWord.ToUpperInvariant(), c => c.Type)
             );
+        }
+
+        public static ICollection<string> AvailableCommands
+        {
+            get { return CommandFactory.commands.Keys; }
         }
 
         public static ICommandState Resolve(INetwork network, IChannel channel, IUser user, String commandString) 

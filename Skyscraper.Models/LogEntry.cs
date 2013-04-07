@@ -3,15 +3,15 @@ using Skyscraper.Utilities;
 
 namespace Skyscraper.Models
 {
-    public interface ILogEntry
-    {
-        INetwork Network { get; }
-        ILogSource Source { get; }
-        DateTime ReceivedAt { get; }
-    }
-
     public class LogEntry : NotifyPropertyChangedBase, ILogEntry
     {
+        public LogEntry(INetwork network, ILogSource source)
+        {
+            this.Network = network;
+            this.Source = source;
+            this.ReceivedAt = DateTime.Now;
+        }
+
         private INetwork network;
         public INetwork Network
         {
@@ -51,11 +51,17 @@ namespace Skyscraper.Models
             }
         }
 
-        public LogEntry(INetwork network, ILogSource source)
+        private bool isUserVisible;
+        public bool IsUserVisible
         {
-            this.Network = network;
-            this.Source = source;
-            this.ReceivedAt = DateTime.Now;
+            get
+            {
+                return this.isUserVisible;
+            }
+            set
+            {
+                this.SetProperty(ref this.isUserVisible, value);
+            }
         }
     }
 }

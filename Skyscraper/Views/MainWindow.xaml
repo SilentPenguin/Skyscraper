@@ -38,11 +38,12 @@
                 </Grid.ColumnDefinitions>
                 <ComboBox Style="{StaticResource MainInputSelect}" Grid.Column="0" ItemsSource="{Binding Connection.Channels}" DisplayMemberPath="Name" SelectedItem="{Binding Channel, Mode=TwoWay}"></ComboBox>
                 <Label Target="{x:Reference CommandInput}" Style="{StaticResource MainInputText}" Grid.Column="1" Content="{Binding User.Nickname}"></Label>
-                <TextBox Name="CommandInput" Style="{StaticResource MainInputBox}" Grid.Column="2" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" AcceptsTab="True">
+                <TextBox Name="CommandInput" Style="{StaticResource MainInputBox}" Grid.Column="2" Text="{Binding Path=ChatInput, UpdateSourceTrigger=PropertyChanged}" local:CursorLocationAttachedProperty.="{Binding CursorLocation}" AcceptsReturn="True" AcceptsTab="True">
                     <TextBox.InputBindings>
                         <KeyBinding Command="{Binding Path=ReplayPreviousCommand}" Key="Up" />
                         <KeyBinding Command="{Binding Path=ReplayNextCommand}" Key="Down" />
                         <KeyBinding Command="{Binding Path=SendCommand}" Key="Enter" />
+                        <KeyBinding Command="{Binding Path=TabCommand}" Key="Tab" />
                     </TextBox.InputBindings>
                 </TextBox>
             </Grid>
