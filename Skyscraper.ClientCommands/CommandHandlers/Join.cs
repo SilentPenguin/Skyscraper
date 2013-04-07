@@ -2,7 +2,7 @@
 
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [TextCommandHandler("Join")]
+    [CommandHandler("Join")]
     public class Join : ICommandHandler
     {
         public void Execute(IConnectionManager connection, ICommand command)

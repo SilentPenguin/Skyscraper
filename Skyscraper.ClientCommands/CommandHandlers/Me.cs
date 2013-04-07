@@ -2,7 +2,7 @@
 
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [TextCommandHandler("Me")]
+    [CommandHandler("Me")]
     public class Me : ICommandHandler
     {
         public void Execute(IConnectionManager connection, ICommand command) {

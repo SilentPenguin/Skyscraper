@@ -2,7 +2,7 @@
 
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [TextCommandHandler("Quit")]
+    [CommandHandler("Quit")]
     public class Quit : ICommandHandler
     {
         public void Execute(IConnectionManager connection, ICommand command)

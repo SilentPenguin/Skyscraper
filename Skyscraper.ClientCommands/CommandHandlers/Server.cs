@@ -4,7 +4,7 @@ using Skyscraper.Models;
 
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [TextCommandHandler("Server")]
+    [CommandHandler("Server")]
     public class Server : ICommandHandler
     {
         public void Execute(IConnectionManager connection, ICommand command) 
