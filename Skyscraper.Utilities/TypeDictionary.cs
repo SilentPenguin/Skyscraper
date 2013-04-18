@@ -120,16 +120,23 @@ namespace Skyscraper.Utilities
             {
                 lock (this.instances)
                 {
-                    Type type;
-                    Boolean success = this.types.TryGetValue(key, out type);
-                    value = Activator.CreateInstance(type) as TValue;
-                    success &= value != null;
-
+                    Boolean success = !this.types.ContainsKey(key);
                     if (success)
                     {
-                        this.instances.Add(key, value);
-                    }
+                        Type type;
+                        success = this.types.TryGetValue(key, out type);
+                        value = Activator.CreateInstance(type) as TValue;
+                        success &= value != null;
 
+                        if (success)
+                        {
+                            this.instances.Add(key, value);
+                        }
+                    }
+                    else
+                    {
+                        value = null;
+                    }
                     return success;
                 }
             }

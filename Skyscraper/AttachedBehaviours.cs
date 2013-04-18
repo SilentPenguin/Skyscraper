@@ -5,68 +5,6 @@ namespace Skyscraper
 {
     public class AttachedBehaviours
     {
-        #region CursorLocationBehaviourProperty
-        public static readonly DependencyProperty CursorLocationBehaviourProperty = DependencyProperty.RegisterAttached(
-            "CursorLocationBehaviour",
-            typeof(bool),
-            typeof(AttachedBehaviours),
-            new FrameworkPropertyMetadata(false, OnSetCursorLocationBehaviourChanged)
-        );
-
-        public static bool GetCursorLocationBehaviour(TextBox textBox)
-        {
-            return (bool)textBox.GetValue(CursorLocationBehaviourProperty);
-        }
-
-        public static void SetCursorLocationBehaviour(TextBox textBox, bool value)
-        {
-            textBox.SetValue(CursorLocationBehaviourProperty, value);
-        }
-
-        private static void OnSetCursorLocationBehaviourChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs eventArgs)
-        {
-            TextBox textBox = dependencyObject as TextBox;
-
-            if (textBox == null)
-                return;
-
-            if (!(eventArgs.NewValue is bool))
-                return;
-
-            if ((bool)eventArgs.NewValue)
-            {
-                textBox.SelectionChanged += (sender, selectionChangedEventArgs) =>
-                {
-                    TextBox textbox = sender as TextBox;
-
-                    if (textbox != null)
-                    {
-                        SetCursorLocation(textbox, textbox.CaretIndex);
-                    }
-                };
-            }
-        }
-        #endregion
-
-        #region CursorLocationProperty
-        public static readonly DependencyProperty CursorLocationProperty = DependencyProperty.RegisterAttached(
-            "CursorLocation",
-            typeof(int),
-            typeof(AttachedBehaviours),
-            new FrameworkPropertyMetadata(0)
-        );
-
-        public static int GetCursorLocation(TextBox textBox)
-        {
-            return (int)textBox.GetValue(CursorLocationProperty);
-        }
-
-        public static void SetCursorLocation(TextBox textBox, int value)
-        {
-            textBox.SetValue(CursorLocationProperty, value);
-        }
-        #endregion
-
         #region IsUserVisibleBehaviourProperty
         public static readonly DependencyProperty IsUserVisibleBehaviourProperty = DependencyProperty.RegisterAttached(
             "IsUserVisibleBehaviour",

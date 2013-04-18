@@ -59,6 +59,7 @@
     <Compile Include="UIElementExtensionMethods.cs" />
     <Compile Include="Views\Controls\ClippingBorder.cs" />
     <Compile Include="GlassHelper.cs" />
+    <Compile Include="Views\Controls\CommandTextBox.cs" />
     <Compile Include="Views\Controls\LogControl.xaml.cs">
       <DependentUpon>LogControl.xaml</DependentUpon>
     </Compile>
