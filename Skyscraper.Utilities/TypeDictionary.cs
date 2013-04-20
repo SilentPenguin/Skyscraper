@@ -120,7 +120,7 @@ namespace Skyscraper.Utilities
             {
                 lock (this.instances)
                 {
-                    Boolean success = !this.types.ContainsKey(key);
+                    Boolean success = this.types.ContainsKey(key);
                     if (success)
                     {
                         Type type;

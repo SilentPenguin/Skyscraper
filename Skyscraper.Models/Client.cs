@@ -64,6 +64,7 @@ namespace Skyscraper.Models
 
         public Client()
         {
+            this.Channels = new ObservableCollection<IChannel>();
             this.Networks = new ObservableCollection<INetwork>();
             this.Log = new ObservableCollection<ILogEntry>();
             this.Users = new ObservableCollection<IUser>();

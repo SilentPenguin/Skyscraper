@@ -5,15 +5,19 @@ namespace Skyscraper.Models
 {
     public class User : NotifyPropertyChangedBase, IUser, ILogSource
     {
-        public User() { }
+        public User()
+        {
+            this.Channels = new ObservableCollection<IChannel>();
+        }
+
         public User(IUser user)
+            : this()
         {
             nickname = user.Nickname;
             hostname = user.Hostname;
             realname = user.Realname;
             modes = user.Modes;
             isAway = user.IsAway;
-            this.channels = new ObservableCollection<IChannel>();
         }
 
         private ObservableCollection<IChannel> channels;
