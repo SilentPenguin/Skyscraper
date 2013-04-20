@@ -30,7 +30,7 @@ namespace Skyscraper.ViewModels.Behaviours
                 IEnumerable<ITabResult> handlerMatches = handler.GetTabResults(this.client, query);
                 if (handlerMatches != null && handlerMatches.Count() > 0)
                 {
-                    results.Concat(handlerMatches);
+                    results = results.Concat(handlerMatches);
                 }
             }
             return results.FirstOrDefault();

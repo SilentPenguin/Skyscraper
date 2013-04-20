@@ -18,9 +18,13 @@ namespace Skyscraper.ViewModels.Behaviours
         {
             get
             {
-                int previousSpace = this.text.LastIndexOf(" ", this.cursorLocation);
-                int nextSpace = this.text.IndexOf(" ", this.cursorLocation);
-                return this.text.Substring(previousSpace, nextSpace);
+                string[] seperators = new string[] {" ", "/", ":", ".", ","};
+                int previousSpace =  seperators.Max(s => this.text.LastIndexOf(s, this.cursorLocation)) + 1;
+                int nextSpace = seperators.Min(s => this.text.IndexOf(s, this.cursorLocation));
+
+                nextSpace = nextSpace < this.text.Length && nextSpace >= 0 ? nextSpace : this.text.Length;
+
+                return this.text.Substring(previousSpace, nextSpace - previousSpace);
             }
         }
 

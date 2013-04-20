@@ -26,12 +26,12 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
             if (!string.IsNullOrWhiteSpace(firstWord) && firstWord.StartsWith("/") && firstWord.Count() > 1 &&
                (firstWord.Count() >= query.CursorLocation))
             {
-                string commandText = firstWord.Substring(1);
-                IEnumerable<string> matchedCommands = this.availableCommands.Where(command => command.StartsWith(commandText));
+                string commandText = firstWord.Substring(1).ToUpperInvariant();
+                IEnumerable<string> matchedCommands = this.availableCommands.Where(command => command.ToUpperInvariant().StartsWith(commandText));
                 return matchedCommands.Select(match =>
                     new TabResult
                     {
-                        Text = query.ReplaceKeyword(match),
+                        Text = query.ReplaceKeyword(match.ToLowerInvariant()),
                     }
                 );
             }
