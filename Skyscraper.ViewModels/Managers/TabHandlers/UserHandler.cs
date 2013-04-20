@@ -12,21 +12,24 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
     {
         public IEnumerable<ITabResult> GetTabResults(IClient client, ITabQuery query)
         {
-            ICollection<ITabResult> results = new Collection<ITabResult>();
+            IEnumerable<ITabResult> results = new Collection<ITabResult>();
             if (client != null && client.Users != null)
             {
-                results.Concat(this.GetLogResults(client, query));
-                results.Concat(this.GetVisibleUsersResults(client, query));
-                results.Concat(this.GetAllUsersResults(client, query));
+                results = results.Concat(this.GetLogResults(client, query));
+                results = results.Concat(this.GetVisibleUsersResults(client, query));
+                results = results.Concat(this.GetAllUsersResults(client, query));
             }
             return results.Distinct();
         }
 
         private IEnumerable<ITabResult> GetLogResults(IClient client, ITabQuery query)
         {
+            var nickname = query.Keyword.ToLowerInvariant();
+
             return client.Log
                 .Where(entry => entry.IsUserVisible && entry is IUserEvent)
-                .Select(match => match as IUserEvent)
+                .Select(entry => entry as IUserEvent)
+                .Where(entry => entry.User.Nickname.ToLowerInvariant().StartsWith(nickname))
                 .OrderBy(match => match.ReceivedAt)
                 .Select(match => 
                     new TabResult 
@@ -38,8 +41,10 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
 
         private IEnumerable<ITabResult> GetVisibleUsersResults(IClient client, ITabQuery query)
         {
+            var nickname = query.Keyword.ToLowerInvariant();
+
             return client.Users
-                .Where(user => user.IsUserVisible)
+                .Where(user => user.IsUserVisible && user.Nickname.ToLowerInvariant().StartsWith(nickname))
                 .Select(match =>
                     new TabResult
                     {
@@ -50,7 +55,10 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
 
         private IEnumerable<ITabResult> GetAllUsersResults(IClient client, ITabQuery query)
         {
+            var nickname = query.Keyword.ToLowerInvariant();
+
             return client.Users
+                .Where(user => user.Nickname.ToLowerInvariant().StartsWith(nickname))
                 .Select(match =>
                     new TabResult
                     {

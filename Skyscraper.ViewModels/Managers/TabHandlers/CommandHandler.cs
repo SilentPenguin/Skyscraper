@@ -21,7 +21,6 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
         
         public IEnumerable<ITabResult> GetTabResults(IClient client, ITabQuery query)
         {
-            ICollection<ITabResult> results = new Collection<ITabResult>();
             string firstWord = query.Text.Split(' ').First();
             if (!string.IsNullOrWhiteSpace(firstWord) && firstWord.StartsWith("/") && firstWord.Count() > 1 &&
                (firstWord.Count() >= query.CursorLocation))
@@ -35,7 +34,7 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
                     }
                 );
             }
-            return results;
+            return new Collection<ITabResult>();
         }
     }
 }
