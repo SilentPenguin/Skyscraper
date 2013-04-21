@@ -11,19 +11,21 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
     {
         public IEnumerable<ITabResult> GetTabResults(Models.IClient client, ITabQuery query)
         {
-             return client.Channels
-                 .Where(channel => channel.Name.StartsWith(query.Keyword))
-                 .Select(match => 
-                     {
-                         var text = query.ReplaceKeyword(match.Name);
-                         return new TabResult
-                         {
-                             Text = text,
-                             Channel = match,
-                             CursorIndex = query.GetCursorIndexAtEndOfKeyword(text),
-                         };
-                     }
-                 );
+            string keyword = query.Keyword.ToLowerInvariant();
+
+            return client.Channels
+                .Where(channel => channel.Name.ToLowerInvariant().StartsWith(keyword))
+                .Select(match => 
+                    {
+                        var text = query.ReplaceKeyword(match.Name);
+                        return new TabResult
+                        {
+                            Text = text,
+                            Channel = match,
+                            CursorIndex = query.GetCursorIndexAtEndOfKeyword(text),
+                        };
+                    }
+                );
         }
     }
 }
