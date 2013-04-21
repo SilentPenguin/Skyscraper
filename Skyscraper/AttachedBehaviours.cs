@@ -56,6 +56,11 @@ namespace Skyscraper
                             frameworkElement.SetValue(IsUserVisibleProperty, isUserVisible);
                     }
                 };
+
+                frameworkElement.Unloaded += (sender, routedEventArgs) =>
+                {
+                    frameworkElement.SetValue(IsUserVisibleProperty, false);
+                };
             }
         }
         #endregion
