@@ -22,5 +22,12 @@ namespace Skyscraper.ViewModels.Behaviours
             get { return this.text; }
             set { this.text = value; }
         }
+
+        private int cursorIndex;
+        public int CursorIndex
+        {
+            get { return this.cursorIndex; }
+            set { this.cursorIndex = value; }
+        }
     }
 }

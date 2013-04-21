@@ -8,6 +8,7 @@ namespace Skyscraper.ViewModels.Behaviours
     public interface ITabQuery
     {
         string ReplaceKeyword(string match);
+        int GetCursorIndexAtEndOfKeyword(string newCommand);
         string Keyword{ get; }
         string Text { get; }
         int CursorLocation { get; }

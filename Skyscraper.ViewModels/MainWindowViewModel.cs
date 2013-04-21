@@ -157,6 +157,10 @@ namespace Skyscraper.ViewModels
             if (result != null)
             {
                 this.ChatInput = result.Text;
+                Application.Current.Dispatcher.InvokeAsync(() =>
+                {
+                    this.CursorLocation = result.CursorIndex;
+                });
                 if (result.Channel != null)
                 {
                     this.Channel = result.Channel;

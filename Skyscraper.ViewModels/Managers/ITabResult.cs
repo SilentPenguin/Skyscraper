@@ -10,5 +10,6 @@ namespace Skyscraper.ViewModels.Behaviours
     {
         IChannel Channel { get; }
         string Text { get; }
+        int CursorIndex { get; }
     }
 }

@@ -28,9 +28,13 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
                 string commandText = firstWord.Substring(1).ToUpperInvariant();
                 IEnumerable<string> matchedCommands = this.availableCommands.Where(command => command.ToUpperInvariant().StartsWith(commandText));
                 return matchedCommands.Select(match =>
-                    new TabResult
                     {
-                        Text = query.ReplaceKeyword(match.ToLowerInvariant()),
+                        var text = query.ReplaceKeyword(match.ToLowerInvariant());
+                        return new TabResult
+                        {
+                            Text = text,
+                            CursorIndex = query.GetCursorIndexAtEndOfKeyword(text),
+                        };
                     }
                 );
             }

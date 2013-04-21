@@ -32,11 +32,16 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
                 .Where(entry => entry.Network.LocalUser.Nickname != entry.User.Nickname && entry.User.Nickname.ToLowerInvariant().StartsWith(nickname))
                 .OrderBy(match => match.ReceivedAt)
                 .Select(match => 
-                    new TabResult 
                     {
-                        Text = query.ReplaceKeyword(match.User.Nickname),
-                        Channel = match.Source as IChannel,
-                    });
+                        var text = query.ReplaceKeyword(match.User.Nickname);
+                        return new TabResult
+                        {
+                            Text = text,
+                            Channel = match.Source as IChannel,
+                            CursorIndex = query.GetCursorIndexAtEndOfKeyword(text)
+                        };
+                    }
+                );
         }
 
         private IEnumerable<ITabResult> GetVisibleUsersResults(IClient client, ITabQuery query)
@@ -45,12 +50,17 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
 
             return client.Users
                 .Where(user => user.IsUserVisible && user.Nickname.ToLowerInvariant().StartsWith(nickname) && user.Nickname != user.Network.LocalUser.Nickname )
-                .Select(match =>
-                    new TabResult
+                .Select(match => 
                     {
-                        Text = query.ReplaceKeyword(match.Nickname),
-                        Channel = match.Channels.FirstOrDefault(), //TODO change this to the last channel the user spoke in
-                    });
+                        var text = query.ReplaceKeyword(match.Nickname);
+                        return new TabResult
+                        {
+                            Text = text,
+                            Channel = match.Channels.FirstOrDefault(), //TODO change this to the last channel the user spoke in
+                            CursorIndex = query.GetCursorIndexAtEndOfKeyword(text)
+                        };
+                    }
+                );
         }
 
         private IEnumerable<ITabResult> GetAllUsersResults(IClient client, ITabQuery query)
@@ -60,11 +70,16 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
             return client.Users
                 .Where(user => user.Nickname.ToLowerInvariant().StartsWith(nickname) && user.Nickname != user.Network.LocalUser.Nickname)
                 .Select(match =>
-                    new TabResult
                     {
-                        Text = query.ReplaceKeyword(match.Nickname),
-                        Channel = match.Channels.FirstOrDefault(),
-                    });
+                        var text = query.ReplaceKeyword(match.Nickname);
+                        return new TabResult
+                        {
+                            Text = text,
+                            Channel = match.Channels.FirstOrDefault(), //TODO change this to the last channel the user spoke in
+                            CursorIndex = query.GetCursorIndexAtEndOfKeyword(text)
+                        };
+                    }
+                );
         }
     }
 }

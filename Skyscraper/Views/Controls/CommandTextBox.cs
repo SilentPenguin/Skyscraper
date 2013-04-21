@@ -38,12 +38,23 @@ namespace Skyscraper.Views.Controls
                 base.SetValue(CursorLocationProperty, value);
             }
         }
+
         public static readonly DependencyProperty CursorLocationProperty = DependencyProperty.RegisterAttached(
             "CursorLocation",
             typeof(int),
             typeof(CommandTextBox),
-            new FrameworkPropertyMetadata(0)
+            new FrameworkPropertyMetadata(0, OnCursorLocationChanged)
         );
+
+        private static void OnCursorLocationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            TextBox textbox = d as TextBox;
+
+            if (textbox != null && e.NewValue != e.OldValue && e.NewValue is int && (int)e.NewValue != textbox.CaretIndex)
+            {
+                textbox.CaretIndex = (int)e.NewValue;
+            }
+        }
         #endregion
 
         
