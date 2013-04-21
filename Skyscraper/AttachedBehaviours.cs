@@ -52,7 +52,8 @@ namespace Skyscraper
                             isUserVisible = frameworkElementBounds.IntersectsWith(containerBounds);
                         }
 
-                        frameworkElement.SetValue(IsUserVisibleBehaviourProperty, isUserVisible);
+                        if (GetIsUserVisible(frameworkElement) != isUserVisible)
+                            frameworkElement.SetValue(IsUserVisibleProperty, isUserVisible);
                     }
                 };
             }
