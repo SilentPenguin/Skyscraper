@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Skyscraper.ViewModels.Managers
 {
-    public interface ITabComplete
+    public class Range
     {
-        ITabResult GetTabResults(ITabQuery query);
+        public int UpperBound { get; set; }
+        public int LowerBound { get; set; }
     }
 }

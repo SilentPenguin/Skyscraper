@@ -2,7 +2,7 @@
 using Skyscraper.Models;
 using Skyscraper.ClientCommands;
 
-namespace Skyscraper.ViewModels.Behaviours
+namespace Skyscraper.ViewModels.Managers
 {
     public interface IReplayHistory
     {

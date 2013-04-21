@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyscraper.ViewModels.Behaviours
+namespace Skyscraper.ViewModels.Managers
 {
     public class TabResult : ITabResult
     {
@@ -14,6 +14,13 @@ namespace Skyscraper.ViewModels.Behaviours
         {
             get { return this.channel; }
             set { this.channel = value; }
+        }
+
+        private Range selectedText;
+        public Range SelectedText
+        {
+            get { return this.selectedText; }
+            set { this.selectedText = value; }
         }
 
         private string text;

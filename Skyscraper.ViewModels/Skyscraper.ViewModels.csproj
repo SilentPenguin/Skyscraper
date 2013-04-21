@@ -47,6 +47,7 @@
     <Compile Include="Managers\ITabHandler.cs" />
     <Compile Include="Managers\ITabQuery.cs" />
     <Compile Include="Managers\ITabResult.cs" />
+    <Compile Include="Managers\Range.cs" />
     <Compile Include="Managers\TabHandlers\ChannelHandler.cs" />
     <Compile Include="Managers\TabHandlers\CommandHandler.cs" />
     <Compile Include="Managers\TabHandlers\UserHandler.cs" />

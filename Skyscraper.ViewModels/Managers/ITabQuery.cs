@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Skyscraper.ViewModels.Behaviours
+namespace Skyscraper.ViewModels.Managers
 {
     public interface ITabQuery
     {

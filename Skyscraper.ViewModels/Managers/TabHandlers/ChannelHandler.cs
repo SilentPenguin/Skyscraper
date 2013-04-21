@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyscraper.ViewModels.Behaviours.TabHandlers
+namespace Skyscraper.ViewModels.Managers.TabHandlers
 {
     class ChannelHandler : ITabHandler
     {
@@ -18,9 +18,11 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
                 .Select(match => 
                     {
                         var text = query.ReplaceKeyword(match.Name);
+
                         return new TabResult
                         {
                             Text = text,
+                            SelectedText = !text.Contains(' ') ? new Range { LowerBound = 0, UpperBound = text.Length } : null,
                             Channel = match,
                             CursorIndex = query.GetCursorIndexAtEndOfKeyword(text),
                         };

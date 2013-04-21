@@ -4,11 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Skyscraper.ViewModels.Behaviours
+namespace Skyscraper.ViewModels.Managers
 {
     public interface ITabResult
     {
         IChannel Channel { get; }
+        Range SelectedText { get; }
         string Text { get; }
         int CursorIndex { get; }
     }

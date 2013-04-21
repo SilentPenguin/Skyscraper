@@ -6,7 +6,7 @@ using Skyscraper.Irc;
 using Skyscraper.Irc.Events;
 using Skyscraper.Models;
 using Skyscraper.Utilities;
-using Skyscraper.ViewModels.Behaviours;
+using Skyscraper.ViewModels.Managers;
 
 namespace Skyscraper.ViewModels
 {
@@ -114,6 +114,19 @@ namespace Skyscraper.ViewModels
             }
         }
 
+        private Range selectedText;
+        public Range SelectedText
+        {
+            get
+            {
+                return this.selectedText;
+            }
+            set
+            {
+                this.SetProperty(ref this.selectedText, value);
+            }
+        }
+
         private string chatInput;
         public string ChatInput
         {
@@ -159,7 +172,14 @@ namespace Skyscraper.ViewModels
                 this.ChatInput = result.Text;
                 Application.Current.Dispatcher.InvokeAsync(() =>
                 {
-                    this.CursorLocation = result.CursorIndex;
+                    if (result.SelectedText != null)
+                    {
+                        this.SelectedText = result.SelectedText;
+                    }
+                    else
+                    {
+                        this.CursorLocation = result.CursorIndex;
+                    }
                 });
                 if (result.Channel != null)
                 {

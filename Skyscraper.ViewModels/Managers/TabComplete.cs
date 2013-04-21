@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyscraper.ViewModels.Behaviours
+namespace Skyscraper.ViewModels.Managers
 {
     class TabComplete : ITabComplete
     {

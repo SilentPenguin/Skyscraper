@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Skyscraper.ViewModels.Behaviours.TabHandlers
+namespace Skyscraper.ViewModels.Managers.TabHandlers
 {
     class UserHandler : ITabHandler
     {

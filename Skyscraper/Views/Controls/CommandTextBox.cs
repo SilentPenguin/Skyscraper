@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Skyscraper.ViewModels.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -43,7 +44,7 @@ namespace Skyscraper.Views.Controls
             "CursorLocation",
             typeof(int),
             typeof(CommandTextBox),
-            new FrameworkPropertyMetadata(0, OnCursorLocationChanged)
+            new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnCursorLocationChanged)
         );
 
         private static void OnCursorLocationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -57,6 +58,52 @@ namespace Skyscraper.Views.Controls
         }
         #endregion
 
+        public Range CurrentlySelectedText
+        {
+            get { return (Range)base.GetValue(CurrentlySelectedTextProperty); }
+            set { base.SetValue(CurrentlySelectedTextProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SelectedText.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty CurrentlySelectedTextProperty =
+            DependencyProperty.RegisterAttached(
+                "CurrentlySelectedText",
+                typeof(Range),
+                typeof(CommandTextBox),
+                new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedTextChanged));
+
+        private static void OnSelectedTextChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+        {
+            CommandTextBox tb = obj as CommandTextBox;
+            if (tb != null)
+            {
+                if (e.OldValue == null && e.NewValue != null)
+                {
+                    tb.SelectionChanged += tb_SelectionChanged;
+                }
+                else if (e.OldValue != null && e.NewValue == null)
+                {
+                    tb.SelectionChanged -= tb_SelectionChanged;
+                }
+
+                Range newValue = e.NewValue as Range;
+                Range oldValue = e.OldValue as Range;
+
+                if (newValue != null && (oldValue == null || oldValue.LowerBound != newValue.LowerBound || oldValue.UpperBound != newValue.UpperBound))
+                {
+                    tb.Select(newValue.LowerBound, newValue.UpperBound - newValue.LowerBound);
+                }
+            }
+        }
+
+        static void tb_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            CommandTextBox tb = sender as CommandTextBox;
+            if (tb != null)
+            {
+                tb.CurrentlySelectedText = new Range { LowerBound = tb.SelectionStart, UpperBound = tb.SelectionStart + tb.SelectionLength };
+            }
+        }
         
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using Skyscraper.ClientCommands;
 using Skyscraper.Utilities;
 
-namespace Skyscraper.ViewModels.Behaviours
+namespace Skyscraper.ViewModels.Managers
 {
     public class ReplayHistory : IReplayHistory
     {
