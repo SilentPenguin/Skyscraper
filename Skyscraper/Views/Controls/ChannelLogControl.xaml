@@ -18,7 +18,9 @@
 
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type models:Join}">
-            <TextBlock Foreground="DarkGreen" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding User.IsUserVisible}">
+            <TextBlock Foreground="DarkGreen" 
+                       local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
+                       local:AttachedBehaviours.IsUserVisible="{Binding User.IsUserVisible}">
                 <Run Text="[" />
                 <Run Text="{Binding Path=ReceivedAt}" />
                 <Run Text="] *" />
@@ -28,7 +30,9 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Part}">
-            <TextBlock Foreground="DarkRed">
+            <TextBlock Foreground="DarkRed"
+                       local:AttachedBehaviours.IsUserVisibleBehaviour="True"
+                       local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="[" />
                 <Run Text="{Binding Path=ReceivedAt}" />
                 <Run Text="] *" />
@@ -38,7 +42,8 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Quit}">
-            <TextBlock Foreground="DarkRed">
+            <TextBlock Foreground="DarkRed" local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
+                       local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="[" />
                 <Run Text="{Binding Path=ReceivedAt}" />
                 <Run Text="] *" />
@@ -48,7 +53,9 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Nick}">
-            <TextBlock Foreground="DarkGray" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding User.IsUserVisible}">
+            <TextBlock Foreground="DarkGray" 
+                       local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
+                       local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="[" />
                 <Run Text="{Binding Path=ReceivedAt}" />
                 <Run Text="] *" />
@@ -59,7 +66,9 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Message}">
-            <TextBlock Foreground="Black" local:AttachedBehaviours.IsUserVisibleBehaviour="True" local:AttachedBehaviours.IsUserVisible="{Binding User.IsUserVisible}">
+            <TextBlock Foreground="Black" 
+                       local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
+                       local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible}">
                 <Run Text="[" />
                 <Run Text="{Binding Path=ReceivedAt}" />
                 <Run Text="] *" />
