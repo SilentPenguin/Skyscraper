@@ -14,6 +14,7 @@ namespace Skyscraper.Utilities
         public Enumerator(IList<T> List)
         {
             this.List = List;
+            this.Reset();
         }
 
         public T Current
