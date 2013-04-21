@@ -238,6 +238,7 @@ namespace Skyscraper.Irc
                     Hostname = ircChannelUser.User.HostName,
                     Modes = ircChannelUser.Modes.Join(),
                     IsAway = ircChannelUser.User.IsAway,
+                    Network = channel.Network,
                 };
 
                 IrcUser ircUser = ircChannelUser.User;

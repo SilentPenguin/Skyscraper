@@ -29,7 +29,7 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
             return client.Log
                 .Where(entry => entry.IsUserVisible && entry is IUserEvent)
                 .Select(entry => entry as IUserEvent)
-                .Where(entry => entry.User.Nickname.ToLowerInvariant().StartsWith(nickname))
+                .Where(entry => entry.Network.LocalUser.Nickname != entry.User.Nickname && entry.User.Nickname.ToLowerInvariant().StartsWith(nickname))
                 .OrderBy(match => match.ReceivedAt)
                 .Select(match => 
                     new TabResult 
@@ -44,12 +44,12 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
             var nickname = query.Keyword.ToLowerInvariant();
 
             return client.Users
-                .Where(user => user.IsUserVisible && user.Nickname.ToLowerInvariant().StartsWith(nickname))
+                .Where(user => user.IsUserVisible && user.Nickname.ToLowerInvariant().StartsWith(nickname) && user.Nickname != user.Network.LocalUser.Nickname )
                 .Select(match =>
                     new TabResult
                     {
                         Text = query.ReplaceKeyword(match.Nickname),
-                        Channel = match.Channels.FirstOrDefault(),
+                        Channel = match.Channels.FirstOrDefault(), //TODO change this to the last channel the user spoke in
                     });
         }
 
@@ -58,7 +58,7 @@ namespace Skyscraper.ViewModels.Behaviours.TabHandlers
             var nickname = query.Keyword.ToLowerInvariant();
 
             return client.Users
-                .Where(user => user.Nickname.ToLowerInvariant().StartsWith(nickname))
+                .Where(user => user.Nickname.ToLowerInvariant().StartsWith(nickname) && user.Nickname != user.Network.LocalUser.Nickname)
                 .Select(match =>
                     new TabResult
                     {

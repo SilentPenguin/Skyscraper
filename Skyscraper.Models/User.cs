@@ -20,6 +20,13 @@ namespace Skyscraper.Models
             isAway = user.IsAway;
         }
 
+        private INetwork network;
+        public INetwork Network
+        {
+            get { return this.network; }
+            set { this.SetProperty(ref this.network, value); }
+        }
+
         private ObservableCollection<IChannel> channels;
         public ObservableCollection<IChannel> Channels
         {
