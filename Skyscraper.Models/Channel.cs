@@ -57,8 +57,8 @@ namespace Skyscraper.Models
             }
         }
 
-        private ObservableCollection<IUser> users;
-        public ObservableCollection<IUser> Users
+        private ObservableCollection<IChannelUser> users;
+        public ObservableCollection<IChannelUser> Users
         {
             get
             {
@@ -98,7 +98,7 @@ namespace Skyscraper.Models
 
         public Channel()
         {
-            this.Users = new ObservableCollection<IUser>();
+            this.Users = new ObservableCollection<IChannelUser>();
             this.Log = new ObservableCollection<ILogEntry>();
         }
     }

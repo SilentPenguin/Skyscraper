@@ -10,7 +10,7 @@ namespace Skyscraper.Models
         String Name { get; }
         String Modes { get; set; }
         String Topic { get; set; }
-        ObservableCollection<IUser> Users { get; set; }
+        ObservableCollection<IChannelUser> Users { get; set; }
 
         bool IsUserVisible { get; }
     }
