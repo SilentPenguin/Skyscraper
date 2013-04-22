@@ -138,10 +138,11 @@ namespace Skyscraper.Irc
         #endregion
 
         #region Send
-        public void Send(IChannel channel, IUser user, string messageString)
+        public void Send(IChannel channel, string messageString)
         {
             IrcChannel ircChannel = this.channels[channel];
             INetwork network = this.connections[ircChannel.Client];
+            IUser user = channel.Network.LocalUser;
             ircChannel.Client.LocalUser.SendMessage(ircChannel, messageString);
 
             Message message = new Message(network, channel, user, messageString);
@@ -152,9 +153,9 @@ namespace Skyscraper.Irc
         #endregion
 
         #region SendAction
-        public void SendAction(INetwork network, IChannel channel, string action)
+        public void SendAction(IChannel channel, string action)
         {
-            CtcpClient ctcpClient = this.ctcpConnections[network];
+            CtcpClient ctcpClient = this.ctcpConnections[channel.Network];
             IrcChannel ircChannel = this.channels[channel];
             ctcpClient.SendAction(ircChannel, action);
         }
