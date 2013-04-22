@@ -15,7 +15,6 @@
     d:DesignHeight="300" d:DesignWidth="300">
              
     <UserControl.Resources>
-        
         <DataTemplate DataType="{x:Type models:User}">
             <TextBlock Foreground="Black" 
                        local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
@@ -23,7 +22,13 @@
                 <Run Text="{Binding Path=Nickname}" />
             </TextBlock>
         </DataTemplate>
-        
+        <DataTemplate DataType="{x:Type models:ChannelUser}">
+            <TextBlock Foreground="Black" 
+                       local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
+                       local:AttachedBehaviours.IsUserVisible="{Binding User.IsUserVisible, Mode=OneWayToSource}">
+                <Run Text="{Binding Path=Nickname}" />
+            </TextBlock>
+        </DataTemplate>
     </UserControl.Resources>
     
     <Grid>
