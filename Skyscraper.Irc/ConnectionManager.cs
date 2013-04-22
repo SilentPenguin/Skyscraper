@@ -323,7 +323,8 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                channel.Users.Remove(user);
+                var channelUser = channel.Users.Single(u => u.User == user);
+                channel.Users.Remove(channelUser);
                 user.Channels.Remove(channel);
                 if (user.Channels.Count() == 0)
                 {
