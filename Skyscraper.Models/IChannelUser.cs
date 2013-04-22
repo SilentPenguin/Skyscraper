@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Skyscraper.Models
 {
-    public interface IChannelUser
+    public interface IChannelUser : IUser
     {
         IUser User { get; }
         string Modes { get; set; }

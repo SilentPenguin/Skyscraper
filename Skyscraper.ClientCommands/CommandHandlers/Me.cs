@@ -7,7 +7,7 @@ namespace Skyscraper.ClientCommands.CommandHandlers
     {
         public void Execute(IConnectionManager connection, ICommand command)
         {
-            connection.    
+            connection.SendAction(command.Channel, command.Body);
         }
     }
 }
