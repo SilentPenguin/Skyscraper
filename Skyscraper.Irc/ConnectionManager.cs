@@ -233,7 +233,7 @@ namespace Skyscraper.Irc
             
             if (!this.users.TryGetValue(ircChannelUser.User, out user))
             {
-                user = new User()
+                user = new User
                 {
                     Nickname = ircChannelUser.User.NickName,
                     Hostname = ircChannelUser.User.HostName,
@@ -251,9 +251,14 @@ namespace Skyscraper.Irc
                 this.users.Add(user, ircUser);
             }
 
+            IChannelUser channelUser = new ChannelUser
+            {
+                User = user,
+            };
+
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                channel.Users.Add(user);
+                channel.Users.Add(channelUser);
                 user.Channels.Add(channel);
                 this.client.Users.Add(user);
             });
