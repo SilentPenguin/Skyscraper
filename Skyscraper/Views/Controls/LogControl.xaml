@@ -58,8 +58,8 @@
             </TextBlock>
         </DataTemplate>
 
-        <converters:BoolBrushConverter x:Key="HighlightTextConverter" True="Orange" False="Black"></converters:BoolBrushConverter>
-        <converters:BoolBrushConverter x:Key="HighlightNickConverter" True="Orange" False="RoyalBlue"></converters:BoolBrushConverter>
+        <converters:BoolBrushConverter x:Key="HighlightTextConverter" True="DarkOrange" False="Black"></converters:BoolBrushConverter>
+        <converters:BoolBrushConverter x:Key="HighlightNickConverter" True="DarkOrange" False="RoyalBlue"></converters:BoolBrushConverter>
         
         <DataTemplate DataType="{x:Type models:Message}">
             <TextBlock Foreground="Gray" 
