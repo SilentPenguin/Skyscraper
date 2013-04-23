@@ -16,6 +16,19 @@
     
     Title="MainWindow" Height="500" Width="400">
 
+    <Window.Resources>
+        <DrawingImage x:Key="Overlay">
+            <DrawingImage.Drawing>
+                <ImageDrawing Rect="0, 0, 16, 16"
+                              ImageSource="/Images/OrangeBadge.png" />
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </Window.Resources>
+    
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo Overlay="{StaticResource ResourceKey=Overlay}" />
+    </Window.TaskbarItemInfo>
+    
     <Grid>
         
         <Grid.ColumnDefinitions>

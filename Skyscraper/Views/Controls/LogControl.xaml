@@ -40,7 +40,7 @@
 
         <DataTemplate DataType="{x:Type models:Quit}">
             <TextBlock Foreground="DarkRed" 
-                       local:AttachedBehaviours.IsUserVisibleBehaviour="True"
+                       local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
                        local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible, Mode=OneWayToSource}">
                 <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
                 <Run Text="has quit" />
@@ -49,8 +49,8 @@
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type models:Nick}">
-            <TextBlock Foreground="DarkGray"
-                       local:AttachedBehaviours.IsUserVisibleBehaviour="True"
+            <TextBlock Foreground="DarkGray" 
+                       local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
                        local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible, Mode=OneWayToSource}">
                 <Run Text="{Binding Path=Network.Name, Mode=OneWay}" /><Run Text=":" /><Run Text="{Binding Path=NicknameContinuity, Mode=OneWay}" />
                 <Run Text="is now known as" />

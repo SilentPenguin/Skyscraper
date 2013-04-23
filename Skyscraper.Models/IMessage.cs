@@ -5,6 +5,6 @@ namespace Skyscraper.Models
     public interface IMessage : IUserEvent
     {
         string MessageBody { get; }
-        bool Highlight { get; } 
+        bool Highlight { get; }
     }
 }
