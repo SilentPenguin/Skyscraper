@@ -145,7 +145,7 @@ namespace Skyscraper.Irc
             IUser user = channel.Network.LocalUser;
             ircChannel.Client.LocalUser.SendMessage(ircChannel, messageString);
 
-            Message message = new Message(network, channel, user, messageString);
+            Message message = new Message(network, channel, user, messageString, false);
 
             channel.Log.Add(message);
             this.client.Log.Add(message);
@@ -428,7 +428,7 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Message message = new Message(network, channel, user, e.Text);
+                Message message = new Message(network, channel, user, e.Text, e.Text.Contains(network.LocalUser.Nickname));
                 channel.Log.Add(message);
                 this.client.Log.Add(message);
             });

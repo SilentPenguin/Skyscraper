@@ -4,6 +4,7 @@ namespace Skyscraper.Models
 {
     public interface IMessage : IUserEvent
     {
-        String MessageBody { get; }
+        string MessageBody { get; }
+        bool Highlight { get; } 
     }
 }

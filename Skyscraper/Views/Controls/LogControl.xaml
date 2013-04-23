@@ -8,14 +8,16 @@
     xmlns:local="clr-namespace:Skyscraper"
     xmlns:models="clr-namespace:Skyscraper.Models;assembly=Skyscraper.Models"
     xmlns:viewModels="clr-namespace:Skyscraper.ViewModels;assembly=Skyscraper.ViewModels"
+    xmlns:converters="clr-namespace:Skyscraper.Converters"
     xmlns:syswin="clr-namespace:System.Windows;assembly=System"
         
     mc:Ignorable="d"
         
     d:DataContext="{d:DesignInstance Type=models:Client, IsDesignTimeCreatable=True}"
     d:DesignHeight="300" d:DesignWidth="300">
-
+    
     <UserControl.Resources>
+
         <DataTemplate DataType="{x:Type models:Join}">
             <TextBlock Foreground="DarkGreen" 
                        local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
@@ -56,12 +58,15 @@
             </TextBlock>
         </DataTemplate>
 
+        <converters:BoolBrushConverter x:Key="HighlightTextConverter" True="Orange" False="Black"></converters:BoolBrushConverter>
+        <converters:BoolBrushConverter x:Key="HighlightNickConverter" True="Orange" False="RoyalBlue"></converters:BoolBrushConverter>
+        
         <DataTemplate DataType="{x:Type models:Message}">
-            <TextBlock Foreground="Black" 
+            <TextBlock Foreground="Gray" 
                        local:AttachedBehaviours.IsUserVisibleBehaviour="True"
                        local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible, Mode=OneWayToSource}">
-                <Run Foreground="Gray" Text="{Binding Path=Network.Name, Mode=OneWay}"/><Run Foreground="Gray" Text="{Binding Path=Source.Name, Mode=OneWay}" /><Run Foreground="Gray" Text=":" /><Run Foreground="RoyalBlue" Text="{Binding Path=User.Nickname, Mode=OneWay}" />
-                <Run Text="{Binding Path=MessageBody, Mode=OneWay}" />
+                <Run Text="{Binding Path=Network.Name, Mode=OneWay}"/><Run Text="{Binding Path=Source.Name, Mode=OneWay}" /><Run Text=":" /><Run Foreground="{Binding Highlight, Converter={StaticResource HighlightNickConverter}}" Text="{Binding Path=User.Nickname, Mode=OneWay}" />
+                <Run Foreground="{Binding Highlight, Converter={StaticResource HighlightTextConverter}}" Text="{Binding Path=MessageBody, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
     </UserControl.Resources>

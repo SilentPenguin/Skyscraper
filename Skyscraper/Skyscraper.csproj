@@ -56,6 +56,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AttachedBehaviours.cs" />
+    <Compile Include="Converters\BoolBrushConverter.cs" />
     <Compile Include="UIElementExtensionMethods.cs" />
     <Compile Include="Views\Controls\ClippingBorder.cs" />
     <Compile Include="GlassHelper.cs" />
