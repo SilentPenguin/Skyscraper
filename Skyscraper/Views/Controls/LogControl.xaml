@@ -9,6 +9,7 @@
     xmlns:models="clr-namespace:Skyscraper.Models;assembly=Skyscraper.Models"
     xmlns:viewModels="clr-namespace:Skyscraper.ViewModels;assembly=Skyscraper.ViewModels"
     xmlns:converters="clr-namespace:Skyscraper.Converters"
+    xmlns:sys="clr-namespace:System;assembly=System"
     xmlns:syswin="clr-namespace:System.Windows;assembly=System"
         
     mc:Ignorable="d"
@@ -57,16 +58,29 @@
                 <Run Text="{Binding Path=User.Nickname, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
+        
+        <converters:DictionaryConverter x:Key="HighlightTextConverter">
+            <converters:DictionaryConverter.Values>
+                <SolidColorBrush x:Key="{x:Static models:MessageState.Highlight}" Color="DarkOrange"/>
+                <SolidColorBrush x:Key="{x:Static models:MessageState.Active}" Color="Black"/>
+                <SolidColorBrush x:Key="{x:Static models:MessageState.Inactive}" Color="Gray"/>
+            </converters:DictionaryConverter.Values>
+        </converters:DictionaryConverter>
 
-        <converters:BoolBrushConverter x:Key="HighlightTextConverter" True="DarkOrange" False="Black"></converters:BoolBrushConverter>
-        <converters:BoolBrushConverter x:Key="HighlightNickConverter" True="DarkOrange" False="RoyalBlue"></converters:BoolBrushConverter>
+        <converters:DictionaryConverter x:Key="HighlightNickConverter">
+            <converters:DictionaryConverter.Values>
+                <SolidColorBrush x:Key="{x:Static models:MessageState.Highlight}" Color="DarkOrange"/>
+                <SolidColorBrush x:Key="{x:Static models:MessageState.Active}" Color="RoyalBlue"/>
+                <SolidColorBrush x:Key="{x:Static models:MessageState.Inactive}" Color="Gray"/>
+            </converters:DictionaryConverter.Values>
+        </converters:DictionaryConverter>
         
         <DataTemplate DataType="{x:Type models:Message}">
             <TextBlock Foreground="Gray" 
-                       local:AttachedBehaviours.IsUserVisibleBehaviour="True"
+                       local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
                        local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible, Mode=OneWayToSource}">
-                <Run Text="{Binding Path=Network.Name, Mode=OneWay}"/><Run Text="{Binding Path=Source.Name, Mode=OneWay}" /><Run Text=":" /><Run Foreground="{Binding Highlight, Converter={StaticResource HighlightNickConverter}}" Text="{Binding Path=User.Nickname, Mode=OneWay}" />
-                <Run Foreground="{Binding Highlight, Converter={StaticResource HighlightTextConverter}}" Text="{Binding Path=MessageBody, Mode=OneWay}" />
+                <Run Text="{Binding Path=Network.Name, Mode=OneWay}"/><Run Text="{Binding Path=Source.Name, Mode=OneWay}" /><Run Text=":" /><Run Foreground="{Binding State, Converter={StaticResource HighlightNickConverter}}" Text="{Binding Path=User.Nickname, Mode=OneWay}" />
+                <Run Foreground="{Binding State, Converter={StaticResource HighlightTextConverter}}" Text="{Binding Path=MessageBody, Mode=OneWay}" />
             </TextBlock>
         </DataTemplate>
     </UserControl.Resources>

@@ -8,6 +8,7 @@
     xmlns:local="clr-namespace:Skyscraper"
     xmlns:models="clr-namespace:Skyscraper.Models;assembly=Skyscraper.Models"
     xmlns:viewModels="clr-namespace:Skyscraper.ViewModels;assembly=Skyscraper.ViewModels"
+    xmlns:converters="clr-namespace:Skyscraper.Converters"
     xmlns:syswin="clr-namespace:System.Windows;assembly=System"
         
     mc:Ignorable="d"
@@ -65,14 +66,18 @@
             </TextBlock>
         </DataTemplate>
 
+        <SolidColorBrush x:Key="DarkOrange" Color="DarkOrange"/>
+        <SolidColorBrush x:Key="Black" Color="Black"/>
+        <converters:BoolConverter x:Key="HighlightTextConverter" True="{StaticResource ResourceKey=DarkOrange}" False="{StaticResource ResourceKey=Black}" />
+
         <DataTemplate DataType="{x:Type models:Message}">
-            <TextBlock Foreground="Black" 
+            <TextBlock Foreground="{Binding State, Converter={StaticResource ResourceKey=HighlightTextConverter}}" 
                        local:AttachedBehaviours.IsUserVisibleBehaviour="True" 
                        local:AttachedBehaviours.IsUserVisible="{Binding IsUserVisible, Mode=OneWayToSource}">
                 <Run Text="[" />
                 <Run Text="{Binding Path=ReceivedAt}" />
                 <Run Text="] *" />
-                <Run Text="{Binding Path=User.Nickname}" />
+                <Run Text="{Binding Path=User.Nickname}"/>
                 <Run Text=" " />
                 <Run Text="{Binding Path=MessageBody}" />
             </TextBlock>
