@@ -12,5 +12,7 @@ namespace Skyscraper.Models
         ObservableCollection<INetwork> Networks { get; set; }
         ObservableCollection<IChannel> Channels { get; set; }
         ObservableCollection<IUser> Users { get; set; }
+
+        bool Alert { get; set; }
     }
 }

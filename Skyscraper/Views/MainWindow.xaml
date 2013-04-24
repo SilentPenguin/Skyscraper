@@ -9,6 +9,7 @@
     xmlns:models="clr-namespace:Skyscraper.Models;assembly=Skyscraper.Models"
     xmlns:viewModels="clr-namespace:Skyscraper.ViewModels;assembly=Skyscraper.ViewModels"
     xmlns:controls="clr-namespace:Skyscraper.Views.Controls"
+    xmlns:converters="clr-namespace:Skyscraper.Converters"
         
     mc:Ignorable="d"
     
@@ -25,10 +26,11 @@
                               ImageSource="/Images/OrangeBadge.png"/>
             </DrawingImage.Drawing>
         </DrawingImage>
+        <converters:BoolConverter x:Key="OverlayConverter" True="{StaticResource ResourceKey=Overlay}" />
     </Window.Resources>
     
     <Window.TaskbarItemInfo>
-        <TaskbarItemInfo Overlay="{StaticResource ResourceKey=Overlay}" />
+        <TaskbarItemInfo Overlay="{Binding Client.Alert, Converter={StaticResource ResourceKey=OverlayConverter}}" />
     </Window.TaskbarItemInfo>
     
     <Grid>

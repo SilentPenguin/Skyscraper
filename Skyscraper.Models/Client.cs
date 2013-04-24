@@ -62,6 +62,19 @@ namespace Skyscraper.Models
             }
         }
 
+        private bool alert;
+        public bool Alert
+        {
+            get
+            {
+                return this.alert;
+            }
+            set
+            {
+                this.SetProperty(ref this.alert, value);
+            }
+        }
+
         public Client()
         {
             this.Channels = new ObservableCollection<IChannel>();
