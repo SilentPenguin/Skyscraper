@@ -101,5 +101,18 @@ namespace Skyscraper.Models
             this.Users = new ObservableCollection<IChannelUser>();
             this.Log = new ObservableCollection<ILogEntry>();
         }
+
+        private bool isActiveChannel;
+        public bool IsActiveChannel
+        {
+            get
+            {
+                return this.isActiveChannel;
+            }
+            set
+            {
+                this.SetProperty(ref this.isActiveChannel, value);
+            }
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace Skyscraper.Models
         String Topic { get; set; }
         ObservableCollection<IChannelUser> Users { get; set; }
 
+        bool IsActiveChannel { get; set; }
+
         bool IsUserVisible { get; }
     }
 }

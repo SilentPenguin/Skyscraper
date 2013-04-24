@@ -29,6 +29,11 @@ namespace Skyscraper.Models
                 this.SetProperty(ref this.highlight, value);
             }
         }
+
+        public MessageState State
+        {
+            get { return Highlight ? MessageState.Highlight : MessageState.Active; }
+        }
         
 
         public Message(INetwork network, ILogSource source, IUser user, string message, bool highlight)
@@ -44,5 +49,12 @@ namespace Skyscraper.Models
         {
             return this.MessageBody;
         }
+    }
+
+    public enum MessageState
+    {
+        Highlight,
+        Active,
+        Inactive,
     }
 }
