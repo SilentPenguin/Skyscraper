@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Skyscraper.ViewModels;
 
 namespace Skyscraper.Views
@@ -39,8 +40,11 @@ namespace Skyscraper.Views
             this.userListWindow = new UserListWindow();
             this.userListWindow.DataContext = this.ViewModel;
             this.userListWindow.Show();
+        }
 
-            
+        public void WindowActive(object sender, EventArgs e)
+        {
+            this.ViewModel.Client.WindowActive = this.IsActive;
         }
     }
 }

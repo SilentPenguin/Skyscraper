@@ -432,7 +432,7 @@ namespace Skyscraper.Irc
                 Message message = new Message(network, channel, user, e.Text, highlighted);
                 channel.Log.Add(message);
                 this.client.Log.Add(message);
-                this.client.Alert |= highlighted;
+                this.client.Alert |= highlighted && !this.client.WindowActive;
             });
         }
 

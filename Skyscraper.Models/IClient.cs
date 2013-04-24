@@ -14,5 +14,6 @@ namespace Skyscraper.Models
         ObservableCollection<IUser> Users { get; set; }
 
         bool Alert { get; set; }
+        bool WindowActive { get; set; }
     }
 }

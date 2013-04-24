@@ -15,6 +15,9 @@
     
     d:DataContext="{d:DesignInstance Type=viewModels:MainWindowViewModel, IsDesignTimeCreatable=True}"
     
+    Activated="WindowActive"
+    Deactivated="WindowActive"
+    
     Title="Skyscraper"
     Height="500"
     Width="400">
@@ -34,7 +37,6 @@
     </Window.TaskbarItemInfo>
     
     <Grid>
-        
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>

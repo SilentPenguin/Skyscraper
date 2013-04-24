@@ -75,6 +75,20 @@ namespace Skyscraper.Models
             }
         }
 
+        private bool windowActive;
+        public bool WindowActive
+        {
+            get
+            {
+                return this.windowActive;
+            }
+            set
+            {
+                this.SetProperty(ref this.windowActive, value);
+                Alert &= !value;
+            }
+        }
+
         public Client()
         {
             this.Channels = new ObservableCollection<IChannel>();
