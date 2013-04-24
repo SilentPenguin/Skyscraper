@@ -428,9 +428,11 @@ namespace Skyscraper.Irc
 
             Application.Current.Dispatcher.InvokeAsync(() =>
             {
-                Message message = new Message(network, channel, user, e.Text, e.Text.Contains(network.LocalUser.Nickname));
+                bool highlighted = e.Text.Contains(network.LocalUser.Nickname);
+                Message message = new Message(network, channel, user, e.Text, highlighted);
                 channel.Log.Add(message);
                 this.client.Log.Add(message);
+                this.client.Alert |= highlighted;
             });
         }
 
