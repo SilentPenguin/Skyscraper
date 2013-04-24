@@ -66,9 +66,11 @@
             </TextBlock>
         </DataTemplate>
 
-        <SolidColorBrush x:Key="DarkOrange" Color="DarkOrange"/>
-        <SolidColorBrush x:Key="Black" Color="Black"/>
+        <SolidColorBrush x:Key="DarkOrange" Color="DarkOrange" />
+        <SolidColorBrush x:Key="RoyalBlue" Color="RoyalBlue" />
+        <SolidColorBrush x:Key="Black" Color="Black" />
         <converters:BoolConverter x:Key="HighlightTextConverter" True="{StaticResource ResourceKey=DarkOrange}" False="{StaticResource ResourceKey=Black}" />
+        <converters:BoolConverter x:Key="HighlightNickConverter" True="{StaticResource ResourceKey=DarkOrange}" False="{StaticResource ResourceKey=RoyalBlue}" />
 
         <DataTemplate DataType="{x:Type models:Message}">
             <TextBlock Foreground="{Binding State, Converter={StaticResource ResourceKey=HighlightTextConverter}}" 
@@ -77,8 +79,8 @@
                 <Run Text="[" />
                 <Run Text="{Binding Path=ReceivedAt}" />
                 <Run Text="] *" />
-                <Run Text="{Binding Path=User.Nickname}"/>
-                <Run Text=" " />
+                <Run Text="{Binding Path=User.Nickname}"
+                     Foreground="{Binding State, Converter={StaticResource ResourceKey=HighlightNickConverter}}"/>
                 <Run Text="{Binding Path=MessageBody}" />
             </TextBlock>
         </DataTemplate>
