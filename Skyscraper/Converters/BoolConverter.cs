@@ -3,25 +3,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
 
 namespace Skyscraper.Converters
 {
-    [ValueConversion(typeof(bool), typeof(Brush))]
-    public class BoolBrushConverter : IValueConverter
+    class BoolConverter : IValueConverter
     {
-        public Brush False { get; set; }
-        public Brush True { get; set; }
+        public object True { get; set; }
+        public object False { get; set; }
 
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return (bool)value ? True : False;
+            if (value is bool)
+            {
+                return (bool)value ? this.True : this.False;
+            }
+            return DependencyProperty.UnsetValue;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            return (Brush)value == True || (Brush)value == False ? (bool?)((Brush)value == True) : null;
+            return value == this.True || value == this.False ? value == this.True : DependencyProperty.UnsetValue;
         }
     }
 }
