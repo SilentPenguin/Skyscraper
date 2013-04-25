@@ -67,7 +67,7 @@
       <Project>{f5aa2aae-1ed4-49ea-b62a-ebc795d84018}</Project>
       <Name>Skyscraper.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skyscraper.Irc\Skyscraper.IrcOld.csproj">
+    <ProjectReference Include="..\Skyscraper.IrcOld\Skyscraper.IrcOld.csproj">
       <Project>{be5ec478-feae-49ba-b796-3d73d83599da}</Project>
       <Name>Skyscraper.IrcOld</Name>
     </ProjectReference>

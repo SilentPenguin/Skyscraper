@@ -4,15 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BE5EC478-FEAE-49BA-B796-3D73D83599DA}</ProjectGuid>
+    <ProjectGuid>{A7BAFA8D-37E5-4EBD-848B-53D312882A18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Skyscraper.Irc</RootNamespace>
-    <AssemblyName>Skyscraper.Irc</AssemblyName>
+    <AssemblyName>Irc</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,44 +30,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="IrcDotNet">
-      <HintPath>..\packages\IrcDotNet.0.4.1\lib\net40\IrcDotNet.dll</HintPath>
-    </Reference>
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionManager.cs" />
-    <Compile Include="ObjectEventArgs.cs" />
-    <Compile Include="RawMessageEventArgs.cs" />
-    <Compile Include="IConnectionManager.cs" />
-    <Compile Include="ChannelEventArgs.cs" />
-    <Compile Include="NetworkEventArgs.cs" />
+    <Compile Include="IIrcConnection.cs" />
+    <Compile Include="IIrcConnectionSettings.cs" />
+    <Compile Include="IRawMessage.cs" />
+    <Compile Include="IrcConnection.cs" />
+    <Compile Include="IrcConnectionSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RawMessage.cs" />
+    <Compile Include="Events\RawMessageEventArgs.cs" />
+    <Compile Include="TcpEventClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skyscraper.Models\Skyscraper.Models.csproj">
       <Project>{f5aa2aae-1ed4-49ea-b62a-ebc795d84018}</Project>
       <Name>Skyscraper.Models</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Skyscraper.Utilities\Skyscraper.Utilities.csproj">
-      <Project>{04a46f9a-5b17-44f3-8630-5554882adc25}</Project>
-      <Name>Skyscraper.Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\nuget.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -5,8 +5,9 @@ using System.Text;
 
 namespace Skyscraper.Irc
 {
-    class RawMessageEventArgs
+    public interface IRawMessage
     {
-        public string Message { get; set; }
+        Direction Direction { get; }
+        string MessageText { get; }
     }
 }

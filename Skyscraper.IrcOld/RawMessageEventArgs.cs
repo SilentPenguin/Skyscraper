@@ -1,4 +1,5 @@
 ﻿using System;
+using Skyscraper.Irc;
 using Skyscraper.Models;
 
 namespace Skyscraper.Irc.Events

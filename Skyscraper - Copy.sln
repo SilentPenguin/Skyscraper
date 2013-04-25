@@ -17,7 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{4157A7
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.IrcOld", "Skyscraper.IrcOld\Skyscraper.IrcOld.csproj", "{BE5EC478-FEAE-49BA-B796-3D73D83599DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.IrcOld", "Skyscraper.Irc\Skyscraper.IrcOld.csproj", "{BE5EC478-FEAE-49BA-B796-3D73D83599DA}"
 	ProjectSection(ProjectDependencies) = postProject
 		{04A46F9A-5B17-44F3-8630-5554882ADC25} = {04A46F9A-5B17-44F3-8630-5554882ADC25}
 		{F5AA2AAE-1ED4-49EA-B62A-EBC795D84018} = {F5AA2AAE-1ED4-49EA-B62A-EBC795D84018}
@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.ClientCommands",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.ViewModels", "Skyscraper.ViewModels\Skyscraper.ViewModels.csproj", "{37018408-D2E3-4BF0-8D90-50762425121E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.Irc", "Skyscraper.Irc\Skyscraper.Irc.csproj", "{A7BAFA8D-37E5-4EBD-848B-53D312882A18}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.Irc", "ClassLibrary1\Skyscraper.Irc.csproj", "{A7BAFA8D-37E5-4EBD-848B-53D312882A18}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
