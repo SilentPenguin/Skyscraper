@@ -46,6 +46,8 @@
     <Compile Include="IMessageState.cs" />
     <Compile Include="Connection.cs" />
     <Compile Include="ConnectionSettings.cs" />
+    <Compile Include="MessageHandlerFactory.cs" />
+    <Compile Include="MessageHandlers\PrivateMessage.cs" />
     <Compile Include="ProtocolMessage.cs" />
     <Compile Include="UserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

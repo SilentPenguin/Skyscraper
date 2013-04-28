@@ -8,6 +8,6 @@ namespace Skyscraper.Irc
 {
     public interface IMessageHandler
     {
-        void Execute(IMessage message, IConnection connection, IClient client);
+        void Execute(IMessage message, IConnection connection);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Skyscraper.Utilities;
+﻿using Skyscraper.Tcp;
+using Skyscraper.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +10,13 @@ namespace Skyscraper.Irc
 {
     public class MessageHandlerFactory
     {
-        private static TypeDictionary<string, IIrcMessageHandler> messageHandlers;
+        private static TypeDictionary<string, IMessageHandler> messageHandlers;
 
         static MessageHandlerFactory()
         {
-            MessageHandlerFactory.messageHandlers = new TypeDictionary<string, IIrcMessageHandler>(
+            MessageHandlerFactory.messageHandlers = new TypeDictionary<string, IMessageHandler>(
                 TypeHelpers
-                .ClassesForInterfaceInAssembly<IIrcMessageHandler>()
+                .ClassesForInterfaceInAssembly<IMessageHandler>()
                 .SelectMany(t => (Attribute.GetCustomAttribute(t, typeof(HandlerAttribute)) as HandlerAttribute).words.Select(cw => new { CommandWord = cw, Type = t }))
                 .ToDictionary(c => c.CommandWord.ToUpperInvariant(), c => c.Type)
             );
@@ -26,12 +27,12 @@ namespace Skyscraper.Irc
             get { return MessageHandlerFactory.messageHandlers.Keys; }
         }
 
-        public static IIrcMessageState Resolve(IRawMessage rawMessage)
+        public static IMessageState Resolve(IRawMessage rawMessage)
         {
-            IIrcMessage ircMessage = new IrcMessage(rawMessage);
+            IMessage ircMessage = new ProtocolMessage(rawMessage);
             string commandWord = ircMessage.CommandWord.ToUpperInvariant();
 
-            return new IrcMessageState(MessageHandlerFactory.messageHandlers[commandWord], ircMessage);
+            return new MessageState(MessageHandlerFactory.messageHandlers[commandWord], ircMessage);
         }
     }
 }
