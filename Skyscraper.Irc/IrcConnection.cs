@@ -99,6 +99,23 @@ namespace Skyscraper.Irc
         {
             this.SendRawMessage("PASS {0}", password);
         }
+
+        public void SendMessage(string message, params string[] targets)
+        {
+            string targetstring = string.Join(",", targets);
+            this.SendRawMessage("PRIVMSG {0} :{1}", message, targetstring);
+        }
+
+        public void JoinChannel(string channel)
+        {
+            this.SendRawMessage("JOIN {0}", channel);
+        }
+
+        public void PartChannel(string channel, string reason)
+        {
+            this.SendRawMessage("PART {0} :{1}", channel, reason);
+        }
+
         #endregion
     }
 }
