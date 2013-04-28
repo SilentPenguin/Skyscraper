@@ -79,7 +79,7 @@ namespace Skyscraper.Irc
             IRawMessage message = new RawMessage
             {
                 Text = rawMessage,
-                Direction = Direction.Sent
+                Direction = RawMessageDirection.Sent
             };
             base.Send(message);
         }

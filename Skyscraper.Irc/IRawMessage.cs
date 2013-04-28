@@ -7,7 +7,7 @@ namespace Skyscraper.Irc
 {
     public interface IRawMessage
     {
-        Direction Direction { get; }
+        RawMessageDirection Direction { get; }
         string Text { get; }
     }
 }

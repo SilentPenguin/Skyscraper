@@ -156,7 +156,7 @@ namespace Skyscraper.Irc
                 }
 
                 byte[] buffer = asyncResult.AsyncState as byte[];
-                IRawMessage message = new RawMessage { Text = this.Encoding.GetString(buffer), Direction = Direction.Received };
+                IRawMessage message = new RawMessage { Text = this.Encoding.GetString(buffer), Direction = RawMessageDirection.Received };
                 OnRecieved(new RawMessageEventArgs { Message = message, Result = asyncResult });
                 networkStream.BeginRead(buffer, 0, buffer.Length, RecievedMessage, buffer);
             }

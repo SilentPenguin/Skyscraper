@@ -7,13 +7,7 @@ namespace Skyscraper.Irc
 {
     class RawMessage : IRawMessage
     {
-        public Direction Direction { get; set; }
+        public RawMessageDirection Direction { get; set; }
         public string Text { get; set; }
-    }
-
-    public enum Direction
-    {
-        Sent,
-        Received,
     }
 }
