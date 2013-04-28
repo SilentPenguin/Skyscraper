@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.ViewModels", "Sk
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.Irc", "Skyscraper.Irc\Skyscraper.Irc.csproj", "{A7BAFA8D-37E5-4EBD-848B-53D312882A18}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skyscraper.Tcp", "Skyscraper.Tcp\Skyscraper.Tcp.csproj", "{3F168CAE-6625-4887-94E4-5D2A3A7A935B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{A7BAFA8D-37E5-4EBD-848B-53D312882A18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7BAFA8D-37E5-4EBD-848B-53D312882A18}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7BAFA8D-37E5-4EBD-848B-53D312882A18}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F168CAE-6625-4887-94E4-5D2A3A7A935B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F168CAE-6625-4887-94E4-5D2A3A7A935B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F168CAE-6625-4887-94E4-5D2A3A7A935B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F168CAE-6625-4887-94E4-5D2A3A7A935B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

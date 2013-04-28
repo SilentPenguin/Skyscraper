@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Skyscraper.Irc
 {
-    class IrcMessage : RawMessage
+    class IrcMessage : RawMessage, IIrcMessage
     {
+        public IrcMessage(IRawMessage rawMessage)
+        {
+            this.Text = rawMessage.Text;
+            this.Direction = rawMessage.Direction;
+        }
+
         public string Text {
             get
             {
@@ -28,7 +34,7 @@ namespace Skyscraper.Irc
             }
         }
 
-        public string Command
+        public string CommandWord
         {
             get {
                 return this.Split[0];

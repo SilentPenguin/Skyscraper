@@ -8,7 +8,7 @@ namespace Skyscraper.Irc
 {
     public interface IIrcMessage : IRawMessage
     {
-        string Command { get; }
+        string CommandWord { get; }
         string[] Arguments { get; }
     }
 }

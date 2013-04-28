@@ -4,8 +4,8 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
-using Skyscraper.Irc.Events;
-using Skyscraper.Models;
+using Skyscraper.Tcp;
+using Skyscraper.Tcp.Events;
 
 namespace Skyscraper.Irc
 {

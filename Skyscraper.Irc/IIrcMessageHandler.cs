@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Skyscraper.Irc
 {
-    interface IIrcMessageHandler
+    public interface IIrcMessageHandler
     {
         void Execute(IIrcMessage message, IIrcConnection connection, IClient client);
     }

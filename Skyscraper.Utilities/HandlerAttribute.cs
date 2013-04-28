@@ -6,7 +6,7 @@ namespace Skyscraper.Utilities
     [AttributeUsage(AttributeTargets.Class)]
     public class HandlerAttribute : Attribute
     {
-        private IEnumerable<string> words { get; set; }
+        public IEnumerable<string> words { get; set; }
 
         public HandlerAttribute(params string[] words)
         {

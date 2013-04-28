@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Skyscraper.Irc
+namespace Skyscraper.Tcp
 {
-    class RawMessage : IRawMessage
+    public class RawMessage : IRawMessage
     {
         public RawMessageDirection Direction { get; set; }
         public string Text { get; set; }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
-using Skyscraper.Irc.Events;
+using Skyscraper.Tcp.Events;
 
-namespace Skyscraper.Irc
+namespace Skyscraper.Tcp
 {
     public class TcpEventClient : TcpClient, ITcpEventClient
     {

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A7BAFA8D-37E5-4EBD-848B-53D312882A18}</ProjectGuid>
+    <ProjectGuid>{3F168CAE-6625-4887-94E4-5D2A3A7A935B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Skyscraper.Irc</RootNamespace>
-    <AssemblyName>Irc</AssemblyName>
+    <RootNamespace>Skyscraper.Tcp</RootNamespace>
+    <AssemblyName>Skyscraper.Tcp</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -39,35 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IIrcConnection.cs" />
-    <Compile Include="IIrcConnectionSettings.cs" />
-    <Compile Include="IIrcMessage.cs" />
-    <Compile Include="IIrcUserSettings.cs" />
-    <Compile Include="IIrcMessageState.cs" />
-    <Compile Include="IrcConnection.cs" />
-    <Compile Include="IrcConnectionSettings.cs" />
-    <Compile Include="IrcMessage.cs" />
-    <Compile Include="IrcUserSettings.cs" />
+    <Compile Include="Events\RawMessageEventArgs.cs" />
+    <Compile Include="IRawMessage.cs" />
+    <Compile Include="ITcpEventClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IIrcMessageHandler.cs" />
-    <Compile Include="MessageHandlers\Ping.cs" />
-    <Compile Include="IrcMessageState.cs" />
+    <Compile Include="RawMessage.cs" />
+    <Compile Include="RawMessageDirection.cs" />
+    <Compile Include="TcpEventClient.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Skyscraper.Models\Skyscraper.Models.csproj">
-      <Project>{f5aa2aae-1ed4-49ea-b62a-ebc795d84018}</Project>
-      <Name>Skyscraper.Models</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skyscraper.Tcp\Skyscraper.Tcp.csproj">
-      <Project>{3f168cae-6625-4887-94e4-5d2a3a7a935b}</Project>
-      <Name>Skyscraper.Tcp</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Skyscraper.Utilities\Skyscraper.Utilities.csproj">
-      <Project>{04a46f9a-5b17-44f3-8630-5554882adc25}</Project>
-      <Name>Skyscraper.Utilities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

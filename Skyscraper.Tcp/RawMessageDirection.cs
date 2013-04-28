@@ -1,4 +1,4 @@
-﻿namespace Skyscraper.Irc
+﻿namespace Skyscraper.Tcp
 {
     public enum RawMessageDirection
     {
