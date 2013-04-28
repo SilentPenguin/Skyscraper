@@ -39,19 +39,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IIrcConnection.cs" />
-    <Compile Include="IIrcConnectionSettings.cs" />
-    <Compile Include="IIrcMessage.cs" />
-    <Compile Include="IIrcUserSettings.cs" />
-    <Compile Include="IIrcMessageState.cs" />
-    <Compile Include="IrcConnection.cs" />
-    <Compile Include="IrcConnectionSettings.cs" />
-    <Compile Include="IrcMessage.cs" />
-    <Compile Include="IrcUserSettings.cs" />
+    <Compile Include="IConnection.cs" />
+    <Compile Include="IConnectionSettings.cs" />
+    <Compile Include="IMessage.cs" />
+    <Compile Include="IUserSettings.cs" />
+    <Compile Include="IMessageState.cs" />
+    <Compile Include="Connection.cs" />
+    <Compile Include="ConnectionSettings.cs" />
+    <Compile Include="ProtocolMessage.cs" />
+    <Compile Include="UserSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="IIrcMessageHandler.cs" />
+    <Compile Include="IMessageHandler.cs" />
     <Compile Include="MessageHandlers\Ping.cs" />
-    <Compile Include="IrcMessageState.cs" />
+    <Compile Include="MessageState.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Skyscraper.Models\Skyscraper.Models.csproj">
