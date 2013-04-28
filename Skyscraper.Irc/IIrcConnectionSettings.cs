@@ -8,5 +8,7 @@ namespace Skyscraper.Irc
     public interface IIrcConnectionSettings
     {
         Uri Host { get; }
+        Encoding Encoding { get; }
+        IrcUserSettings User { get; }
     }
 }

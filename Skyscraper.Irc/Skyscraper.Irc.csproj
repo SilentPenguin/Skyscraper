@@ -41,9 +41,12 @@
   <ItemGroup>
     <Compile Include="IIrcConnection.cs" />
     <Compile Include="IIrcConnectionSettings.cs" />
+    <Compile Include="IIrcUserSettings.cs" />
     <Compile Include="IRawMessage.cs" />
     <Compile Include="IrcConnection.cs" />
     <Compile Include="IrcConnectionSettings.cs" />
+    <Compile Include="IrcUserSettings.cs" />
+    <Compile Include="ITcpEventClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawMessage.cs" />
     <Compile Include="Events\RawMessageEventArgs.cs" />

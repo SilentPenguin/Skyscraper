@@ -7,7 +7,7 @@ using Skyscraper.Irc.Events;
 
 namespace Skyscraper.Irc
 {
-    public class TcpEventClient : TcpClient
+    public class TcpEventClient : TcpClient, ITcpEventClient
     {
         public TcpEventClient()
         {
@@ -32,14 +32,28 @@ namespace Skyscraper.Irc
             this.Encoding = encoding;
         }
 
-        public Encoding Encoding { get; private set; }
+        private Encoding encoding;
+        public Encoding Encoding
+        {
+            get
+            {
+                return this.encoding;
+            }
+            set
+            {
+                this.encoding = value;
+            }
+        }
 
         private Uri address;
         public Uri Address {
             get{ return address; }
             set
             {
-                if (!base.Connected) { this.address = value; }
+                if (!base.Connected)
+                {
+                    this.address = value;
+                }
             }
         }
 

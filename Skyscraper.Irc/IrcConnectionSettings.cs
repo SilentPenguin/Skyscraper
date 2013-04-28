@@ -10,8 +10,27 @@ namespace Skyscraper.Irc
         private Uri host;
         public Uri Host
         {
-            get { return this.host; }
-            set { this.host = value; }
+            get
+            {
+                return this.host;
+            }
+            set
+            {
+                this.host = value;
+            }
+        }
+
+        private Encoding encoding;
+        public Encoding Encoding
+        {
+            get
+            {
+                return this.encoding;
+            }
+            set
+            {
+                this.encoding = value;
+            }
         }
     }
 }
