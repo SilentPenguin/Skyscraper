@@ -54,6 +54,7 @@
     <Compile Include="Events\RawMessageEventArgs.cs" />
     <Compile Include="IRawMessageHandler.cs" />
     <Compile Include="MessageHandlers\Ping.cs" />
+    <Compile Include="RawMessageDirection.cs" />
     <Compile Include="TcpEventClient.cs" />
   </ItemGroup>
   <ItemGroup>
