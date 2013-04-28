@@ -9,10 +9,10 @@ using Skyscraper.Tcp.Events;
 
 namespace Skyscraper.Irc
 {
-    class IrcConnection : TcpEventClient, IIrcConnection
+    class Connection : TcpEventClient, IConnection
     {
-        public IrcConnection(IIrcConnectionSettings settings)
-            : base(IrcConnection.addressFamily)
+        public Connection(IConnectionSettings settings)
+            : base(Connection.addressFamily)
         {
             base.Encoding = settings.Encoding;
             base.Address = settings.Host;
@@ -23,7 +23,7 @@ namespace Skyscraper.Irc
             base.Recieved += connection_Recieved;
         }
 
-        public ~IrcConnection()
+        public ~Connection()
         {
             if (base.IsConnected)
             {
@@ -39,8 +39,7 @@ namespace Skyscraper.Irc
 
         private const AddressFamily addressFamily = AddressFamily.InterNetwork;
 
-
-        private IIrcConnectionSettings settings { get; set; }
+        private IConnectionSettings settings { get; set; }
         
         public void Connect()
         {
@@ -49,7 +48,7 @@ namespace Skyscraper.Irc
 
         void connection_Connected(object sender, EventArgs e)
         {
-            IIrcUserSettings user = this.settings.User;
+            IUserSettings user = this.settings.User;
             this.SendNickname(user.Nickname);
             this.SendUsername(user.Username, user.Realname);
 

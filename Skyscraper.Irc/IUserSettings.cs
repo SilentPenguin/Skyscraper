@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Skyscraper.Irc
 {
-    public interface IIrcUserSettings
+    public interface IUserSettings
     {
         string Nickname { get; set; }
         string Realname { get; }

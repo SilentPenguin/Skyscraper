@@ -9,9 +9,9 @@ using Skyscraper.Models;
 namespace Skyscraper.Irc.MessageHandlers
 {
     [Handler("PING")]
-    class Ping : IIrcMessageHandler
+    class Ping : IMessageHandler
     {
-        public void Execute(IIrcMessage message, IIrcConnection connection, IClient client)
+        public void Execute(IMessage message, IConnection connection, IClient client)
         {
             connection.SendRawMessage("PONG :{0}", message.Arguments[0]);
         }

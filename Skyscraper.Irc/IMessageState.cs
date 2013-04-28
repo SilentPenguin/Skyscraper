@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Skyscraper.Irc
 {
-    public interface IIrcMessageState
+    public interface IMessageState
     {
-        IIrcMessageHandler Handler { get; }
-        IIrcMessage IrcMessage { get; }
+        IMessageHandler Handler { get; }
+        IMessage IrcMessage { get; }
     }
 }

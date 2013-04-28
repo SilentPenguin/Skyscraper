@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Skyscraper.Irc
 {
-    public interface IIrcConnectionSettings
+    public interface IConnectionSettings
     {
         Uri Host { get; }
         Encoding Encoding { get; }
-        IrcUserSettings User { get; }
+        UserSettings User { get; }
     }
 }

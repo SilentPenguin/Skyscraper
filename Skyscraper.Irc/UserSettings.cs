@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Skyscraper.Irc
 {
-    class IrcUserSettings :IIrcUserSettings
+    class UserSettings :IUserSettings
     {
         private string nickname;
         public string Nickname

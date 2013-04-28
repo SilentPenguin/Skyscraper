@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Skyscraper.Irc
 {
-    public interface IIrcMessage : IRawMessage
+    public interface IMessage : IRawMessage
     {
         string CommandWord { get; }
         string[] Arguments { get; }

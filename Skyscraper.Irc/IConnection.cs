@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Skyscraper.Irc
 {
-    public interface IIrcConnection
+    public interface IConnection
     {
         void SendRawMessage(string rawMessage, params object[] formatArgs);
     }

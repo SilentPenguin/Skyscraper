@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Skyscraper.Irc
 {
-    public class IrcMessageState : IIrcMessageState
+    public class MessageState : IMessageState
     {
-        public IrcMessageState(IIrcMessageHandler handler, IIrcMessage message)
+        public MessageState(IMessageHandler handler, IMessage message)
         {
             this.Handler = handler;
             this.IrcMessage = message;
         }
 
-        private IIrcMessageHandler handler;
-        public IIrcMessageHandler Handler
+        private IMessageHandler handler;
+        public IMessageHandler Handler
         {
             get
             {
@@ -26,8 +26,8 @@ namespace Skyscraper.Irc
             }
         }
 
-        private IIrcMessage ircMessage;
-        public IIrcMessage IrcMessage
+        private IMessage ircMessage;
+        public IMessage IrcMessage
         {
             get
             {

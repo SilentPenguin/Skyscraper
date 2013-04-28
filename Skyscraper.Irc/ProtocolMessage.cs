@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Skyscraper.Irc
 {
-    class IrcMessage : RawMessage, IIrcMessage
+    class ProtocolMessage : RawMessage, IMessage
     {
-        public IrcMessage(IRawMessage rawMessage)
+        public ProtocolMessage(IRawMessage rawMessage)
         {
             this.Text = rawMessage.Text;
             this.Direction = rawMessage.Direction;

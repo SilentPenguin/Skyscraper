@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Skyscraper.Irc
 {
-    class IrcConnectionSettings : IIrcConnectionSettings
+    class ConnectionSettings : IConnectionSettings
     {
         private Uri host;
         public Uri Host
