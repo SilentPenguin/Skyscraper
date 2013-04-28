@@ -69,7 +69,8 @@ namespace Skyscraper.Irc
         }
         void connection_Recieved(object sender, RawMessageEventArgs e)
         {
-            throw new NotImplementedException();
+            IMessageState state = MessageHandlerFactory.Resolve(e.Message);
+            state.Handler.Execute(state.IrcMessage, this);
         }
 
         public void SendRawMessage(string rawMessage, params object[] formatArgs)
