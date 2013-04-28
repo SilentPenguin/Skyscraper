@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BiDirectionalMap.cs" />
+    <Compile Include="HandlerAttribute.cs" />
     <Compile Include="Enumerator.cs" />
     <Compile Include="IListExtensionMethods.cs" />
     <Compile Include="NotifyPropertyChangedBase.cs" />

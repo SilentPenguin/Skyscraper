@@ -52,7 +52,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CommandHandlers\Quit.cs" />
     <Compile Include="CommandHandlers\Say.cs" />
-    <Compile Include="CommandHandlerAttribute.cs" />
     <Compile Include="CommandHandlers\Server.cs" />
   </ItemGroup>
   <ItemGroup>
