@@ -41,15 +41,19 @@
   <ItemGroup>
     <Compile Include="IIrcConnection.cs" />
     <Compile Include="IIrcConnectionSettings.cs" />
+    <Compile Include="IIrcMessage.cs" />
     <Compile Include="IIrcUserSettings.cs" />
     <Compile Include="IRawMessage.cs" />
     <Compile Include="IrcConnection.cs" />
     <Compile Include="IrcConnectionSettings.cs" />
+    <Compile Include="IrcMessage.cs" />
     <Compile Include="IrcUserSettings.cs" />
     <Compile Include="ITcpEventClient.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RawMessage.cs" />
     <Compile Include="Events\RawMessageEventArgs.cs" />
+    <Compile Include="IRawMessageHandler.cs" />
+    <Compile Include="MessageHandlers\Ping.cs" />
     <Compile Include="TcpEventClient.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -57,10 +61,12 @@
       <Project>{f5aa2aae-1ed4-49ea-b62a-ebc795d84018}</Project>
       <Name>Skyscraper.Models</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Skyscraper.Utilities\Skyscraper.Utilities.csproj">
+      <Project>{04a46f9a-5b17-44f3-8630-5554882adc25}</Project>
+      <Name>Skyscraper.Utilities</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RawMessageHandlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
