@@ -78,7 +78,7 @@ namespace Skyscraper.Irc
             rawMessage = String.Format(rawMessage, formatArgs);
             IRawMessage message = new RawMessage
             {
-                MessageText = rawMessage,
+                Text = rawMessage,
                 Direction = Direction.Sent
             };
             base.Send(message);

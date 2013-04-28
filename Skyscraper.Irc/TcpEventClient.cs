@@ -120,7 +120,7 @@ namespace Skyscraper.Irc
         public void Send(IRawMessage message)
         {
             NetworkStream stream = base.GetStream();
-            byte[] encoding = this.Encoding.GetBytes(message.MessageText);
+            byte[] encoding = this.Encoding.GetBytes(message.Text);
             if (stream.CanWrite)
             {
                 stream.BeginWrite(encoding, 0, encoding.Length, SentMessage, encoding);
@@ -156,7 +156,7 @@ namespace Skyscraper.Irc
                 }
 
                 byte[] buffer = asyncResult.AsyncState as byte[];
-                IRawMessage message = new RawMessage { MessageText = this.Encoding.GetString(buffer), Direction = Direction.Received };
+                IRawMessage message = new RawMessage { Text = this.Encoding.GetString(buffer), Direction = Direction.Received };
                 OnRecieved(new RawMessageEventArgs { Message = message, Result = asyncResult });
                 networkStream.BeginRead(buffer, 0, buffer.Length, RecievedMessage, buffer);
             }
