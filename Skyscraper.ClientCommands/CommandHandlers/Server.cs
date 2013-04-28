@@ -1,10 +1,11 @@
 ﻿using System;
 using Skyscraper.Irc;
 using Skyscraper.Models;
+using Skyscraper.Utilities;
 
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [CommandHandler("Server")]
+    [Handler("Server")]
     public class Server : ICommandHandler
     {
         public void Execute(IConnectionManager connection, ICommand command) 

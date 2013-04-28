@@ -1,8 +1,9 @@
 ﻿using Skyscraper.Irc;
+using Skyscraper.Utilities;
 
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [CommandHandler("Join")]
+    [Handler("Join")]
     public class Join : ICommandHandler
     {
         public void Execute(IConnectionManager connection, ICommand command)

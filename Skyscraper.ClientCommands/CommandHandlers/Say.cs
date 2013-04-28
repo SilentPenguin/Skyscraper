@@ -1,8 +1,9 @@
 ﻿using Skyscraper.Irc;
+using Skyscraper.Utilities;
 
 namespace Skyscraper.ClientCommands.CommandHandlers
 {
-    [CommandHandler("Say")]
+    [Handler("Say")]
     public class Say : ICommandHandler
     {
         public void Execute(IConnectionManager connection, ICommand command)
